@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Velaro — Book A Free Consultation</title>
+<meta name="description" content="AI intake systems for growing PI law firms. Book a free consultation to see how it works.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code (both pixels share one loader — inited together, tracked together, so PageView isn't double-counted) -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1003865172502336');
+fbq('init', '1385492476898831');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1003865172502336&ev=PageView&noscript=1"
+/></noscript>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1385492476898831&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<!-- Cal.com embed -->
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  Cal("init", "consultation", { origin: "https://cal.com" });
+  Cal.ns.consultation("inline", {
+    elementOrSelector: "#velaro-cal-embed",
+    config: { "layout": "month_view", "theme": "light" },
+    calLink: "velaro/consultation",
+  });
+  Cal.ns.consultation("ui", { "styles": { "branding": { "brandColor": "#F0CF5E" } }, "hideEventTypeDetails": false, "layout": "month_view" });
+  Cal.ns.consultation("on", {
+    action: "bookingSuccessfulV2",
+    callback: function (e) {
+      var data = (e && e.detail && e.detail.data) || {};
+      window.velaroShowConfirmation({
+        title: data.title || "Velaro Free Consultation",
+        startTime: data.startTime || "",
+        endTime: data.endTime || "",
+        videoCallUrl: data.videoCallUrl || "",
+        uid: data.uid || ""
+      });
+    }
+  });
+</script>
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#070605;
+  --gold:#F0CF5E;
+  --gold-deep:#B8860B;
+  --gold-pale:#F7E3A0;
+  --gold-tint:rgba(240,207,94,0.10);
+  --border:rgba(240,207,94,0.20);
+  --border-soft:rgba(255,255,255,0.08);
+  --white:#ffffff;
+  --dim:rgba(255,255,255,0.62);
+  --dimmer:rgba(255,255,255,0.32);
+}
+html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+body{
+  background:var(--black); color:var(--white);
+  font-family:'Inter',-apple-system,sans-serif; line-height:1.65; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.wrap-narrow{max-width:680px;margin:0 auto;padding:0 24px}
+
+h1{font-family:'DM Serif Display',Georgia,serif; font-weight:400; line-height:1.14; letter-spacing:-0.01em}
+h1 .hl{color:var(--gold); font-style:italic}
+
+/* ── HEADER ── */
+header{padding:26px 0; border-bottom:1px solid var(--border-soft)}
+.logo{display:inline-flex; align-items:center; gap:9px; text-decoration:none}
+.logo-word{font-size:14px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--white)}
+.header-inner{display:flex; align-items:center; justify-content:center; gap:12px}
+.header-tag{font-size:11px; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; color:var(--dimmer)}
+.header-divider{width:1px; height:14px; background:var(--border-soft)}
+
+/* ── HERO (landing view) ── */
+#hero{padding:78px 0 64px; text-align:center}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:11.5px; font-weight:700; letter-spacing:0.13em; text-transform:uppercase;
+  color:var(--gold-pale); background:var(--gold-tint); border:1px solid var(--border);
+  padding:8px 16px; border-radius:100px; margin-bottom:28px;
+}
+.eyebrow::before{content:''; width:6px; height:6px; border-radius:50%; background:var(--gold)}
+#hero h1{font-size:clamp(2.2rem,5.4vw,3.4rem); max-width:820px; margin:0 auto 22px}
+.hero-sub{font-size:17px; color:var(--dim); max-width:600px; margin:0 auto 38px; line-height:1.72}
+.hero-cta-line{
+  color:var(--gold-pale); font-weight:700; font-size:15px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.bounce{display:inline-block; animation:bounce 1.6s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+/* ── CAL EMBED CARD ── */
+#calendar-section{padding:0 0 100px}
+.cal-card{
+  background:var(--white); border-radius:20px; overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,0.45); border:1px solid var(--border);
+}
+#velaro-cal-embed{ width:100%; min-height:760px; overflow:auto }
+
+/* ── POST-BOOKING (few more steps) ── */
+#post-booking{padding-bottom:100px}
+.steps-banner{
+  background:linear-gradient(100deg, var(--gold-deep), var(--gold), var(--gold-pale), var(--gold), var(--gold-deep));
+  background-size:220% 100%; animation:shimmer 7s ease-in-out infinite;
+  color:#1a1204; text-align:center; padding:16px 20px; font-weight:800; font-size:15px;
+}
+@keyframes shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+.pb-intro{text-align:center; padding:48px 0 40px}
+.pb-kicker{font-size:12px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:14px}
+.pb-h2{font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.4rem); margin-bottom:12px}
+.pb-h2 .hl{color:var(--gold); font-style:italic}
+.pb-sub{font-size:15.5px; color:var(--dim); max-width:480px; margin:0 auto}
+.pb-warning{
+  display:inline-flex; align-items:center; gap:8px; margin-top:22px;
+  font-size:14.5px; font-weight:800; color:#FFD25A; letter-spacing:0.01em;
+}
+.pb-warning u{text-decoration-color:#FFD25A}
+
+.step-block{padding:0 0 56px}
+.step-tag{
+  display:inline-flex; align-items:center; gap:10px; margin-bottom:18px;
+}
+.step-num{
+  width:26px; height:26px; border-radius:50%; background:var(--gold); color:#1a1204;
+  font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.step-title{font-size:17px; font-weight:800; color:var(--white)}
+
+/* video placeholder */
+.video-box{
+  position:relative; width:100%; aspect-ratio:16/9; border-radius:16px; overflow:hidden;
+  background:#111; border:1px dashed var(--border); display:flex; align-items:center; justify-content:center;
+}
+.video-box .play{
+  width:56px; height:56px; border-radius:50%; background:var(--gold-tint); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center; margin-bottom:14px;
+}
+.video-box .play svg{width:20px; height:20px}
+.video-placeholder-text{text-align:center}
+.video-placeholder-text p{font-size:13.5px; color:var(--dimmer); max-width:280px; margin:0 auto}
+.video-placeholder-text strong{display:block; color:var(--gold-pale); font-size:14.5px; margin-bottom:6px}
+.video-box iframe, .video-box video{width:100%; height:100%; border:0; display:block}
+
+/* ── CONFIRMATION / ADD TO CALENDAR ── */
+.confirm{text-align:center; margin-bottom:36px}
+.checkmark{
+  width:60px; height:60px; border-radius:50%; background:var(--gold-tint); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center; margin:0 auto 24px;
+}
+.checkmark svg{width:26px; height:26px}
+
+.meet-card{
+  background:#111; border:1px solid var(--border-soft); border-radius:18px;
+  overflow:hidden; margin-bottom:32px;
+}
+.meet-row{
+  display:grid; grid-template-columns:110px 1fr; gap:18px;
+  padding:18px 26px; border-bottom:1px solid var(--border-soft);
+}
+.meet-row:last-child{border-bottom:none}
+.meet-label{font-size:12.5px; font-weight:700; letter-spacing:0.04em; color:var(--dimmer); padding-top:2px}
+.meet-value{font-size:14.5px; color:rgba(255,255,255,0.88); line-height:1.55; white-space:pre-line}
+.meet-value a{color:var(--gold-pale); text-decoration:underline}
+
+.cal-add{
+  display:flex; align-items:center; flex-wrap:wrap; gap:12px;
+  padding:20px 26px; background:var(--gold-tint);
+}
+.cal-add-label{font-size:13px; font-weight:700; color:var(--gold-pale); margin-right:4px}
+.cal-btn{
+  display:inline-flex; align-items:center; gap:8px; justify-content:center;
+  height:38px; padding:0 14px; border-radius:10px; background:#181818; border:1px solid var(--border-soft);
+  text-decoration:none; transition:border-color 0.15s, transform 0.15s; font-size:12.5px; font-weight:700; color:rgba(255,255,255,0.85);
+}
+.cal-btn:hover{border-color:var(--gold); transform:translateY(-1px); color:var(--white)}
+.cal-btn svg{width:15px; height:15px; flex-shrink:0}
+
+.next-card{
+  background:var(--gold-tint); border:1px solid var(--border); border-radius:16px;
+  padding:26px 28px; text-align:left; margin-bottom:24px;
+}
+.next-card h3{font-size:13px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-pale); margin-bottom:14px}
+.next-list{list-style:none; display:flex; flex-direction:column; gap:12px}
+.next-list li{display:flex; align-items:flex-start; gap:10px; font-size:14.5px; color:rgba(255,255,255,0.75)}
+.next-list li::before{content:'✓'; flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--gold-tint); color:var(--gold); font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px; border:1px solid var(--border)}
+
+.manage-line{text-align:center; font-size:13px; color:var(--dimmer)}
+.manage-line a{color:var(--gold-pale); text-decoration:underline}
+
+/* ── TESTIMONIALS ── */
+.testi-block{padding:8px 0 0}
+.testi-title{font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:clamp(1.5rem,3.6vw,1.9rem); text-align:center; margin-bottom:28px}
+.testi-grid{column-count:2; column-gap:16px}
+.testi-grid img{
+  width:100%; display:block; margin:0 0 16px; border-radius:14px;
+  border:1px solid var(--border-soft); break-inside:avoid;
+}
+
+@media (max-width:640px){
+  .testi-grid{column-count:1}
+}
+
+/* ── FOOTER ── */
+footer{padding:30px 0 50px; text-align:center; border-top:1px solid var(--border-soft)}
+.foot-text{font-size:12.5px; color:var(--dimmer)}
+
+[hidden]{display:none!important}
+
+@media (max-width:640px){
+  #hero{padding:56px 0 44px}
+  #velaro-cal-embed{min-height:640px}
+  .meet-row{grid-template-columns:1fr; gap:4px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <svg width="22" height="24" viewBox="0 0 56 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 5 L15 5 L30 54 L25.5 54 Z" fill="#F0CF5E"/>
+        <path d="M55 5 L46 5 L30 54 L34.5 54 Z" fill="#F0CF5E"/>
+        <rect x="0" y="3" width="17" height="3" fill="#F0CF5E"/>
+        <rect x="0" y="3" width="3" height="9" fill="#F0CF5E"/>
+        <rect x="39" y="3" width="17" height="3" fill="#F0CF5E"/>
+        <rect x="53" y="3" width="3" height="9" fill="#F0CF5E"/>
+        <circle cx="21" cy="33" r="2.8" stroke="#F0CF5E" stroke-width="1.2" fill="#070605"/>
+        <line x1="21" y1="33" x2="30" y2="54" stroke="#F0CF5E" stroke-width="0.9"/>
+      </svg>
+      <span class="logo-word">Velaro</span>
+    </div>
+    <div class="header-divider"></div>
+    <span class="header-tag">AI Intake For Growing PI Firms</span>
+  </div>
+</header>
+
+<!-- ══════════ LANDING VIEW — hero + calendar (default view) ══════════ -->
+<div id="landing-view">
+  <section id="hero">
+    <div class="wrap">
+      <div class="eyebrow">Free 20-Minute Consultation</div>
+      <h1>Implement AI Intake That Answers Every Call In <span class="hl">Under 15 Seconds</span></h1>
+      <p class="hero-sub">We help growing PI firms make their intake available 24/7 with AI, answering calls and booking consultations, without adding intake staff.</p>
+      <div class="hero-cta-line"><span class="bounce">👇</span> Pick A Time Below To Book Your Free Consultation <span class="bounce">👇</span></div>
+    </div>
+  </section>
+
+  <section id="calendar-section">
+    <div class="wrap">
+      <div class="cal-card">
+        <div id="velaro-cal-embed"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════ POST-BOOKING VIEW — replaces landing view once booked ══════════ -->
+<div id="post-booking" hidden>
+  <div class="steps-banner">🎉 You're Booked — Just A Couple Quick Things Below</div>
+
+  <div class="pb-intro wrap-narrow">
+    <div class="pb-kicker">Few More Steps</div>
+    <h2 class="pb-h2">Let's Get You <span class="hl">Ready For The Call</span></h2>
+    <p class="pb-sub">Takes less than a minute — watch the quick video, then add the call to your calendar.</p>
+    <div class="pb-warning">⚠️ IMPORTANT: YOUR CALL IS <u>NOT CONFIRMED</u> YET...</div>
+  </div>
+
+  <!-- STEP 1 — VIDEO -->
+  <section class="step-block wrap-narrow">
+    <div class="step-tag">
+      <span class="step-num">1</span>
+      <span class="step-title">Watch This Short Video</span>
+    </div>
+
+    <div style="position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;">
+      <iframe
+            loading="lazy" title="Gumlet video player"
+            src="https://play.gumlet.io/embed/6a91ce977daed480307fa1d3?background=false&autoplay=false&loop=false&disable_player_controls=false"
+            style="border:none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+          referrerpolicy="origin"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;clipboard-write;">
+          </iframe>
+    </div>
+  </section>
+
+  <!-- STEP 2 — ADD TO CALENDAR -->
+  <section class="step-block wrap-narrow">
+    <div class="step-tag">
+      <span class="step-num">2</span>
+      <span class="step-title">Add Your Consultation To Your Calendar</span>
+    </div>
+
+    <div class="confirm">
+      <div class="checkmark">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 13l4 4L19 7" stroke="#F0CF5E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <p class="confirm-sub">Your free consultation with Velaro is confirmed. Add it to your calendar below so you don't miss it.</p>
+    </div>
+
+    <div class="meet-card">
+      <div class="meet-row">
+        <div class="meet-label">What</div>
+        <div class="meet-value" id="meet-what">—</div>
+      </div>
+      <div class="meet-row">
+        <div class="meet-label">When</div>
+        <div class="meet-value" id="meet-when">—</div>
+      </div>
+      <div class="meet-row">
+        <div class="meet-label">Who</div>
+        <div class="meet-value">You &amp; the Velaro team</div>
+      </div>
+      <div class="meet-row" id="meet-where-row" hidden>
+        <div class="meet-label">Where</div>
+        <div class="meet-value" id="meet-where">—</div>
+      </div>
+      <div class="cal-add">
+        <span class="cal-add-label">Add to calendar</span>
+        <a class="cal-btn" id="cal-google" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="#F0CF5E" stroke-width="1.6"/><path d="M3 9h18" stroke="#F0CF5E" stroke-width="1.6"/><path d="M8 2v4M16 2v4" stroke="#F0CF5E" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Google
+        </a>
+        <a class="cal-btn" id="cal-outlook" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="#F0CF5E" stroke-width="1.6"/><path d="M7 9l5 4 5-4" stroke="#F0CF5E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Outlook
+        </a>
+        <a class="cal-btn" id="cal-office365" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" fill="#F0CF5E"/><rect x="13" y="3" width="8" height="8" fill="none" stroke="#F0CF5E" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" fill="none" stroke="#F0CF5E" stroke-width="1.6"/><rect x="13" y="13" width="8" height="8" fill="none" stroke="#F0CF5E" stroke-width="1.6"/></svg>
+          Office 365
+        </a>
+        <a class="cal-btn" id="cal-ics" download="velaro-consultation.ics">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke="#F0CF5E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4" stroke="#F0CF5E" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Apple / iCal
+        </a>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <h3>What Happens Next</h3>
+      <ul class="next-list">
+        <li>Check your email for the calendar invite and call link</li>
+        <li>We'll walk through your firm's current intake process and where cases are slipping through</li>
+        <li>You'll see a live demo of the AI intake system in action</li>
+      </ul>
+    </div>
+
+    <p class="manage-line" id="manage-line" hidden>Need to make a change? <a id="manage-link" href="#" target="_blank" rel="noopener">Manage this booking on Cal.com</a></p>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testi-block wrap-narrow">
+    <h3 class="testi-title">Here's What Our Clients Have To Say</h3>
+    <div class="testi-grid">
+      <img src="assets/small/testimonial-best-decision.jpg" alt="Client message: Best decision we've made this year — more consultations, less stress, no missed calls." loading="lazy">
+      <img src="assets/small/testimonial-game-changer.jpg" alt="Client message: This literally solved that problem — every lead gets answered now, seriously a game changer." loading="lazy">
+      <img src="assets/small/testimonial-court.jpg" alt="Client message: I'm usually in court, missing calls was killing us, now every caller gets taken care of." loading="lazy">
+      <img src="assets/small/testimonial-whatsapp-weekend.jpg" alt="Client message: Zero missed leads all weekend, usually we'd miss at least 15, best investment we've made." loading="lazy">
+      <img src="assets/small/testimonial-wilson-imsg.jpg" alt="Client message: This thing is insane, the AI answered at 11:47 PM and booked a consultation before I woke up." loading="lazy">
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p class="foot-text">© 2026 Velaro. AI intake systems for personal injury law firms.</p>
+  </div>
+</footer>
+
+<script>
+window.velaroShowConfirmation = function (booking) {
+  if (!booking || !booking.startTime) return;
+
+  var start = new Date(booking.startTime);
+  var end = booking.endTime ? new Date(booking.endTime) : null;
+  var title = booking.title || "Velaro Free Consultation";
+  var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+
+  var dateStr = start.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  var timeStr = start.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  if (end) timeStr += " – " + end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  if (tz) timeStr += " (" + tz + ")";
+
+  document.getElementById("meet-what").textContent = title;
+  document.getElementById("meet-when").textContent = dateStr + "\n" + timeStr;
+
+  if (booking.videoCallUrl) {
+    document.getElementById("meet-where-row").hidden = false;
+    var whereEl = document.getElementById("meet-where");
+    whereEl.innerHTML = "";
+    var link = document.createElement("a");
+    link.href = booking.videoCallUrl;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.textContent = "Join Video Call";
+    whereEl.appendChild(link);
+  }
+
+  function toUTCStamp(d) { return d.toISOString().replace(/[-:]|\.\d{3}/g, ""); }
+
+  if (end) {
+    var gStart = toUTCStamp(start), gEnd = toUTCStamp(end);
+    var details = encodeURIComponent("Free consultation with Velaro." + (booking.videoCallUrl ? "\nJoin: " + booking.videoCallUrl : ""));
+    var loc = encodeURIComponent(booking.videoCallUrl || "");
+    var encTitle = encodeURIComponent(title);
+    var isoStart = start.toISOString(), isoEnd = end.toISOString();
+
+    document.getElementById("cal-google").href =
+      "https://www.google.com/calendar/render?action=TEMPLATE&text=" + encTitle +
+      "&dates=" + gStart + "/" + gEnd + "&details=" + details + "&location=" + loc;
+
+    document.getElementById("cal-outlook").href =
+      "https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=" + encTitle +
+      "&startdt=" + encodeURIComponent(isoStart) + "&enddt=" + encodeURIComponent(isoEnd) +
+      "&body=" + details + "&location=" + loc;
+
+    document.getElementById("cal-office365").href =
+      "https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=" + encTitle +
+      "&startdt=" + encodeURIComponent(isoStart) + "&enddt=" + encodeURIComponent(isoEnd) +
+      "&body=" + details + "&location=" + loc;
+
+    var icsLines = [
+      "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Velaro//Booking//EN", "BEGIN:VEVENT",
+      "UID:" + (booking.uid || Date.now()) + "@velaroreach.com",
+      "DTSTAMP:" + toUTCStamp(new Date()),
+      "DTSTART:" + gStart,
+      "DTEND:" + gEnd,
+      "SUMMARY:" + title,
+      "DESCRIPTION:Free consultation with Velaro." + (booking.videoCallUrl ? " Join: " + booking.videoCallUrl : ""),
+      booking.videoCallUrl ? "LOCATION:" + booking.videoCallUrl : "",
+      "END:VEVENT", "END:VCALENDAR"
+    ].filter(Boolean).join("\r\n");
+
+    var blob = new Blob([icsLines], { type: "text/calendar;charset=utf-8" });
+    document.getElementById("cal-ics").href = URL.createObjectURL(blob);
+  }
+
+  if (booking.uid) {
+    document.getElementById("manage-line").hidden = false;
+    document.getElementById("manage-link").href = "https://cal.com/booking/" + booking.uid;
+  }
+
+  document.getElementById("landing-view").hidden = true;
+  document.getElementById("post-booking").hidden = false;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  if (typeof fbq === "function") {
+    fbq("trackSingle", "1003865172502336", "Schedule");
+    fbq("trackSingle", "1385492476898831", "Schedule");
+  }
+};
+</script>
+
+</body>
+</html>
