@@ -472,7 +472,36 @@ window.velaroShowConfirmation = function (booking) {
     fbq("trackSingle", "1003865172502336", "Schedule");
     fbq("trackSingle", "1385492476898831", "Schedule");
   }
+
+  var sound = document.getElementById("booking-sound");
+  if (sound) {
+    sound.currentTime = 0;
+    sound.play().catch(function () {});
+  }
 };
+</script>
+
+<audio id="booking-sound" src="assets/booking-confirmed.mp3" preload="auto"></audio>
+
+<script>
+(function () {
+  var unlocked = false;
+  function unlockAudio() {
+    if (unlocked) return;
+    var a = document.getElementById("booking-sound");
+    if (!a) return;
+    var v = a.volume;
+    a.volume = 0;
+    a.play().then(function () {
+      a.pause();
+      a.currentTime = 0;
+      a.volume = v;
+      unlocked = true;
+    }).catch(function () { a.volume = v; });
+  }
+  document.addEventListener("pointerdown", unlockAudio, { once: true, capture: true });
+  document.addEventListener("keydown", unlockAudio, { once: true, capture: true });
+})();
 </script>
 
 </body>
