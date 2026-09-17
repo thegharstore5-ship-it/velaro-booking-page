@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>Velaro — Book A Free Consultation</title>
 <meta name="description" content="AI intake systems for growing PI law firms. Book a free consultation to see how it works.">
 
@@ -466,6 +466,16 @@ window.velaroShowConfirmation = function (booking) {
 
   document.getElementById("landing-view").hidden = true;
   document.getElementById("post-booking").hidden = false;
+
+  // Reset any zoom the browser applied while the visitor was typing into
+  // Cal.com's booking form (iOS/Android auto-zoom on small input fields).
+  var vp = document.querySelector('meta[name="viewport"]');
+  if (vp) {
+    var original = vp.getAttribute("content");
+    vp.setAttribute("content", original + ", maximum-scale=1.0");
+    setTimeout(function () { vp.setAttribute("content", original); }, 400);
+  }
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   if (typeof fbq === "function") {
