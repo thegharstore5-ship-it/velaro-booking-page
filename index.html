@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- Meta Pixel Code (both pixels share one loader — inited together, tracked together, so PageView isn't double-counted) -->
+<!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -20,15 +20,11 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1003865172502336');
-fbq('init', '1385492476898831');
+fbq('init', '859447600588015');
 fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1003865172502336&ev=PageView&noscript=1"
-/></noscript>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1385492476898831&ev=PageView&noscript=1"
+src="https://www.facebook.com/tr?id=859447600588015&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
@@ -479,8 +475,7 @@ window.velaroShowConfirmation = function (booking) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   if (typeof fbq === "function") {
-    fbq("trackSingle", "1003865172502336", "Schedule");
-    fbq("trackSingle", "1385492476898831", "Schedule");
+    fbq("track", "Schedule");
   }
 
   var sound = document.getElementById("booking-sound");
