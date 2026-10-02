@@ -265,7 +265,7 @@ header{border-bottom:1px solid var(--line)}
 .logo-word{color:var(--ink)}
 .header-tag{color:var(--muted)}
 .header-divider{background:var(--line)}
-#hero{padding:56px 0 36px}
+#hero{padding:26px 0 30px}
 .niche-line{font-family:'Source Serif 4',Georgia,serif; font-weight:600; font-size:clamp(1.15rem,3.4vw,1.9rem); color:var(--serif-gold); margin-bottom:10px}
 #hero h1{
   font-family:'IBM Plex Sans',-apple-system,sans-serif; font-weight:700; text-transform:uppercase;
@@ -338,6 +338,8 @@ footer{border-top:1px solid var(--line)}
 
 @media (max-width:640px){.pb-intro,.step-block,.testi-block{padding-left:16px; padding-right:16px}}
 
+@media (min-width:641px){#hero h1{font-size:min(2.6rem, calc((100vw - 56px) / 24.5))} #hero h1 span{white-space:nowrap}}
+
 /* ═══ EXIT POPUP (back button on mobile / mouse-leave on desktop) ═══ */
 #exit-pop{position:fixed; inset:0; z-index:9999; display:flex; align-items:flex-end; justify-content:center;
   background:rgba(7,32,26,0.55); opacity:0; pointer-events:none; transition:opacity .2s}
@@ -384,7 +386,7 @@ footer{border-top:1px solid var(--line)}
     <div class="wrap">
       <div class="niche-line">Personal Injury Law Firms</div>
       <h1>
-        <span class="g">Implement AI Intake That Answers Every Call 24/7</span>
+        <span class="g">Get AI Intake That Answers Every Call 24/7.</span>
         <span class="d">Live Within 2 Weeks</span>
       </h1>
       <p class="sub-italic">Built specifically for PI law firms.</p>
