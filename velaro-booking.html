@@ -269,9 +269,9 @@ header{border-bottom:1px solid var(--line)}
 .niche-line{font-family:'Source Serif 4',Georgia,serif; font-weight:600; font-size:clamp(1.15rem,3.4vw,1.9rem); color:var(--serif-gold); margin-bottom:10px}
 #hero h1{
   font-family:'IBM Plex Sans',-apple-system,sans-serif; font-weight:700; text-transform:uppercase;
-  font-size:clamp(1.55rem,5.4vw,3rem); line-height:1.14; letter-spacing:-0.01em; max-width:1100px; margin:0 auto 16px;
+  font-size:clamp(1.55rem,5.4vw,2.6rem); line-height:1.16; letter-spacing:-0.01em; max-width:1100px; margin:0 auto 16px;
 }
-#hero h1 span{display:block}
+#hero h1 span{display:block; text-wrap:balance}
 #hero h1 .g{color:var(--green)}
 #hero h1 .d{color:var(--ink)}
 .sub-italic{font-family:'Source Serif 4',Georgia,serif; font-style:italic; font-weight:500; font-size:clamp(1.05rem,3vw,1.7rem); color:var(--ink); max-width:760px; margin:0 auto}
@@ -307,11 +307,31 @@ footer{border-top:1px solid var(--line)}
 .foot-text{color:var(--muted)}
 @media (max-width:640px){
   #hero{padding:22px 0 14px}
-  #hero h1{font-size:clamp(1.3rem,6.6vw,1.9rem)}
+  #hero h1{font-size:clamp(1.3rem,6.4vw,1.75rem); padding:0 2px}
+  .sub-italic{font-size:1.05rem; padding:0 6px}
+  .niche-line{font-size:1.05rem}
+  .header-tag{font-size:9.5px; letter-spacing:0.08em}
+  .header-inner{gap:8px; padding:0 8px}
   .cal-card{padding:18px 14px 6px; border-radius:12px}
   .cal-info{padding:12px 14px; margin-bottom:18px}
   #velaro-cal-embed{min-height:560px}
 }
+
+/* ═══ EXIT POPUP (back button on mobile / mouse-leave on desktop) ═══ */
+#exit-pop{position:fixed; inset:0; z-index:9999; display:flex; align-items:flex-end; justify-content:center;
+  background:rgba(7,32,26,0.55); opacity:0; pointer-events:none; transition:opacity .2s}
+#exit-pop.open{opacity:1; pointer-events:auto}
+.exit-card{background:#fff; width:100%; max-width:480px; border-radius:20px 20px 0 0; padding:26px 22px calc(22px + env(safe-area-inset-bottom));
+  text-align:center; transform:translateY(40px); transition:transform .25s ease; box-shadow:0 -10px 40px rgba(0,0,0,.2); position:relative}
+#exit-pop.open .exit-card{transform:none}
+.exit-x{position:absolute; top:10px; right:12px; width:36px; height:36px; border:0; background:transparent; font-size:26px; line-height:1; color:#8A9893; cursor:pointer}
+.exit-bar{height:34px; border-radius:6px; background:#E6E8E7; overflow:hidden; margin:6px 0 20px; text-align:left}
+.exit-bar span{display:flex; align-items:center; height:100%; width:62%; background:var(--ink); color:#fff; font-weight:700; font-size:14px; padding-left:14px}
+.exit-card h2{font-family:'IBM Plex Sans',sans-serif; font-weight:700; font-size:clamp(1.25rem,5.4vw,1.6rem); line-height:1.2; color:var(--ink); margin-bottom:10px}
+.exit-card p{font-size:14.5px; color:var(--muted); line-height:1.55; margin-bottom:20px}
+.exit-cta{display:block; width:100%; border:0; border-radius:12px; background:var(--green); color:#fff; font:700 16px 'Inter',sans-serif; padding:15px; cursor:pointer}
+.exit-leave{display:inline-block; margin-top:14px; background:none; border:0; color:#8A9893; font:500 13.5px 'Inter',sans-serif; text-decoration:underline; cursor:pointer; padding:8px}
+@media (min-width:641px){ #exit-pop{align-items:center} .exit-card{border-radius:20px; transform:scale(.96)} #exit-pop.open .exit-card{transform:none} }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@700&family=Source+Serif+4:ital,wght@0,600;1,400;1,500&display=swap" rel="stylesheet">
 </head>
@@ -341,12 +361,12 @@ footer{border-top:1px solid var(--line)}
 <div id="landing-view">
   <section id="hero">
     <div class="wrap">
-      <div class="niche-line">Personal Injury Law Firms:</div>
+      <div class="niche-line">Personal Injury Law Firms</div>
       <h1>
         <span class="g">Implement AI Intake That Answers Every Call 24/7</span>
         <span class="d">Live Within 2 Weeks</span>
       </h1>
-      <p class="sub-italic">We Install Our AI Intake Systems Completely Done For You</p>
+      <p class="sub-italic">Built specifically for PI law firms.</p>
     </div>
   </section>
 
@@ -601,5 +621,67 @@ window.velaroShowConfirmation = function (booking) {
 })();
 </script>
 
+
+<div id="exit-pop" role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-hidden="true">
+  <div class="exit-card">
+    <button class="exit-x" type="button" aria-label="Close" data-exit-close>&times;</button>
+    <div class="exit-bar"><span>Almost There...</span></div>
+    <h2 id="exit-title">Before You Go &mdash; Your Free Consultation Is One Tap Away</h2>
+    <p>It&rsquo;s a free 30-minute call for personal injury firms. We&rsquo;ll show you where after-hours inquiries are slipping through and how the system fixes it. No obligation.</p>
+    <button class="exit-cta" type="button" data-exit-book>Pick My Time</button>
+    <button class="exit-leave" type="button" data-exit-leave>No thanks, leave</button>
+  </div>
+</div>
+<script>
+(function () {
+  var pop = document.getElementById("exit-pop");
+  if (!pop) return;
+  var shown = false, armed = false, leaving = false;
+  try { shown = sessionStorage.getItem("velaroExitShown") === "1"; } catch (e) {}
+
+  function booked() { var pb = document.getElementById("post-booking"); return !!(pb && !pb.hidden); }
+  function open() {
+    if (shown || booked()) return false;
+    shown = true;
+    try { sessionStorage.setItem("velaroExitShown", "1"); } catch (e) {}
+    pop.classList.add("open"); pop.setAttribute("aria-hidden", "false");
+    var b = pop.querySelector("[data-exit-book]"); if (b) b.focus();
+    return true;
+  }
+  function close() { pop.classList.remove("open"); pop.setAttribute("aria-hidden", "true"); }
+  window.velaroExitPopup = { show: function () { shown = false; open(); } };
+
+  // Back button: add one history entry after the first interaction (browsers ignore entries
+  // pushed before any tap), then show the popup when the visitor presses back. Fires once.
+  function arm() {
+    if (armed || shown) return; armed = true;
+    try { history.pushState({ velaroExit: 1 }, "", location.href); } catch (e) {}
+  }
+  ["touchstart", "click", "scroll", "keydown"].forEach(function (ev) {
+    window.addEventListener(ev, arm, { once: true, passive: true });
+  });
+  window.addEventListener("popstate", function () {
+    if (leaving) return;
+    if (armed && !shown && !booked()) open();
+  });
+
+  // Desktop: mouse leaves through the top of the window
+  document.addEventListener("mouseout", function (e) {
+    if (!e.relatedTarget && e.clientY <= 0) open();
+  });
+
+  pop.addEventListener("click", function (e) { if (e.target === pop) close(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+  pop.querySelector("[data-exit-close]").addEventListener("click", close);
+  pop.querySelector("[data-exit-book]").addEventListener("click", function () {
+    close();
+    var el = document.getElementById("calendar-section");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  pop.querySelector("[data-exit-leave]").addEventListener("click", function () {
+    close(); leaving = true; history.back();
+  });
+})();
+</script>
 </body>
 </html>
