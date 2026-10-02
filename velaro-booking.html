@@ -219,7 +219,7 @@ header{padding:26px 0; border-bottom:1px solid var(--border-soft)}
 }
 .next-card h3{font-size:13px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-pale); margin-bottom:14px}
 .next-list{list-style:none; display:flex; flex-direction:column; gap:12px}
-.next-list li{display:flex; align-items:flex-start; gap:10px; font-size:14.5px; color:rgba(255,255,255,0.75)}
+.next-list li{display:flex; align-items:flex-start; gap:10px; font-size:14.5px; color:var(--ink)}
 .next-list li::before{content:'✓'; flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--gold-tint); color:var(--gold); font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px; border:1px solid var(--border)}
 
 .manage-line{text-align:center; font-size:13px; color:var(--dimmer)}
@@ -289,7 +289,6 @@ header{border-bottom:1px solid var(--line)}
 .pb-h2,.step-title{color:var(--ink)}
 .pb-h2 .hl{color:var(--green)}
 .pb-sub{color:var(--muted)}
-.pb-warning{color:#B45309}.pb-warning u{text-decoration-color:#B45309}
 .step-num{background:var(--green); color:#fff}
 .meet-card{background:#fff; border:1px solid var(--line)}
 .meet-row{border-bottom:1px solid var(--line)}
@@ -316,6 +315,28 @@ footer{border-top:1px solid var(--line)}
   .cal-info{padding:12px 14px; margin-bottom:18px}
   #velaro-cal-embed{min-height:560px}
 }
+
+
+/* thank-you page: progress bar + loud "not confirmed" warning + next-steps contrast */
+.next-card h3{color:var(--ink)}
+.next-list li{color:var(--ink); font-weight:500}
+.next-list li::before{background:#fff; color:var(--green); border-color:var(--green)}
+.pb-progress{max-width:560px; margin:0 auto 26px; text-align:left}
+.pb-progress-track{height:34px; border-radius:8px; background:#E6E8E7; overflow:hidden}
+.pb-progress-fill{height:100%; width:0; background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:space-between;
+  padding:0 14px; font-weight:700; font-size:14px; white-space:nowrap; animation:pbfill 1.4s .2s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes pbfill{to{width:65%}}
+.pb-warning{
+  display:flex; align-items:center; justify-content:center; gap:10px; max-width:560px; margin:24px auto 0;
+  background:#FEF2F2; border:2px solid #DC2626; border-radius:12px; padding:14px 16px;
+  color:#B91C1C; font-size:clamp(14px,3.9vw,17px); font-weight:800; line-height:1.3; letter-spacing:0.01em;
+  animation:pbpulse 2s ease-in-out infinite;
+}
+.pb-warning u{text-decoration-color:#B91C1C; text-decoration-thickness:2px; text-underline-offset:3px}
+@keyframes pbpulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.35)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}
+@media (prefers-reduced-motion:reduce){.pb-warning{animation:none}.pb-progress-fill{animation:none; width:65%}}
+
+@media (max-width:640px){.pb-intro,.step-block,.testi-block{padding-left:16px; padding-right:16px}}
 
 /* ═══ EXIT POPUP (back button on mobile / mouse-leave on desktop) ═══ */
 #exit-pop{position:fixed; inset:0; z-index:9999; display:flex; align-items:flex-end; justify-content:center;
@@ -390,10 +411,11 @@ footer{border-top:1px solid var(--line)}
   <div class="steps-banner">🎉 You're Booked — Just A Couple Quick Things Below</div>
 
   <div class="pb-intro wrap-narrow">
+    <div class="pb-progress" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><div class="pb-progress-track"><div class="pb-progress-fill"><span>Almost There...</span><span>65%</span></div></div></div>
     <div class="pb-kicker">Few More Steps</div>
     <h2 class="pb-h2">Let's Get You <span class="hl">Ready For The Call</span></h2>
     <p class="pb-sub">Takes less than a minute — watch the quick video, then add the call to your calendar.</p>
-    <div class="pb-warning">⚠️ IMPORTANT: YOUR CALL IS <u>NOT CONFIRMED</u> YET...</div>
+    <div class="pb-warning"><span aria-hidden="true">⚠️</span><span>IMPORTANT: YOUR CALL IS <u>NOT CONFIRMED</u> YET...</span></div>
   </div>
 
   <!-- STEP 1 — VIDEO -->
