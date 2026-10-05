@@ -21,7 +21,23 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1003865172502336');
-fbq('track', 'PageView');
+// Browser + server (CAPI) tracking. Same event_id on both sides so Meta dedupes them.
+window.velaroTrack = function (name, custom, user) {
+  var id = name + '.' + Date.now() + '.' + Math.random().toString(36).slice(2, 10);
+  try { fbq('track', name, custom || {}, { eventID: id }); } catch (e) {}
+  try {
+    var ck = function (n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; };
+    var fbc = ck('_fbc'), q = new URLSearchParams(location.search).get('fbclid');
+    if (!fbc && q) fbc = 'fb.1.' + Date.now() + '.' + q;
+    fetch('/api/capi', {
+      method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ event_name: name, event_id: id, event_source_url: location.href,
+        fbp: ck('_fbp'), fbc: fbc, custom: custom || {}, user: user || {} })
+    });
+  } catch (e) {}
+};
+velaroTrack('PageView');
+velaroTrack('ViewContent', { content_name: 'Free Consultation Booking', content_category: 'PI Law Intake' });
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1003865172502336&ev=PageView&noscript=1"
@@ -48,15 +64,24 @@ src="https://www.facebook.com/tr?id=1003865172502336&ev=PageView&noscript=1"
   // Scroll them into view so there is no hunting. Only fires after a tap inside the embed,
   // never on initial load.
   if (isMobile) {
-    var lastH = 0;
+    var lastH = 0, formShown = false;
     Cal.ns.consultation("on", {
       action: "__dimensionChanged",
       callback: function (e) {
         var h = (e && e.detail && e.detail.data && e.detail.data.iframeHeight) || 0;
         var grew = h > lastH + 60 && lastH > 0;
+        var prev = lastH;
         lastH = h;
         var el = document.getElementById("velaro-cal-embed");
+        if (h < 900) formShown = false;
         if (!grew || !el || !document.activeElement || document.activeElement.tagName !== "IFRAME") return;
+        // Time slot picked → booking form appears (much taller than month + slots). Jump to its top.
+        if (h >= 900 && prev < 900 && !formShown) {
+          formShown = true;
+          var card = el.closest(".cal-card") || el;
+          window.scrollTo({ top: card.getBoundingClientRect().top + window.scrollY - 12, behavior: "smooth" });
+          return;
+        }
         // Month grid is ~400px tall with details hidden; land just above the slot list.
         var top = el.getBoundingClientRect().top + window.scrollY + 380;
         window.scrollTo({ top: top, behavior: "smooth" });
@@ -72,6 +97,9 @@ src="https://www.facebook.com/tr?id=1003865172502336&ev=PageView&noscript=1"
     action: "bookingSuccessfulV2",
     callback: function (e) {
       var data = (e && e.detail && e.detail.data) || {};
+      var att = (data.attendees && data.attendees[0]) || data.booker || {};
+      velaroTrack('Schedule', { content_name: data.title || 'Velaro Free Consultation' },
+        { email: att.email || '', name: att.name || '', phone: att.phoneNumber || '' });
       window.velaroShowConfirmation({
         title: data.title || "Velaro Free Consultation",
         startTime: data.startTime || "",
