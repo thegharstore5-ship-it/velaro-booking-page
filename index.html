@@ -58,6 +58,18 @@ src="https://www.facebook.com/tr?id=1003865172502336&ev=PageView&noscript=1"
     calLink: "velaro/consultation",
   });
   var isMobile = window.matchMedia("(max-width:640px)").matches;
+  // Mobile: the Cal iframe can grab focus / resize while loading and drag the page down.
+  // For the first 3s (until the visitor touches or scrolls themselves) pin the page to the top.
+  var loadedAt = Date.now(), userMoved = false;
+  if (isMobile) {
+    try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (_) {}
+    ["touchstart", "wheel", "keydown", "mousedown"].forEach(function (t) {
+      window.addEventListener(t, function () { userMoved = true; }, { passive: true, once: true });
+    });
+    window.addEventListener("scroll", function () {
+      if (!userMoved && Date.now() - loadedAt < 3000 && window.scrollY > 0) window.scrollTo(0, 0);
+    }, { passive: true });
+  }
   // Mobile: hide the Velaro/30m/Cal Video/timezone block so the calendar sits right under the hero.
   Cal.ns.consultation("ui", { "styles": { "branding": { "brandColor": "#A3212E" } }, "hideEventTypeDetails": true, "layout": "month_view" });
   // Mobile: when the visitor taps a date, the embed grows to show time slots below the calendar.
@@ -74,6 +86,7 @@ src="https://www.facebook.com/tr?id=1003865172502336&ev=PageView&noscript=1"
         lastH = h;
         var el = document.getElementById("velaro-cal-embed");
         if (h < 900) formShown = false;
+        if (Date.now() - loadedAt < 3000) return;
         if (!grew || !el || !document.activeElement || document.activeElement.tagName !== "IFRAME") return;
         // Time slot picked → booking form appears (much taller than month + slots). Jump to its top.
         if (h >= 900 && prev < 900 && !formShown) {
