@@ -386,32 +386,37 @@ footer{border-top:1px solid var(--line)}
 @keyframes pbfill{to{width:65%}}
 .pb-warning{
   display:flex; align-items:center; justify-content:center; gap:10px; max-width:560px; margin:24px auto 0;
-  background:#FEF2F2; border:2px solid #DC2626; border-radius:12px; padding:14px 16px;
-  color:#B91C1C; font-size:clamp(14px,3.9vw,17px); font-weight:800; line-height:1.3; letter-spacing:0.01em;
-  animation:pbpulse 2s ease-in-out infinite;
+  padding:12px 18px; border-radius:10px; background:#FFF5D6; border:1px solid #F0D56B;
+  color:#7A4B00; font-size:14px; font-weight:900; letter-spacing:0.04em; line-height:1.35; text-align:center;
+  animation:warningPulse 1.5s ease-in-out 3;
 }
-.pb-warning u{text-decoration-color:#B91C1C; text-decoration-thickness:2px; text-underline-offset:3px}
-@keyframes pbpulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.35)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}
-@media (prefers-reduced-motion:reduce){.pb-warning{animation:none}.pb-progress-fill{animation:none; width:65%}}
-
-@media (max-width:640px){.pb-intro,.step-block,.testi-block{padding-left:16px; padding-right:16px}}
-
-
-/* ═══ EXIT POPUP (back button on mobile / mouse-leave on desktop) ═══ */
-#exit-pop{position:fixed; inset:0; z-index:9999; display:flex; align-items:flex-end; justify-content:center;
-  background:rgba(7,32,26,0.55); opacity:0; pointer-events:none; transition:opacity .2s}
-#exit-pop.open{opacity:1; pointer-events:auto}
-.exit-card{background:#fff; width:100%; max-width:480px; border-radius:20px 20px 0 0; padding:26px 22px calc(22px + env(safe-area-inset-bottom));
-  text-align:center; transform:translateY(40px); transition:transform .25s ease; box-shadow:0 -10px 40px rgba(0,0,0,.2); position:relative}
+@keyframes warningPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 rgba(240,207,94,0)}50%{transform:scale(1.02);box-shadow:0 0 24px rgba(240,207,94,0.45)}}
+.pb-warning u{text-decoration-thickness:2px}
+.confirm-sub{max-width:500px; margin:0 auto; color:var(--muted); font-size:16px; line-height:1.55}
+.exit-card{
+  position:relative; width:min(440px,calc(100vw - 32px)); padding:34px 30px 28px;
+  background:#fff; border-radius:18px; border:1px solid var(--line);
+  box-shadow:0 24px 80px rgba(0,0,0,0.25); text-align:center;
+  transform:translateY(12px) scale(.98); transition:transform .22s ease;
+}
+.exit-x{
+  position:absolute; top:10px; right:12px; width:32px; height:32px; border:0; background:transparent;
+  color:#778; font-size:26px; cursor:pointer; line-height:1;
+}
+.exit-bar{height:6px; border-radius:99px; background:#E6E8E7; overflow:hidden; margin-bottom:24px}
+.exit-bar::before{content:''; display:block; width:72%; height:100%; background:#A3212E; border-radius:99px}
+.exit-card h2{font-family:'DM Serif Display',Georgia,serif; color:#1C2B4A; font-size:clamp(1.55rem,5vw,2rem); line-height:1.15; margin:0 0 12px}
+.exit-card p{color:var(--muted); font-size:14px; line-height:1.55; margin:0 0 22px}
+.exit-cta{display:block; width:100%; border:0; border-radius:10px; padding:14px 18px; background:#A3212E; color:#fff; font:700 15px Inter,sans-serif; cursor:pointer}
+.exit-leave{display:block; margin:14px auto 0; border:0; background:transparent; color:#8A9893; font:600 13px Inter,sans-serif; cursor:pointer}
+#exit-pop{
+  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+  padding:18px; background:rgba(18,25,35,0.58); opacity:0; visibility:hidden; pointer-events:none;
+  transition:opacity .2s ease, visibility .2s ease;
+}
+#exit-pop.open{opacity:1; visibility:visible; pointer-events:auto}
 #exit-pop.open .exit-card{transform:none}
-.exit-x{position:absolute; top:10px; right:12px; width:36px; height:36px; border:0; background:transparent; font-size:26px; line-height:1; color:#8A9893; cursor:pointer}
-.exit-bar{height:34px; border-radius:6px; background:#E6E8E7; overflow:hidden; margin:6px 0 20px; text-align:left}
-.exit-bar span{display:flex; align-items:center; height:100%; width:62%; background:#A3212E; color:#fff; font-weight:700; font-size:14px; padding-left:14px}
-.exit-card h2{font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:clamp(1.25rem,5.4vw,1.6rem); line-height:1.2; color:#A3212E; margin-bottom:10px}
-.exit-card p{font-size:14.5px; color:var(--muted); line-height:1.55; margin-bottom:20px}
-.exit-cta{display:block; width:100%; border:0; border-radius:12px; background:#A3212E; color:#fff; font:700 16px 'Inter',sans-serif; padding:15px; cursor:pointer}
-.exit-leave{display:inline-block; margin-top:14px; background:none; border:0; color:#8A9893; font:500 13.5px 'Inter',sans-serif; text-decoration:underline; cursor:pointer; padding:8px}
-@media (min-width:641px){ #exit-pop{align-items:center} .exit-card{border-radius:20px; transform:scale(.96)} #exit-pop.open .exit-card{transform:none} }
+@media (max-width:640px){ #exit-pop{align-items:flex-end; padding:12px} #exit-pop.open .exit-card{transform:none} }
 
 /* ═══ THANK-YOU PAGE — match burgundy/navy theme, calm the warning, mobile-friendly sizes ═══ */
 .pb-intro{padding:36px 0 32px}
@@ -457,6 +462,27 @@ footer{border-top:1px solid var(--line)}
 .cal-skel i{border-radius:10px; background:linear-gradient(90deg,#F0EEEA 25%,#F8F6F2 50%,#F0EEEA 75%); background-size:200% 100%; animation:skel 1.3s linear infinite}
 @keyframes skel{to{background-position:-200% 0}}
 #velaro-cal-embed{position:relative; z-index:1; background:transparent}
+
+/* Mobile readability adjustments — landing and booking calendar only */
+@media (max-width:640px){
+  .header-inner{min-width:0; flex-wrap:wrap; row-gap:6px}
+  .header-tag{font-size:clamp(10px,2.8vw,11px); letter-spacing:0.06em; line-height:1.35; text-align:left}
+  #hero h1{font-size:clamp(1.55rem,7.2vw,2.05rem); line-height:1.14; max-width:100%; overflow-wrap:anywhere}
+  .sub-italic{font-size:clamp(1.1rem,4.8vw,1.3rem); line-height:1.35}
+  .cal-title{font-size:clamp(17px,5vw,20px); line-height:1.3}
+  .cal-sub{font-size:clamp(16px,4.6vw,18px); line-height:1.35}
+  .tz-line{font-size:clamp(12px,3.5vw,13px); line-height:1.4; align-items:flex-start; overflow-wrap:anywhere}
+  .cal-card{min-width:0}
+  .cal-clip,#velaro-cal-embed{width:100%; max-width:100%; min-width:0}
+  #velaro-cal-embed iframe{width:100%; max-width:100%}
+}
+@media (max-width:360px){
+  .wrap{padding-left:16px; padding-right:16px}
+  .header-inner{gap:6px; padding-left:4px; padding-right:4px}
+  .header-tag{font-size:10px; letter-spacing:0.04em}
+  #hero h1{font-size:clamp(1.5rem,7.6vw,1.75rem)}
+  .cal-card{padding-left:10px; padding-right:10px}
+}
 </style>
 </head>
 <body>
@@ -501,7 +527,7 @@ footer{border-top:1px solid var(--line)}
         </div>
         <h3 class="cal-sub">Select Date &amp; Time</h3>
         <p class="tz-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span id="tz-text">Times shown in your timezone</span></p>
-        <div class="cal-clip"><div class="cal-skel" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div id="velaro-cal-embed"></div></div>
+        <div class="cal-clip"><div class="cal-skel" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div id="velaro-cal-embed"></div></div>
       </div>
     </div>
   </section>
