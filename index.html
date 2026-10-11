@@ -148,6 +148,8 @@ header{padding:26px 0; border-bottom:1px solid var(--border-soft)}
   background:var(--white); border-radius:20px; overflow:hidden;
   box-shadow:0 30px 80px rgba(0,0,0,0.45); border:1px solid var(--border);
 }
+.tz-line{display:flex; align-items:center; gap:8px; padding:16px 24px 0; color:#5B6B66; font-size:13px; line-height:1.4}
+.tz-line svg{width:16px; height:16px; flex:none}
 #velaro-cal-embed{ width:100%; min-height:600px; overflow:auto }
 
 /* ── POST-BOOKING (few more steps) ── */
@@ -297,7 +299,7 @@ footer{padding:30px 0 50px; text-align:center; border-top:1px solid var(--border
   <section id="hero">
     <div class="wrap">
       <div class="eyebrow">AI Intake Built for PI Firms</div>
-      <h1>AI Intake That <span class="hl">Answers Calls</span> and <span class="hl">Books Consultations</span> While Your Law Firm Sleeps</h1>
+      <h1>We Help PI Firms Implement AI Intake That <span class="hl">Answers Calls, Screens Leads, and Books Consultations</span> Automatically in 2 Weeks</h1>
       <div class="hero-cta-line"><span class="bounce">👇</span> Pick A Time Below To Book Your Free Consultation <span class="bounce">👇</span></div>
     </div>
   </section>
@@ -305,6 +307,7 @@ footer{padding:30px 0 50px; text-align:center; border-top:1px solid var(--border
   <section id="calendar-section">
     <div class="wrap">
       <div class="cal-card">
+        <p class="tz-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span id="tz-text">Detecting your timezone…</span></p>
         <div id="velaro-cal-embed"></div>
       </div>
     </div>
@@ -544,6 +547,22 @@ window.velaroShowConfirmation = function (booking) {
   }
   document.addEventListener("pointerdown", unlockAudio, { once: true, capture: true });
   document.addEventListener("keydown", unlockAudio, { once: true, capture: true });
+})();
+</script>
+<script>
+(function () {
+  try {
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    var parts = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'long' }).formatToParts(new Date());
+    var longName = parts.find(function (part) { return part.type === 'timeZoneName'; }).value;
+    var offsetParts = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'shortOffset' }).formatToParts(new Date());
+    var offset = offsetParts.find(function (part) { return part.type === 'timeZoneName'; }).value;
+    var label = document.getElementById('tz-text');
+    if (label) label.textContent = 'Times shown in ' + longName + ' (' + offset + ') · ' + tz.replace(/_/g, ' ');
+  } catch (e) {
+    var label = document.getElementById('tz-text');
+    if (label) label.textContent = 'Times shown in your local timezone';
+  }
 })();
 </script>
 
