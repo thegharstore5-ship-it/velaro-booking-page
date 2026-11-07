@@ -1,7 +1,7 @@
 // Vercel serverless function: forwards browser events to Meta Conversions API.
 // Env vars (Vercel → Settings → Environment Variables): META_CAPI_TOKEN, optional META_TEST_EVENT_CODE.
 const crypto = require('crypto');
-const PIXEL_ID = '1003865172502336';
+const PIXEL_ID = '1782087639779673';
 const sha = (v) => v ? crypto.createHash('sha256').update(String(v).trim().toLowerCase()).digest('hex') : undefined;
 
 module.exports = async (req, res) => {
