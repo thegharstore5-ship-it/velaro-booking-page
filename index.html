@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <!-- Meta Pixel Code -->
 <script>
@@ -55,7 +55,7 @@ src="https://www.facebook.com/tr?id=1003865172502336&ev=PageView&noscript=1"
   });
   var isMobile = window.matchMedia("(max-width:640px)").matches;
   // Mobile: hide the Velaro/30m/Cal Video/timezone block so the calendar sits right under the hero.
-  Cal.ns.consultation("ui", { "styles": { "branding": { "brandColor": "#F0CF5E" } }, "hideEventTypeDetails": isMobile, "layout": "month_view" });
+  Cal.ns.consultation("ui", { "styles": { "branding": { "brandColor": "#111111" } }, "hideEventTypeDetails": isMobile, "layout": "month_view" });
   // Mobile: when the visitor taps a date, the embed grows to show time slots below the calendar.
   // Scroll them into view so there is no hunting. Only fires after a tap inside the embed,
   // never on initial load.
@@ -93,214 +93,139 @@ src="https://www.facebook.com/tr?id=1003865172502336&ev=PageView&noscript=1"
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --black:#070605;
-  --gold:#F0CF5E;
-  --gold-deep:#B8860B;
-  --gold-pale:#F7E3A0;
-  --gold-tint:rgba(240,207,94,0.10);
-  --border:rgba(240,207,94,0.20);
-  --border-soft:rgba(255,255,255,0.08);
+  --black:#000000;
+  --panel:#0e0e0e;
+  --gold:#F2CF4A;
+  --gold-deep:#C9A227;
+  --gold-text:#F5C93A;
+  --gold-tint:rgba(242,207,74,0.08);
+  --border:rgba(242,207,74,0.28);
+  --border-soft:rgba(255,255,255,0.10);
   --white:#ffffff;
-  --dim:rgba(255,255,255,0.62);
-  --dimmer:rgba(255,255,255,0.32);
+  --dim:rgba(255,255,255,0.70);
+  --dimmer:rgba(255,255,255,0.45);
 }
 html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
 body{
   background:var(--black); color:var(--white);
-  font-family:'Inter',-apple-system,sans-serif; line-height:1.65; overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;
+  line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased;
 }
 a{color:inherit}
-.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
-.wrap-narrow{max-width:680px;margin:0 auto;padding:0 24px}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+.wrap-narrow{max-width:680px;margin:0 auto;padding:0 20px}
 
-h1{font-family:'DM Serif Display',Georgia,serif; font-weight:400; line-height:1.14; letter-spacing:-0.01em}
-h1 .hl{color:var(--gold); font-style:italic}
-
-/* ── HEADER ── */
-header{padding:26px 0; border-bottom:1px solid var(--border-soft)}
-.logo{display:inline-flex; align-items:center; gap:9px; text-decoration:none}
-.logo-word{font-size:14px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--white)}
-.header-inner{display:flex; align-items:center; justify-content:center; gap:12px}
-.header-tag{font-size:11px; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; color:var(--dimmer)}
-.header-divider{width:1px; height:14px; background:var(--border-soft)}
-
-/* ── HERO (landing view) ── */
-#hero{padding:48px 0 32px; text-align:center}
-.eyebrow{
-  display:inline-flex; align-items:center; gap:8px;
-  font-size:11.5px; font-weight:700; letter-spacing:0.13em; text-transform:uppercase;
-  color:var(--gold-pale); background:var(--gold-tint); border:1px solid var(--border);
-  padding:8px 16px; border-radius:100px; margin-bottom:22px;
+/* ── TOP BAR ── */
+.top-bar, .steps-banner{
+  background:linear-gradient(90deg,#E8C547 0%,#F4D664 45%,#E2BD3E 80%,#C49A2C 100%);
+  color:#111; text-align:center; font-weight:700; font-size:17px; line-height:1.35;
+  padding:12px 16px;
 }
-.eyebrow::before{content:''; width:6px; height:6px; border-radius:50%; background:var(--gold)}
-#hero h1{font-size:clamp(2.1rem,5vw,3.1rem); max-width:900px; margin:0 auto 32px}
-.hero-cta-line{
-  color:var(--gold-pale); font-weight:700; font-size:15px;
-  text-align:center;
+
+/* ── HERO ── */
+#hero{padding:44px 0 40px; text-align:center}
+#hero h1{
+  font-weight:800; font-size:clamp(1.7rem,3.6vw,2.45rem); line-height:1.28;
+  letter-spacing:-0.01em; max-width:820px; margin:0 auto 28px; color:var(--white);
 }
-.bounce{display:inline-block; animation:bounce 1.6s ease-in-out infinite; margin:0 4px; vertical-align:middle}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+.hero-cta-line{color:var(--gold-text); font-weight:700; font-size:clamp(1rem,1.8vw,1.2rem)}
+.bounce{display:inline-block; animation:bounce 1.6s ease-in-out infinite; margin:0 6px; vertical-align:middle}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 
 /* ── CAL EMBED CARD ── */
-#calendar-section{padding:0 0 100px}
-.cal-card{
-  background:var(--white); border-radius:20px; overflow:hidden;
-  box-shadow:0 30px 80px rgba(0,0,0,0.45); border:1px solid var(--border);
-}
-.tz-line{display:flex; align-items:center; gap:8px; padding:16px 24px 0; color:#5B6B66; font-size:13px; line-height:1.4}
+#calendar-section{padding:0 0 80px}
+.cal-card{background:var(--white); border-radius:6px; overflow:hidden}
+.tz-line{display:flex; align-items:center; gap:8px; padding:16px 24px 0; color:#555; font-size:13px; line-height:1.4}
 .tz-line svg{width:16px; height:16px; flex:none}
-#velaro-cal-embed{ width:100%; min-height:600px; overflow:auto }
+#velaro-cal-embed{width:100%; min-height:600px; overflow:auto}
 
-/* ── POST-BOOKING (few more steps) ── */
-#post-booking{padding-bottom:100px}
-.steps-banner{
-  background:linear-gradient(100deg, var(--gold-deep), var(--gold), var(--gold-pale), var(--gold), var(--gold-deep));
-  background-size:220% 100%; animation:shimmer 7s ease-in-out infinite;
-  color:#1a1204; text-align:center; padding:16px 20px; font-weight:800; font-size:15px;
-}
-@keyframes shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+/* ── POST-BOOKING ── */
+#post-booking{padding-bottom:80px}
+.pb-intro{text-align:center; padding:44px 0 36px}
+.pb-kicker{font-size:13px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-text); margin-bottom:12px}
+.pb-h2{font-weight:800; font-size:clamp(1.6rem,3.6vw,2.2rem); line-height:1.25; margin-bottom:12px}
+.pb-h2 .hl{color:var(--gold-text)}
+.pb-sub{font-size:16px; color:var(--dim); max-width:480px; margin:0 auto}
+.pb-warning{display:inline-block; margin-top:22px; font-size:15px; font-weight:800; color:var(--gold-text)}
+.pb-warning u{text-decoration-color:var(--gold-text)}
 
-.pb-intro{text-align:center; padding:48px 0 40px}
-.pb-kicker{font-size:12px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:14px}
-.pb-h2{font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.4rem); margin-bottom:12px}
-.pb-h2 .hl{color:var(--gold); font-style:italic}
-.pb-sub{font-size:15.5px; color:var(--dim); max-width:480px; margin:0 auto}
-.pb-warning{
-  display:inline-flex; align-items:center; gap:8px; margin-top:22px;
-  font-size:14.5px; font-weight:800; color:#FFD25A; letter-spacing:0.01em;
-}
-.pb-warning u{text-decoration-color:#FFD25A}
-
-.step-block{padding:0 0 56px}
-.step-tag{
-  display:inline-flex; align-items:center; gap:10px; margin-bottom:18px;
-}
+.step-block{padding:0 0 52px}
+.step-tag{display:inline-flex; align-items:center; gap:10px; margin-bottom:16px}
 .step-num{
-  width:26px; height:26px; border-radius:50%; background:var(--gold); color:#1a1204;
-  font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  width:28px; height:28px; border-radius:50%; background:var(--gold); color:#111;
+  font-size:14px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
-.step-title{font-size:17px; font-weight:800; color:var(--white)}
+.step-title{font-size:18px; font-weight:800; color:var(--white)}
 
-/* video placeholder */
-.video-box{
-  position:relative; width:100%; aspect-ratio:16/9; border-radius:16px; overflow:hidden;
-  background:#111; border:1px dashed var(--border); display:flex; align-items:center; justify-content:center;
-}
-.video-box .play{
-  width:56px; height:56px; border-radius:50%; background:var(--gold-tint); border:1px solid var(--border);
-  display:flex; align-items:center; justify-content:center; margin-bottom:14px;
-}
-.video-box .play svg{width:20px; height:20px}
-.video-placeholder-text{text-align:center}
-.video-placeholder-text p{font-size:13.5px; color:var(--dimmer); max-width:280px; margin:0 auto}
-.video-placeholder-text strong{display:block; color:var(--gold-pale); font-size:14.5px; margin-bottom:6px}
-.video-box iframe, .video-box video{width:100%; height:100%; border:0; display:block}
-
-/* ── CONFIRMATION / ADD TO CALENDAR ── */
-.confirm{text-align:center; margin-bottom:36px}
+.confirm{text-align:center; margin-bottom:28px}
+.confirm-sub{font-size:15px; color:var(--dim)}
 .checkmark{
-  width:60px; height:60px; border-radius:50%; background:var(--gold-tint); border:1px solid var(--border);
-  display:flex; align-items:center; justify-content:center; margin:0 auto 24px;
+  width:56px; height:56px; border-radius:50%; background:var(--gold);
+  display:flex; align-items:center; justify-content:center; margin:0 auto 18px;
 }
 .checkmark svg{width:26px; height:26px}
+.checkmark svg path{stroke:#111}
 
-.meet-card{
-  background:#111; border:1px solid var(--border-soft); border-radius:18px;
-  overflow:hidden; margin-bottom:32px;
-}
-.meet-row{
-  display:grid; grid-template-columns:110px 1fr; gap:18px;
-  padding:18px 26px; border-bottom:1px solid var(--border-soft);
-}
+.meet-card{background:var(--panel); border:1px solid var(--border-soft); border-radius:6px; overflow:hidden; margin-bottom:28px}
+.meet-row{display:grid; grid-template-columns:110px 1fr; gap:18px; padding:16px 24px; border-bottom:1px solid var(--border-soft)}
 .meet-row:last-child{border-bottom:none}
-.meet-label{font-size:12.5px; font-weight:700; letter-spacing:0.04em; color:var(--dimmer); padding-top:2px}
-.meet-value{font-size:14.5px; color:rgba(255,255,255,0.88); line-height:1.55; white-space:pre-line}
-.meet-value a{color:var(--gold-pale); text-decoration:underline}
+.meet-label{font-size:13px; font-weight:700; color:var(--dimmer); padding-top:2px}
+.meet-value{font-size:15px; color:var(--white); line-height:1.55; white-space:pre-line}
+.meet-value a{color:var(--gold-text); text-decoration:underline}
 
-.cal-add{
-  display:flex; align-items:center; flex-wrap:wrap; gap:12px;
-  padding:20px 26px; background:var(--gold-tint);
-}
-.cal-add-label{font-size:13px; font-weight:700; color:var(--gold-pale); margin-right:4px}
+.cal-add{display:flex; align-items:center; flex-wrap:wrap; gap:10px; padding:18px 24px; background:#151515}
+.cal-add-label{font-size:13px; font-weight:700; color:var(--gold-text); margin-right:4px}
 .cal-btn{
   display:inline-flex; align-items:center; gap:8px; justify-content:center;
-  height:38px; padding:0 14px; border-radius:10px; background:#181818; border:1px solid var(--border-soft);
-  text-decoration:none; transition:border-color 0.15s, transform 0.15s; font-size:12.5px; font-weight:700; color:rgba(255,255,255,0.85);
+  height:38px; padding:0 14px; border-radius:6px; background:#000; border:1px solid var(--border-soft);
+  text-decoration:none; transition:border-color .15s; font-size:13px; font-weight:700; color:var(--white);
 }
-.cal-btn:hover{border-color:var(--gold); transform:translateY(-1px); color:var(--white)}
+.cal-btn:hover{border-color:var(--gold)}
 .cal-btn svg{width:15px; height:15px; flex-shrink:0}
 
-.next-card{
-  background:var(--gold-tint); border:1px solid var(--border); border-radius:16px;
-  padding:26px 28px; text-align:left; margin-bottom:24px;
-}
-.next-card h3{font-size:13px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-pale); margin-bottom:14px}
+.next-card{background:var(--panel); border:1px solid var(--border); border-radius:6px; padding:24px 26px; text-align:left; margin-bottom:22px}
+.next-card h3{font-size:13px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-text); margin-bottom:14px}
 .next-list{list-style:none; display:flex; flex-direction:column; gap:12px}
-.next-list li{display:flex; align-items:flex-start; gap:10px; font-size:14.5px; color:rgba(255,255,255,0.75)}
-.next-list li::before{content:'✓'; flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--gold-tint); color:var(--gold); font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px; border:1px solid var(--border)}
+.next-list li{display:flex; align-items:flex-start; gap:10px; font-size:15px; color:var(--dim)}
+.next-list li::before{content:'✓'; flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--gold); color:#111; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:3px}
 
 .manage-line{text-align:center; font-size:13px; color:var(--dimmer)}
-.manage-line a{color:var(--gold-pale); text-decoration:underline}
+.manage-line a{color:var(--gold-text); text-decoration:underline}
 
 /* ── TESTIMONIALS ── */
 .testi-block{padding:8px 0 0}
-.testi-title{font-family:'DM Serif Display',Georgia,serif; font-weight:400; font-size:clamp(1.5rem,3.6vw,1.9rem); text-align:center; margin-bottom:28px}
-.testi-grid{column-count:2; column-gap:16px}
-.testi-grid img{
-  width:100%; display:block; margin:0 0 16px; border-radius:14px;
-  border:1px solid var(--border-soft); break-inside:avoid;
-}
-
-@media (max-width:640px){
-  .testi-grid{column-count:1}
-}
+.testi-title{font-weight:800; font-size:clamp(1.4rem,3.2vw,1.8rem); text-align:center; margin-bottom:26px}
+.testi-grid{column-count:2; column-gap:14px}
+.testi-grid img{width:100%; display:block; margin:0 0 14px; border-radius:6px; border:1px solid var(--border-soft); break-inside:avoid}
 
 /* ── FOOTER ── */
-footer{padding:30px 0 50px; text-align:center; border-top:1px solid var(--border-soft)}
+footer{padding:28px 0 44px; text-align:center; border-top:1px solid var(--border-soft)}
 .foot-text{font-size:12.5px; color:var(--dimmer)}
 
 [hidden]{display:none!important}
 
 @media (max-width:640px){
-  #hero{padding:18px 0 14px}
-  .eyebrow{margin-bottom:10px; padding:6px 14px; font-size:10.5px}
-  #hero h1{font-size:clamp(1.4rem,6.4vw,1.9rem); margin-bottom:16px}
-  .hero-cta-line{font-size:13px}
+  .top-bar, .steps-banner{font-size:14px; padding:10px 14px}
+  #hero{padding:22px 0 18px}
+  #hero h1{font-size:clamp(1.35rem,6.2vw,1.8rem); margin-bottom:14px}
+  .hero-cta-line{font-size:14.5px}
+  .wrap{padding:0 12px}
   #velaro-cal-embed{min-height:520px}
   .meet-row{grid-template-columns:1fr; gap:4px}
+  .testi-grid{column-count:1}
 }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="logo">
-      <svg width="22" height="24" viewBox="0 0 56 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M1 5 L15 5 L30 54 L25.5 54 Z" fill="#F0CF5E"/>
-        <path d="M55 5 L46 5 L30 54 L34.5 54 Z" fill="#F0CF5E"/>
-        <rect x="0" y="3" width="17" height="3" fill="#F0CF5E"/>
-        <rect x="0" y="3" width="3" height="9" fill="#F0CF5E"/>
-        <rect x="39" y="3" width="17" height="3" fill="#F0CF5E"/>
-        <rect x="53" y="3" width="3" height="9" fill="#F0CF5E"/>
-        <circle cx="21" cy="33" r="2.8" stroke="#F0CF5E" stroke-width="1.2" fill="#070605"/>
-        <line x1="21" y1="33" x2="30" y2="54" stroke="#F0CF5E" stroke-width="0.9"/>
-      </svg>
-      <span class="logo-word">Velaro</span>
-    </div>
-    <div class="header-divider"></div>
-    <span class="header-tag">AI Intake For Growing PI Firms</span>
-  </div>
-</header>
 
 <!-- ══════════ LANDING VIEW — hero + calendar (default view) ══════════ -->
 <div id="landing-view">
+  <div class="top-bar">PI Firms Losing Cases To Missed After-Hours Calls</div>
   <section id="hero">
     <div class="wrap">
-      <div class="eyebrow">AI Intake Built for PI Firms</div>
-      <h1>We Help PI Firms Implement AI Intake That <span class="hl">Answers Calls, Screens Leads, and Books Consultations</span> Automatically in 2 Weeks</h1>
-      <div class="hero-cta-line"><span class="bounce">👇</span> Pick A Time Below To Book Your Free Consultation <span class="bounce">👇</span></div>
+      <h1>Implement Our AI Intake System And Watch 40 Missed Calls A Week Turn Into Qualified Leads On Your Calendar</h1>
+      <div class="hero-cta-line"><span class="bounce">👇</span> Schedule A Call To See How It Works <span class="bounce">👇</span></div>
     </div>
   </section>
 
@@ -515,8 +440,8 @@ window.velaroShowConfirmation = function (booking) {
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 
-  if (typeof fbq === "function") {
-    fbq("track", "Schedule");
+  if (typeof window.velaroTrack === "function") {
+    window.velaroTrack("Schedule", { content_name: "Free Consultation Booking" });
   }
 
   var sound = document.getElementById("booking-sound");
