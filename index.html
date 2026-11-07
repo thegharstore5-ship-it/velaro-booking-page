@@ -47,12 +47,13 @@ src="https://www.facebook.com/tr?id=1782087639779673&ev=PageView&noscript=1"
 <script type="text/javascript">
   (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
   Cal("init", "consultation", { origin: "https://cal.com" });
-  Cal.ns.consultation("inline", {
+  var isMobile = window.matchMedia("(max-width:640px)").matches;
+  // Desktop: full Cal.com calendar inline. Mobile uses the 3-step booker below (date → time → form).
+  if (!isMobile) Cal.ns.consultation("inline", {
     elementOrSelector: "#velaro-cal-embed",
     config: { "layout": "month_view", "theme": "light" },
     calLink: "velaro/consultation",
   });
-  var isMobile = window.matchMedia("(max-width:640px)").matches;
   // Mobile: the Cal iframe can grab focus / resize while loading and drag the page down.
   // For the first 3s (until the visitor touches or scrolls themselves) pin the page to the top.
   var loadedAt = Date.now(), userMoved = false;
@@ -84,15 +85,8 @@ src="https://www.facebook.com/tr?id=1782087639779673&ev=PageView&noscript=1"
       var card = el.closest(".cal-card") || el;
       var cardTop = card.getBoundingClientRect().top + window.scrollY;
       var embedTop = el.getBoundingClientRect().top + window.scrollY;
-      if (isMobile) {
-        if (window.scrollY > embedTop + 260) {
-          // Was looking at the slot list -> a time was picked -> form is now at the top of the card.
-          window.scrollTo({ top: cardTop - 12, behavior: "smooth" });
-        } else if (h > prev) {
-          // Was looking at the month grid -> a date was picked -> land just above the slot list.
-          window.scrollTo({ top: embedTop + 400, behavior: "smooth" });
-        }
-      } else if (card.getBoundingClientRect().top < 0) {
+      if (isMobile) return;
+      if (card.getBoundingClientRect().top < 0) {
         // Desktop: view changed (e.g. form opened) while the top of the card is scrolled off-screen.
         window.scrollTo({ top: cardTop - 16, behavior: "smooth" });
       }
@@ -236,6 +230,32 @@ a{color:inherit}
 footer{padding:28px 0 44px; text-align:center; border-top:1px solid var(--border-soft)}
 .foot-text{font-size:12.5px; color:var(--dimmer)}
 
+/* ── MOBILE 3-STEP BOOKER ── */
+#m-booker{color:#111; padding:20px 16px 24px}
+.m-kicker{font-size:12px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:#9A7410; margin-bottom:12px}
+.m-tz{display:flex; align-items:center; gap:8px; border:1px solid #e5e7eb; border-radius:8px; padding:0 10px; margin-bottom:18px; color:#555}
+.m-tz svg{width:16px; height:16px; flex:none}
+.m-tz select{flex:1; min-width:0; border:0; background:transparent; font:inherit; font-size:14px; color:#111; padding:11px 0; -webkit-appearance:menulist}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+.m-cal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px}
+.m-cal-head strong{font-size:17px}
+.m-cal-head button{width:40px; height:40px; border-radius:8px; border:1px solid #e5e7eb; background:#fff; font-size:22px; line-height:1; color:#111}
+.m-cal-head button:disabled{opacity:0.3}
+.m-dow,.m-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center}
+.m-dow span{font-size:11px; font-weight:700; text-transform:uppercase; color:#6b7280; padding:6px 0}
+.m-day{aspect-ratio:1; border:0; border-radius:8px; background:transparent; font:inherit; font-size:15px; color:#c4c4c4}
+.m-day.open{background:#f1f1f1; color:#111; font-weight:800}
+.m-day.sel{background:#111; color:#fff}
+.m-note{font-size:13px; color:#6b7280; margin-top:12px}
+.m-back{border:0; background:none; font:inherit; font-size:14px; font-weight:700; color:#111; padding:4px 0; margin-bottom:12px}
+.m-title{font-size:19px; font-weight:800; line-height:1.3}
+#m-step-time .m-note{margin:4px 0 16px}
+.m-times{display:flex; flex-direction:column; gap:10px}
+.m-time{height:52px; border:1.5px solid #111; border-radius:8px; background:#fff; font:inherit; font-size:16px; font-weight:700; color:#111}
+.m-time:active{background:#111; color:#fff}
+#m-step-form .m-title{margin-bottom:8px}
+#m-form{margin:0 -16px; min-height:560px}
+
 [hidden]{display:none!important}
 
 @media (max-width:640px){
@@ -275,6 +295,29 @@ footer{padding:28px 0 44px; text-align:center; border-top:1px solid var(--border
       <div class="cal-card">
         <p class="tz-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span id="tz-text">Your timezone is detected automatically — tap it below to change.</span></p>
         <div id="velaro-cal-embed"></div>
+        <div id="m-booker" hidden>
+          <section id="m-step-date">
+            <p class="m-kicker">Step 1 of 3 · Pick A Date</p>
+            <label class="m-tz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span class="sr">Timezone</span><select id="m-tz" aria-label="Timezone"></select></label>
+            <div class="m-cal-head"><button type="button" id="m-prev" aria-label="Previous month">‹</button><strong id="m-month"></strong><button type="button" id="m-next" aria-label="Next month">›</button></div>
+            <div class="m-dow"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+            <div id="m-grid" class="m-grid"></div>
+            <p id="m-grid-note" class="m-note"></p>
+          </section>
+          <section id="m-step-time" hidden>
+            <button type="button" class="m-back" id="m-back-date">‹ Change date</button>
+            <p class="m-kicker">Step 2 of 3 · Pick A Time</p>
+            <h3 id="m-day-title" class="m-title"></h3>
+            <p id="m-tz-note" class="m-note"></p>
+            <div id="m-times" class="m-times"></div>
+          </section>
+          <section id="m-step-form" hidden>
+            <button type="button" class="m-back" id="m-back-time">‹ Change time</button>
+            <p class="m-kicker">Step 3 of 3 · Your Details</p>
+            <p id="m-summary" class="m-title"></p>
+            <div id="m-form"></div>
+          </section>
+        </div>
       </div>
     </div>
   </section>
@@ -509,5 +552,135 @@ window.velaroShowConfirmation = function (booking) {
 })();
 </script>
 
+<script>
+// ── Mobile 3-step booker: 1 date → 2 time → 3 Cal.com form (slot pre-selected) ──
+(function () {
+  if (!window.matchMedia("(max-width:640px)").matches) return;
+  var root = document.getElementById("m-booker");
+  var calEl = document.getElementById("velaro-cal-embed");
+  var tzLine = document.querySelector(".tz-line");
+  root.hidden = false; calEl.hidden = true; if (tzLine) tzLine.hidden = true;
+
+  var API = "https://api.cal.com/v2/slots?username=velaro&eventTypeSlug=consultation";
+  var detected = "America/New_York";
+  try { detected = Intl.DateTimeFormat().resolvedOptions().timeZone || detected; } catch (e) {}
+  var state = { tz: detected, month: null, date: null, slot: null, slots: {}, cache: {} };
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  state.month = new Date(today.getFullYear(), today.getMonth(), 1);
+  var MAX_MONTHS_AHEAD = 3;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+  var ymd = function (d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); };
+
+  // Timezone picker: detected zone first, then US zones, then everything else.
+  function tzLabel(z) {
+    try {
+      var p = new Intl.DateTimeFormat("en-US", { timeZone: z, timeZoneName: "short" }).formatToParts(new Date());
+      var ab = (p.find(function (x) { return x.type === "timeZoneName"; }) || {}).value || "";
+      return z.replace(/_/g, " ").replace(/\//g, " / ") + (ab ? " (" + ab + ")" : "");
+    } catch (e) { return z; }
+  }
+  var US = ["America/New_York", "America/Chicago", "America/Denver", "America/Phoenix", "America/Los_Angeles", "America/Anchorage", "Pacific/Honolulu"];
+  var all = [];
+  try { all = Intl.supportedValuesOf("timeZone"); } catch (e) {}
+  var sel = $("m-tz"), seen = {};
+  function addOpt(z, group) { if (seen[z]) return; seen[z] = 1; var o = document.createElement("option"); o.value = z; o.textContent = tzLabel(z); group.appendChild(o); }
+  var g1 = document.createElement("optgroup"); g1.label = "Detected"; addOpt(detected, g1); sel.appendChild(g1);
+  var g2 = document.createElement("optgroup"); g2.label = "United States"; US.forEach(function (z) { addOpt(z, g2); }); sel.appendChild(g2);
+  if (all.length) { var g3 = document.createElement("optgroup"); g3.label = "All timezones"; all.forEach(function (z) { addOpt(z, g3); }); sel.appendChild(g3); }
+  sel.value = detected;
+  sel.addEventListener("change", function () { state.tz = sel.value; state.cache = {}; state.date = null; loadMonth(); });
+
+  function show(step) {
+    ["m-step-date", "m-step-time", "m-step-form"].forEach(function (id) { $(id).hidden = id !== step; });
+    var card = root.closest(".cal-card") || root;
+    var top = card.getBoundingClientRect().top + window.scrollY - 12;
+    if (step !== "m-step-date" || window.scrollY > top) window.scrollTo({ top: top, behavior: "smooth" });
+  }
+
+  function loadMonth() {
+    var m = state.month, key = state.tz + "|" + ymd(m);
+    var start = m < today ? today : m;
+    var end = new Date(m.getFullYear(), m.getMonth() + 1, 0);
+    renderGrid(null);
+    if (state.cache[key]) { state.slots = state.cache[key]; renderGrid(state.slots); return; }
+    fetch(API + "&start=" + ymd(start) + "&end=" + ymd(end) + "&timeZone=" + encodeURIComponent(state.tz), { headers: { "cal-api-version": "2024-09-04" } })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (j) { state.cache[key] = (j && j.data) || {}; if (key === state.tz + "|" + ymd(state.month)) { state.slots = state.cache[key]; renderGrid(state.slots); } })
+      .catch(fallback);
+  }
+
+  function renderGrid(slots) {
+    var m = state.month;
+    $("m-month").textContent = m.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    var thisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    $("m-prev").disabled = m <= thisMonth;
+    $("m-next").disabled = (m.getFullYear() - thisMonth.getFullYear()) * 12 + m.getMonth() - thisMonth.getMonth() >= MAX_MONTHS_AHEAD;
+    var grid = $("m-grid"); grid.innerHTML = "";
+    var first = new Date(m.getFullYear(), m.getMonth(), 1).getDay();
+    var days = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
+    for (var i = 0; i < first; i++) grid.appendChild(document.createElement("span"));
+    var any = false;
+    for (var d = 1; d <= days; d++) {
+      var dt = new Date(m.getFullYear(), m.getMonth(), d), k = ymd(dt);
+      var b = document.createElement("button"); b.type = "button"; b.textContent = d; b.className = "m-day";
+      var open = slots && slots[k] && slots[k].length;
+      if (open) { any = true; b.classList.add("open"); b.setAttribute("aria-label", dt.toDateString() + ", available"); b.onclick = (function (key) { return function () { pickDate(key); }; })(k); }
+      else b.disabled = true;
+      if (k === state.date) b.classList.add("sel");
+      grid.appendChild(b);
+    }
+    $("m-grid-note").textContent = !slots ? "Loading available days…" : (any ? "Bold days have open times." : "No open times this month — try next month.");
+  }
+
+  function fmtTime(iso) { return new Date(iso).toLocaleTimeString("en-US", { timeZone: state.tz, hour: "numeric", minute: "2-digit" }); }
+  function fmtDay(key) { var p = key.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }); }
+
+  function pickDate(key) {
+    state.date = key;
+    $("m-day-title").textContent = fmtDay(key);
+    $("m-tz-note").textContent = "Times in " + tzLabel(state.tz);
+    var list = $("m-times"); list.innerHTML = "";
+    (state.slots[key] || []).forEach(function (s) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "m-time"; b.textContent = fmtTime(s.start);
+      b.onclick = function () { pickSlot(key, s.start); };
+      list.appendChild(b);
+    });
+    show("m-step-time");
+  }
+
+  var formN = 0;
+  function pickSlot(key, start) {
+    var iso = new Date(start).toISOString();
+    state.slot = iso;
+    $("m-summary").textContent = fmtDay(key) + " · " + fmtTime(start);
+    var wrap = $("m-form"); wrap.innerHTML = "";
+    var holder = document.createElement("div"); holder.id = "m-cal-" + (++formN); wrap.appendChild(holder);
+    Cal.ns.consultation("inline", {
+      elementOrSelector: "#" + holder.id,
+      calLink: "velaro/consultation",
+      config: { layout: "month_view", theme: "light", date: key, slot: iso }
+    });
+    Cal.ns.consultation("ui", { styles: { branding: { brandColor: "#111111" } }, hideEventTypeDetails: true, layout: "month_view" });
+    show("m-step-form");
+  }
+
+  // If Cal's API is unreachable, fall back to the regular Cal.com calendar.
+  var fellBack = false;
+  function fallback() {
+    if (fellBack) return; fellBack = true;
+    root.hidden = true; calEl.hidden = false; if (tzLine) tzLine.hidden = false;
+    Cal.ns.consultation("inline", { elementOrSelector: "#velaro-cal-embed", calLink: "velaro/consultation", config: { layout: "month_view", theme: "light" } });
+    Cal.ns.consultation("ui", { styles: { branding: { brandColor: "#111111" } }, hideEventTypeDetails: true, showTimezoneWhenEventDetailsHidden: true, layout: "month_view" });
+  }
+
+  $("m-prev").onclick = function () { state.month = new Date(state.month.getFullYear(), state.month.getMonth() - 1, 1); loadMonth(); };
+  $("m-next").onclick = function () { state.month = new Date(state.month.getFullYear(), state.month.getMonth() + 1, 1); loadMonth(); };
+  $("m-back-date").onclick = function () { renderGrid(state.slots); show("m-step-date"); };
+  $("m-back-time").onclick = function () { $("m-form").innerHTML = ""; show("m-step-time"); };
+  loadMonth();
+})();
+</script>
 </body>
 </html>
