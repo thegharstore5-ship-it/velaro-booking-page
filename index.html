@@ -53,31 +53,55 @@ src="https://www.facebook.com/tr?id=1782087639779673&ev=PageView&noscript=1"
     calLink: "velaro/consultation",
   });
   var isMobile = window.matchMedia("(max-width:640px)").matches;
-  // Mobile: hide the Velaro/30m/Cal Video/timezone block so the calendar sits right under the hero.
-  Cal.ns.consultation("ui", { "styles": { "branding": { "brandColor": "#111111" } }, "hideEventTypeDetails": isMobile, "showTimezoneWhenEventDetailsHidden": true, "layout": "month_view" });
-  // Mobile: when the visitor taps a date, the embed grows to show time slots below the calendar.
-  // Scroll them into view so there is no hunting. Only fires after a tap inside the embed,
-  // never on initial load.
+  // Mobile: the Cal iframe can grab focus / resize while loading and drag the page down.
+  // For the first 3s (until the visitor touches or scrolls themselves) pin the page to the top.
+  var loadedAt = Date.now(), userMoved = false;
   if (isMobile) {
-    var lastH = 0;
-    Cal.ns.consultation("on", {
-      action: "__dimensionChanged",
-      callback: function (e) {
-        var h = (e && e.detail && e.detail.data && e.detail.data.iframeHeight) || 0;
-        var grew = h > lastH + 60 && lastH > 0;
-        lastH = h;
-        var el = document.getElementById("velaro-cal-embed");
-        if (!grew || !el || !document.activeElement || document.activeElement.tagName !== "IFRAME") return;
-        // Month grid is ~400px tall with details hidden; land just above the slot list.
-        var top = el.getBoundingClientRect().top + window.scrollY + 380;
-        window.scrollTo({ top: top, behavior: "smooth" });
-      }
+    try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (_) {}
+    ["touchstart", "wheel", "keydown", "mousedown"].forEach(function (t) {
+      window.addEventListener(t, function () { userMoved = true; }, { passive: true, once: true });
     });
+    window.addEventListener("scroll", function () {
+      if (!userMoved && Date.now() - loadedAt < 3000 && window.scrollY > 0) window.scrollTo(0, 0);
+    }, { passive: true });
   }
+  Cal.ns.consultation("ui", { "styles": { "branding": { "brandColor": "#111111" } }, "hideEventTypeDetails": isMobile, "showTimezoneWhenEventDetailsHidden": true, "layout": "month_view" });
+  // Date tapped -> slots appear below the calendar: scroll them into view (mobile).
+  // Time picked -> booking form appears: scroll to the top of the card so the form is in view.
+  var lastH = 0, formShown = false;
+  Cal.ns.consultation("on", {
+    action: "__dimensionChanged",
+    callback: function (e) {
+      var h = (e && e.detail && e.detail.data && e.detail.data.iframeHeight) || 0;
+      var prev = lastH;
+      lastH = h;
+      var el = document.getElementById("velaro-cal-embed");
+      if (!el || Date.now() - loadedAt < 3000) return;
+      if (!document.activeElement || document.activeElement.tagName !== "IFRAME") return;
+      var card = el.closest(".cal-card") || el;
+      var cardTop = card.getBoundingClientRect().top + window.scrollY;
+      if (isMobile) {
+        if (h < 900) formShown = false;
+        if (!(h > prev + 60 && prev > 0)) return;
+        if (h >= 900 && prev < 900 && !formShown) {
+          formShown = true;
+          window.scrollTo({ top: cardTop - 12, behavior: "smooth" });
+          return;
+        }
+        // Month grid is ~400px tall with details hidden; land just above the slot list.
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + 380, behavior: "smooth" });
+      } else if (prev > 0 && Math.abs(h - prev) > 40 && card.getBoundingClientRect().top < 0) {
+        // Desktop: view changed (e.g. form opened) while the top of the card is scrolled off-screen.
+        window.scrollTo({ top: cardTop - 16, behavior: "smooth" });
+      }
+    }
+  });
   Cal.ns.consultation("on", {
     action: "bookingSuccessfulV2",
     callback: function (e) {
       var data = (e && e.detail && e.detail.data) || {};
+      var att = (data.attendees && data.attendees[0]) || data.booker || {};
+      window.velaroBookingUser = { email: att.email || "", name: att.name || "", phone: att.phoneNumber || "" };
       window.velaroShowConfirmation({
         title: data.title || "Velaro Free Consultation",
         startTime: data.startTime || "",
@@ -449,7 +473,7 @@ window.velaroShowConfirmation = function (booking) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   if (typeof window.velaroTrack === "function") {
-    window.velaroTrack("Schedule", { content_name: "Free Consultation Booking" });
+    window.velaroTrack("Schedule", { content_name: "Free Consultation Booking" }, window.velaroBookingUser || {});
   }
 
   var sound = document.getElementById("booking-sound");
