@@ -54,7 +54,7 @@ src="https://www.facebook.com/tr?id=1782087639779673&ev=PageView&noscript=1"
   });
   var isMobile = window.matchMedia("(max-width:640px)").matches;
   // Mobile: hide the Velaro/30m/Cal Video/timezone block so the calendar sits right under the hero.
-  Cal.ns.consultation("ui", { "styles": { "branding": { "brandColor": "#111111" } }, "hideEventTypeDetails": isMobile, "layout": "month_view" });
+  Cal.ns.consultation("ui", { "styles": { "branding": { "brandColor": "#111111" } }, "hideEventTypeDetails": isMobile, "showTimezoneWhenEventDetailsHidden": true, "layout": "month_view" });
   // Mobile: when the visitor taps a date, the embed grows to show time slots below the calendar.
   // Scroll them into view so there is no hunting. Only fires after a tap inside the embed,
   // never on initial load.
@@ -247,7 +247,7 @@ footer{padding:28px 0 44px; text-align:center; border-top:1px solid var(--border
   <section id="calendar-section">
     <div class="wrap">
       <div class="cal-card">
-        <p class="tz-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span id="tz-text">Detecting your timezone…</span></p>
+        <p class="tz-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span id="tz-text">Your timezone is detected automatically — tap it below to change.</span></p>
         <div id="velaro-cal-embed"></div>
       </div>
     </div>
@@ -480,22 +480,6 @@ window.velaroShowConfirmation = function (booking) {
   }
   document.addEventListener("pointerdown", unlockAudio, { once: true, capture: true });
   document.addEventListener("keydown", unlockAudio, { once: true, capture: true });
-})();
-</script>
-<script>
-(function () {
-  try {
-    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    var parts = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'long' }).formatToParts(new Date());
-    var longName = parts.find(function (part) { return part.type === 'timeZoneName'; }).value;
-    var offsetParts = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'shortOffset' }).formatToParts(new Date());
-    var offset = offsetParts.find(function (part) { return part.type === 'timeZoneName'; }).value;
-    var label = document.getElementById('tz-text');
-    if (label) label.textContent = 'Times shown in ' + longName + ' (' + offset + ') · ' + tz.replace(/_/g, ' ');
-  } catch (e) {
-    var label = document.getElementById('tz-text');
-    if (label) label.textContent = 'Times shown in your local timezone';
-  }
 })();
 </script>
 
