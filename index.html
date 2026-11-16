@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <!-- Meta Pixel Code -->
 <script>
@@ -66,7 +66,7 @@ src="https://www.facebook.com/tr?id=1782087639779673&ev=PageView&noscript=1"
       if (!userMoved && Date.now() - loadedAt < 3000 && window.scrollY > 0) window.scrollTo(0, 0);
     }, { passive: true });
   }
-  Cal.ns.consultation("ui", { "styles": { "branding": { "brandColor": "#111111" } }, "hideEventTypeDetails": isMobile, "showTimezoneWhenEventDetailsHidden": true, "layout": "month_view" });
+  Cal.ns.consultation("ui", { "styles": { "branding": { "brandColor": "#12564F" } }, "hideEventTypeDetails": isMobile, "showTimezoneWhenEventDetailsHidden": true, "layout": "month_view" });
   // Mobile: date tapped -> scroll the time slots into view; time tapped -> scroll to the booking form.
   // Cal sends __routeChanged for both, followed by __dimensionChanged. We tell them apart by where the
   // visitor is looking: if the viewport is already down at the slot list, they tapped a time.
@@ -112,185 +112,206 @@ src="https://www.facebook.com/tr?id=1782087639779673&ev=PageView&noscript=1"
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --black:#000000;
-  --panel:#0e0e0e;
-  --gold:#F2CF4A;
-  --gold-deep:#C9A227;
-  --gold-text:#F5C93A;
-  --gold-tint:rgba(242,207,74,0.08);
-  --border:rgba(242,207,74,0.28);
-  --border-soft:rgba(255,255,255,0.10);
+  --paper:#FAF6EE;
+  --paper-deep:#F1E9DA;
+  --ink:#1E1B15;
+  --ink-dim:#5C5647;
+  --ink-dimmer:#948C77;
+  --teal:#12564F;
+  --teal-deep:#0B3A35;
+  --teal-tint:rgba(18,86,79,0.07);
+  --teal-tint-strong:rgba(18,86,79,0.13);
+  --terracotta:#B34F2C;
+  --terracotta-deep:#8A3B20;
+  --terracotta-tint:rgba(179,79,44,0.09);
+  --border:rgba(30,27,21,0.14);
+  --border-soft:rgba(30,27,21,0.09);
   --white:#ffffff;
-  --dim:rgba(255,255,255,0.70);
-  --dimmer:rgba(255,255,255,0.45);
 }
 html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
 body{
-  background:var(--black); color:var(--white);
-  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;
-  line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased;
+  background:var(--paper); color:var(--ink);
+  font-family:'Public Sans',-apple-system,sans-serif; line-height:1.65; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 1px 1px, rgba(30,27,21,0.05) 1px, transparent 0);
+  background-size:22px 22px;
 }
 a{color:inherit}
-.wrap{max-width:900px;margin:0 auto;padding:0 20px}
-.wrap-narrow{max-width:680px;margin:0 auto;padding:0 20px}
-
-/* ── TOP BAR ── */
-.top-bar, .steps-banner{
-  background:linear-gradient(90deg,#E8C547 0%,#F4D664 45%,#E2BD3E 80%,#C49A2C 100%);
-  color:#111; text-align:center; font-weight:700; font-size:17px; line-height:1.35;
-  padding:12px 16px;
-}
-
-/* ── HERO ── */
-#hero{padding:44px 0 40px; text-align:center}
-#hero h1{
-  font-weight:800; font-size:clamp(1.7rem,3.6vw,2.45rem); line-height:1.28;
-  letter-spacing:-0.01em; max-width:820px; margin:0 auto 28px; color:var(--white);
-}
-.hl{color:var(--gold-text)}
-#hero h1{margin-bottom:22px}
-#hero h1{font-weight:800}
-#hero{--gold-text:#D4AF37}
-#hero h1{text-shadow:0 0 12px rgba(255,255,255,.22)}
-#hero h1 .hl{font-weight:900; text-shadow:0 0 12px rgba(212,175,55,.38)}
-#hero h1 .hl-under{white-space:nowrap; text-decoration:underline; text-decoration-color:rgba(212,175,55,.7); text-decoration-thickness:.1em; text-underline-offset:.16em; text-decoration-skip-ink:none}
-.hero-sub{display:inline-block; font-weight:700; font-size:clamp(1.05rem,2vw,1.35rem); line-height:1.3; color:var(--white);
-  margin:0 auto 26px}
-.hero-sub .hl{color:var(--gold-text)}
-.hero-cta-line{color:var(--gold-text); font-weight:700; font-size:clamp(1rem,1.8vw,1.2rem)}
-.bounce{display:inline-block; animation:bounce 1.6s ease-in-out infinite; margin:0 6px; vertical-align:middle}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
-
-/* ── CAL EMBED CARD ── */
-#calendar-section{padding:0 0 80px}
-.cal-card{background:var(--white); border-radius:6px; overflow:hidden}
-.tz-line{display:flex; align-items:center; gap:8px; padding:16px 24px 0; color:#555; font-size:13px; line-height:1.4}
-.tz-line svg{width:16px; height:16px; flex:none}
-#velaro-cal-embed{width:100%; min-height:600px; overflow:auto}
-
-/* ── POST-BOOKING ── */
-#post-booking{padding-bottom:80px; background:#0b0b0b}
-.steps-banner{background:#D4AF37; font-size:clamp(1.4rem,3vw,2rem); font-weight:800; padding:18px 16px; background-image:none}
-.pb-intro{text-align:center; padding:40px 0 34px}
-.progress{
-  max-width:560px; margin:0 auto 34px; height:48px; border-radius:100px; overflow:hidden;
-  background:rgba(212,175,55,0.15);
-}
-.progress-fill{
-  width:100%; height:100%; border-radius:100px;
-  background:linear-gradient(90deg,#B8860B 0%,#C9971E 45%,#D9B23A 100%);
-  display:flex; align-items:center; justify-content:center;
-  color:#111; font-weight:800; font-size:17px; letter-spacing:0.01em;
-}
-.pb-warning{font-size:clamp(0.95rem,1.9vw,1.2rem); font-weight:800; color:#F7F2E7; margin-bottom:34px}
-.pb-warning u{text-decoration-color:#D4AF37; text-decoration-thickness:2px; text-underline-offset:4px}
-.pb-h2{font-weight:800; font-size:clamp(1.9rem,4.4vw,2.9rem); line-height:1.2; color:#F7F2E7; max-width:860px; margin:0 auto}
-.step-block{padding:0 0 52px}
-.step-line{text-align:center; font-size:clamp(1.05rem,2vw,1.3rem); color:#F7F2E7; margin-bottom:20px}
-.step-line b{color:#D4AF37; font-weight:800}
-
-.confirm{text-align:center; margin-bottom:28px}
-.confirm-sub{font-size:15px; color:var(--dim)}
-.checkmark{
-  width:56px; height:56px; border-radius:50%; background:var(--gold);
-  display:flex; align-items:center; justify-content:center; margin:0 auto 18px;
-}
-.checkmark svg{width:26px; height:26px}
-.checkmark svg path{stroke:#111}
-
-.meet-card{background:var(--panel); border:1px solid var(--border-soft); border-radius:6px; overflow:hidden; margin-bottom:28px}
-.meet-row{display:grid; grid-template-columns:110px 1fr; gap:18px; padding:16px 24px; border-bottom:1px solid var(--border-soft)}
-.meet-row:last-child{border-bottom:none}
-.meet-label{font-size:13px; font-weight:700; color:var(--dimmer); padding-top:2px}
-.meet-value{font-size:15px; color:var(--white); line-height:1.55; white-space:pre-line}
-.meet-value a{color:var(--gold-text); text-decoration:underline}
-
-.cal-add{display:flex; align-items:center; flex-wrap:wrap; gap:10px; padding:18px 24px; background:#151515}
-.cal-add-label{font-size:13px; font-weight:700; color:var(--gold-text); margin-right:4px}
-.cal-btn{
-  display:inline-flex; align-items:center; gap:8px; justify-content:center;
-  height:38px; padding:0 14px; border-radius:6px; background:#000; border:1px solid var(--border-soft);
-  text-decoration:none; transition:border-color .15s; font-size:13px; font-weight:700; color:var(--white);
-}
-.cal-btn:hover{border-color:var(--gold)}
-.cal-btn svg{width:15px; height:15px; flex-shrink:0}
-
-.next-card{background:var(--panel); border:1px solid var(--border); border-radius:6px; padding:24px 26px; text-align:left; margin-bottom:22px}
-.next-card h3{font-size:13px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-text); margin-bottom:14px}
-.next-list{list-style:none; display:flex; flex-direction:column; gap:12px}
-.next-list li{display:flex; align-items:flex-start; gap:10px; font-size:15px; color:var(--dim)}
-.next-list li::before{content:'✓'; flex-shrink:0; width:18px; height:18px; border-radius:50%; background:var(--gold); color:#111; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:3px}
-
-.manage-line{text-align:center; font-size:13px; color:var(--dimmer)}
-.manage-line a{color:var(--gold-text); text-decoration:underline}
-
-/* ── TESTIMONIALS ── */
-.testi-block{padding:8px 0 0}
-.testi-title{font-weight:800; font-size:clamp(1.4rem,3.2vw,1.8rem); text-align:center; margin-bottom:26px}
-.testi-grid{column-count:2; column-gap:14px}
-.testi-grid img{width:100%; display:block; margin:0 0 14px; border-radius:6px; border:1px solid var(--border-soft); break-inside:avoid}
-
-/* ── FOOTER ── */
-footer{padding:28px 0 44px; text-align:center; border-top:1px solid var(--border-soft)}
-.foot-text{font-size:12.5px; color:var(--dimmer)}
-
-/* ── MOBILE 3-STEP BOOKER ── */
-#m-booker{color:#111; padding:20px 16px 24px}
-.m-kicker{font-size:12px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:#9A7410; margin-bottom:12px}
-.m-tz{display:flex; align-items:center; gap:8px; border:1px solid #e5e7eb; border-radius:8px; padding:0 10px; margin-bottom:18px; color:#555}
-.m-tz svg{width:16px; height:16px; flex:none}
-.m-tz select{flex:1; min-width:0; border:0; background:transparent; font:inherit; font-size:14px; color:#111; padding:11px 0; -webkit-appearance:menulist}
-.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
-.m-cal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px}
-.m-cal-head strong{font-size:17px}
-.m-cal-head button{width:40px; height:40px; border-radius:8px; border:1px solid #e5e7eb; background:#fff; font-size:22px; line-height:1; color:#111}
-.m-cal-head button:disabled{opacity:0.3}
-.m-dow,.m-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center}
-.m-dow span{font-size:11px; font-weight:700; text-transform:uppercase; color:#6b7280; padding:6px 0}
-.m-day{aspect-ratio:1; border:0; border-radius:8px; background:transparent; font:inherit; font-size:15px; color:#c4c4c4}
-.m-day.open{background:#f1f1f1; color:#111; font-weight:800}
-.m-day.sel{background:#111; color:#fff}
-.m-note{font-size:13px; color:#6b7280; margin-top:12px}
-.m-back{border:0; background:none; font:inherit; font-size:14px; font-weight:700; color:#111; padding:4px 0; margin-bottom:12px}
-.m-title{font-size:19px; font-weight:800; line-height:1.3}
-#m-step-time .m-note{margin:4px 0 16px}
-.m-times{display:flex; flex-direction:column; gap:10px}
-.m-time{height:52px; border:1.5px solid #111; border-radius:8px; background:#fff; font:inherit; font-size:16px; font-weight:700; color:#111}
-.m-time:active{background:#111; color:#fff}
-#m-step-form .m-title{margin-bottom:8px}
-#m-form{margin:0 -16px; min-height:560px}
-
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.wrap-narrow{max-width:680px;margin:0 auto;padding:0 22px}
+h2,h3{font-family:'Fraunces',serif; font-weight:600; line-height:1.18; letter-spacing:-0.01em; color:var(--ink)}
+.hl{font-style:italic; color:var(--teal)}
 [hidden]{display:none!important}
 
+/* ── HEADER ── */
+header{padding:24px 0 20px; text-align:center}
+.logo{display:inline-flex; align-items:center; gap:9px; text-decoration:none}
+.logo-word{font-family:'Fraunces',serif; font-size:20px; font-weight:600; letter-spacing:0.01em; color:var(--ink)}
+
+/* ── HERO HEADLINE ── */
+#hero{padding:26px 0 8px; text-align:center}
+#hero h1{
+  font-family:'Fraunces',serif; font-weight:600; line-height:1.14; letter-spacing:-0.01em; color:var(--ink);
+  font-size:clamp(2.1rem,6vw,3rem); max-width:640px; margin:0 auto 22px;
+}
+#hero h1 .hl{position:relative; display:inline-block; white-space:nowrap; font-style:italic; color:var(--teal)}
+#hero h1 .hl::after{
+  content:''; position:absolute; left:-2%; right:-2%; bottom:-0.06em; height:0.14em;
+  background:var(--terracotta); border-radius:2px; opacity:0.55;
+  transform:scaleX(0); transform-origin:left; animation:drawUnderline 0.9s 0.5s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes drawUnderline{to{transform:scaleX(1)}}
+.hero-cta-line{
+  color:var(--teal); font-weight:700; font-size:14.5px; margin-bottom:28px;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  text-transform:uppercase; letter-spacing:0.08em;
+}
+.hero-cta-line .rule{width:28px; height:1px; background:var(--border)}
+@media (prefers-reduced-motion:reduce){ #hero h1 .hl::after{animation:none; transform:scaleX(1)} }
 @media (max-width:640px){
-  .top-bar{font-size:12.5px; padding:9px 12px; line-height:1.3}
-  .steps-banner{font-size:1.25rem; padding:14px}
-  .progress{height:38px; margin-bottom:24px}
-  .pb-warning{margin-bottom:22px}
-  #hero{padding:30px 0 26px}
-  #hero h1{font-size:clamp(1.4rem,6.6vw,1.75rem); line-height:1.3; margin-bottom:18px}
-  .hero-sub{font-size:15px; margin:0 auto 18px}
-  .hero-cta-line{font-size:13.5px}
-  .bounce{margin:0 3px}
-  .tz-line{font-size:11.5px; padding:12px 14px 0}
-  .wrap{padding:0 12px}
-  #velaro-cal-embed{min-height:520px}
-  .meet-row{grid-template-columns:1fr; gap:4px}
+  #hero{padding:14px 0 4px}
+  #hero h1{font-size:clamp(1.55rem,7vw,2.1rem); margin-bottom:16px}
+  .hero-cta-line{font-size:12px; margin-bottom:18px; gap:8px}
+  .hero-cta-line .rule{width:18px}
+}
+@media (max-width:420px){
+  .hero-cta-line{font-size:11.5px; letter-spacing:0.05em}
+  .hero-cta-line .rule{display:none}
+}
+
+/* ── CALENDAR ── */
+#calendar-section{padding:4px 0 70px}
+.cal-card{
+  background:var(--white); border:1px solid var(--border); border-radius:6px; overflow:hidden; position:relative;
+  box-shadow:0 1px 2px rgba(30,27,21,0.04), 0 14px 34px rgba(30,27,21,0.07);
+}
+.cal-card::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:4px; z-index:1;
+  background:linear-gradient(90deg, var(--teal), var(--terracotta));
+}
+#velaro-cal-embed{width:100%; min-height:760px; overflow:auto; padding-top:4px}
+
+/* ── POST-BOOKING ── */
+#post-booking{padding-bottom:80px}
+.steps-banner{background:var(--teal); color:var(--paper); text-align:center; padding:13px 20px; font-weight:600; font-size:13.5px; letter-spacing:0.03em}
+.steps-banner b{color:#F2D9C4}
+.pb-intro{text-align:center; padding:44px 0 36px}
+.pb-kicker{font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:14px}
+.pb-h2{font-size:clamp(1.7rem,4.2vw,2.3rem); margin-bottom:12px}
+.pb-sub{font-size:15px; color:var(--ink-dim); max-width:460px; margin:0 auto}
+.pb-warning{
+  display:inline-block; margin-top:22px; padding:9px 16px; border-radius:6px;
+  font-size:13px; font-weight:800; color:var(--terracotta-deep); letter-spacing:0.04em; text-transform:uppercase;
+  background:var(--terracotta-tint); border:1px solid rgba(179,79,44,0.25);
+}
+
+.step-block{padding:0 0 52px}
+.step-tag{display:flex; align-items:center; gap:12px; margin-bottom:18px}
+.step-num{
+  width:28px; height:28px; border-radius:50%; background:var(--teal); color:var(--paper);
+  font-family:'Fraunces',serif; font-size:14px; font-weight:600; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.step-title{font-family:'Fraunces',serif; font-size:19px; font-weight:600}
+.video-frame{border:1px solid var(--border); border-radius:8px; padding:8px; background:var(--white); box-shadow:0 14px 34px rgba(30,27,21,0.06)}
+
+.confirm{text-align:center; margin-bottom:26px}
+.checkmark{width:56px; height:56px; border-radius:50%; background:var(--teal-tint); border:1px solid var(--teal-tint-strong); display:flex; align-items:center; justify-content:center; margin:0 auto 18px}
+.checkmark svg{width:24px; height:24px}
+.confirm-sub{color:var(--ink-dim); font-size:14.5px; max-width:440px; margin:0 auto}
+
+.meet-card{background:var(--white); border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-bottom:28px}
+.meet-row{display:grid; grid-template-columns:110px 1fr; gap:18px; padding:16px 24px; border-bottom:1px solid var(--border-soft)}
+.meet-label{font-size:11.5px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-dimmer); padding-top:3px}
+.meet-value{font-size:14.5px; color:var(--ink); line-height:1.55; white-space:pre-line}
+.meet-value a{color:var(--teal); font-weight:600}
+.cal-add{display:flex; align-items:center; flex-wrap:wrap; gap:10px; padding:18px 24px; background:var(--paper-deep)}
+.cal-add-label{font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--teal); margin-right:4px}
+.cal-btn{
+  display:inline-flex; align-items:center; gap:8px; height:38px; padding:0 14px; border-radius:8px;
+  background:var(--white); border:1px solid var(--border); text-decoration:none;
+  font-size:12.5px; font-weight:700; color:var(--ink); transition:border-color 0.15s, transform 0.15s;
+}
+.cal-btn:hover{border-color:var(--teal); transform:translateY(-1px)}
+.cal-btn svg{width:15px; height:15px; flex-shrink:0}
+
+.next-card{background:var(--white); border:1px solid var(--border-soft); border-left:3px solid var(--terracotta); border-radius:6px; padding:24px 26px; margin-bottom:22px}
+.next-card h3{font-family:'Public Sans',sans-serif; font-size:11.5px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); margin-bottom:14px}
+.next-list{list-style:none; display:flex; flex-direction:column; gap:12px}
+.next-list li{display:flex; align-items:flex-start; gap:12px; font-size:14.5px; color:var(--ink-dim)}
+.next-list li::before{content:'✓'; flex-shrink:0; width:20px; height:20px; border-radius:50%; background:var(--teal-tint); color:var(--teal); font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px}
+.manage-line{text-align:center; font-size:13px; color:var(--ink-dimmer)}
+.manage-line a{color:var(--teal); font-weight:600}
+
+.testi-title{font-size:clamp(1.45rem,3.6vw,1.85rem); text-align:center; margin-bottom:26px}
+.testi-grid{column-count:2; column-gap:16px}
+.testi-grid img{width:100%; display:block; margin:0 0 16px; border-radius:8px; border:1px solid var(--border-soft); break-inside:avoid; background:var(--white)}
+
+footer{padding:30px 0 44px; text-align:center; border-top:1px solid var(--border-soft)}
+.foot-text{font-size:11.5px; color:var(--ink-dimmer); font-weight:600}
+
+@media (max-width:640px){
+  .wrap,.wrap-narrow{padding:0 16px}
+  header{padding:18px 0 14px}
+  #velaro-cal-embed{min-height:640px}
+  .meet-row{grid-template-columns:1fr; gap:4px; padding:14px 18px}
+  .cal-add{padding:16px 18px}
   .testi-grid{column-count:1}
 }
+
+/* ── TIMEZONE LINE + MOBILE 3-STEP BOOKER ── */
+.tz-line{display:flex; align-items:center; gap:8px; padding:18px 24px 0; color:var(--ink-dim); font-size:13px; line-height:1.4}
+.tz-line svg{width:16px; height:16px; flex:none; color:var(--teal)}
+#m-booker{color:var(--ink); padding:22px 16px 24px}
+.m-kicker{font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:12px}
+.m-tz{display:flex; align-items:center; gap:8px; border:1px solid var(--border); border-radius:6px; padding:0 10px; margin-bottom:18px; color:var(--teal); background:var(--paper)}
+.m-tz svg{width:16px; height:16px; flex:none}
+.m-tz select{flex:1; min-width:0; border:0; background:transparent; font:inherit; font-size:14px; color:var(--ink); padding:11px 0; -webkit-appearance:menulist}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+.m-cal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px}
+.m-cal-head strong{font-family:'Fraunces',serif; font-size:18px; font-weight:600}
+.m-cal-head button{width:40px; height:40px; border-radius:6px; border:1px solid var(--border); background:var(--white); font-size:22px; line-height:1; color:var(--teal)}
+.m-cal-head button:disabled{opacity:0.3}
+.m-dow,.m-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center}
+.m-dow span{font-size:11px; font-weight:700; text-transform:uppercase; color:var(--ink-dimmer); padding:6px 0}
+.m-day{aspect-ratio:1; border:0; border-radius:6px; background:transparent; font:inherit; font-size:15px; color:#CFC7B6}
+.m-day.open{background:var(--teal-tint-strong); color:var(--teal-deep); font-weight:800}
+.m-day.sel{background:var(--teal); color:var(--paper)}
+.m-note{font-size:13px; color:var(--ink-dimmer); margin-top:12px}
+.m-back{border:0; background:none; font:inherit; font-size:14px; font-weight:700; color:var(--teal); padding:4px 0; margin-bottom:12px}
+.m-title{font-family:'Fraunces',serif; font-size:20px; font-weight:600; line-height:1.3}
+#m-step-time .m-note{margin:4px 0 16px}
+.m-times{display:flex; flex-direction:column; gap:10px}
+.m-time{height:52px; border:1.5px solid var(--teal); border-radius:6px; background:var(--white); font:inherit; font-size:16px; font-weight:700; color:var(--teal)}
+.m-time:active{background:var(--teal); color:var(--paper)}
+#m-step-form .m-title{margin-bottom:8px}
+#m-form{margin:0 -16px; min-height:560px}
+@media (max-width:640px){ .tz-line{font-size:11.5px; padding:14px 14px 0} }
 </style>
 </head>
 <body>
 
+<header>
+  <span class="logo">
+    <svg width="22" height="24" viewBox="0 0 56 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 5 L15 5 L30 54 L25.5 54 Z" fill="#12564F"/>
+      <path d="M55 5 L46 5 L30 54 L34.5 54 Z" fill="#12564F"/>
+      <rect x="0" y="3" width="17" height="3" fill="#12564F"/>
+      <rect x="0" y="3" width="3" height="9" fill="#12564F"/>
+      <rect x="39" y="3" width="17" height="3" fill="#12564F"/>
+      <rect x="53" y="3" width="3" height="9" fill="#12564F"/>
+      <circle cx="21" cy="33" r="2.8" stroke="#12564F" stroke-width="1.2" fill="#FAF6EE"/>
+      <line x1="21" y1="33" x2="30" y2="54" stroke="#12564F" stroke-width="0.9"/>
+    </svg>
+    <span class="logo-word">Velaro</span>
+  </span>
+</header>
 
-<!-- ══════════ LANDING VIEW — hero + calendar (default view) ══════════ -->
+<!-- ══════════ LANDING VIEW — headline + calendar ══════════ -->
 <div id="landing-view">
-  <div class="top-bar">PI Law Firms Losing Cases To Missed Calls</div>
   <section id="hero">
     <div class="wrap">
-      <h1>Implement Our <span class="hl">AI Intake System</span> And Watch Your Missed Calls Turn Into <span class="hl hl-under">Qualified Bookings</span> On Your Calendar 24/7</h1>
-      <p class="hero-sub">Turn Missed Calls Into <span class="hl">Paying Clients</span></p>
-      <div class="hero-cta-line"><span class="bounce">👇</span> Schedule A Call To See How It Works <span class="bounce">👇</span></div>
+      <h1>Implement Our AI Intake System And Watch Your Missed After-Hours Calls Turn Into <span class="hl">Qualified Bookings</span> On Your Calendar</h1>
+      <div class="hero-cta-line"><span class="rule"></span> Pick A Time Below To Book Your Free Call <span class="rule"></span></div>
     </div>
   </section>
 
@@ -329,75 +350,69 @@ footer{padding:28px 0 44px; text-align:center; border-top:1px solid var(--border
 
 <!-- ══════════ POST-BOOKING VIEW — replaces landing view once booked ══════════ -->
 <div id="post-booking" hidden>
-  <div class="steps-banner">Few More Steps..</div>
+  <div class="steps-banner">You're Booked — <b>Just A Couple Quick Things Below</b></div>
 
-  <div class="pb-intro wrap">
-    <div class="progress" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><div class="progress-fill">Almost There · 65%</div></div>
-    <div class="pb-warning">⚠️ IMPORTANT: YOUR CALL IS <u>NOT</u> CONFIRMED YET...</div>
-    <h2 class="pb-h2">Watch The Short Video Below To Confirm Your Call</h2>
+  <div class="pb-intro wrap-narrow">
+    <div class="pb-kicker">Few More Steps</div>
+    <h2 class="pb-h2">Let's Get You <span class="hl">Ready For The Call</span></h2>
+    <p class="pb-sub">Takes less than a minute — watch the quick video, then add the call to your calendar.</p>
+    <div class="pb-warning">Important: your call is not confirmed yet</div>
   </div>
 
   <!-- STEP 1 — VIDEO -->
   <section class="step-block wrap-narrow">
-    <p class="step-line"><b>Step 1:</b> Watch The Short Video Below</p>
-
-    <div style="position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;">
-      <iframe
-            loading="lazy" title="Gumlet video player"
-            src="https://play.gumlet.io/embed/6a91ce977daed480307fa1d3?background=false&autoplay=false&loop=false&disable_player_controls=false"
-            style="border:none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+    <div class="step-tag">
+      <span class="step-num">1</span>
+      <span class="step-title">Watch This Short Video</span>
+    </div>
+    <div class="video-frame">
+      <div style="position:relative;aspect-ratio:16/9;border-radius:6px;overflow:hidden;">
+        <iframe
+          loading="lazy" title="Gumlet video player"
+          src="https://play.gumlet.io/embed/6a91ce977daed480307fa1d3?background=false&autoplay=false&loop=false&disable_player_controls=false"
+          style="border:none; position:absolute; top:0; left:0; height:100%; width:100%;"
           referrerpolicy="origin"
           allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;clipboard-write;">
-          </iframe>
+        </iframe>
+      </div>
     </div>
   </section>
 
   <!-- STEP 2 — ADD TO CALENDAR -->
   <section class="step-block wrap-narrow">
-    <p class="step-line"><b>Step 2:</b> Add Your Consultation To Your Calendar</p>
+    <div class="step-tag">
+      <span class="step-num">2</span>
+      <span class="step-title">Add Your Consultation To Your Calendar</span>
+    </div>
 
     <div class="confirm">
       <div class="checkmark">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 13l4 4L19 7" stroke="#F0CF5E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#12564F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <p class="confirm-sub">Your free consultation with Velaro is confirmed. Add it to your calendar below so you don't miss it.</p>
+      <p class="confirm-sub">Your free consultation with Velaro is booked. Add it to your calendar below so you don't miss it.</p>
     </div>
 
     <div class="meet-card">
-      <div class="meet-row">
-        <div class="meet-label">What</div>
-        <div class="meet-value" id="meet-what">—</div>
-      </div>
-      <div class="meet-row">
-        <div class="meet-label">When</div>
-        <div class="meet-value" id="meet-when">—</div>
-      </div>
-      <div class="meet-row">
-        <div class="meet-label">Who</div>
-        <div class="meet-value">You &amp; the Velaro team</div>
-      </div>
-      <div class="meet-row" id="meet-where-row" hidden>
-        <div class="meet-label">Where</div>
-        <div class="meet-value" id="meet-where">—</div>
-      </div>
+      <div class="meet-row"><div class="meet-label">What</div><div class="meet-value" id="meet-what">—</div></div>
+      <div class="meet-row"><div class="meet-label">When</div><div class="meet-value" id="meet-when">—</div></div>
+      <div class="meet-row"><div class="meet-label">Who</div><div class="meet-value">You &amp; the Velaro team</div></div>
+      <div class="meet-row" id="meet-where-row" hidden><div class="meet-label">Where</div><div class="meet-value" id="meet-where">—</div></div>
       <div class="cal-add">
         <span class="cal-add-label">Add to calendar</span>
         <a class="cal-btn" id="cal-google" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="#F0CF5E" stroke-width="1.6"/><path d="M3 9h18" stroke="#F0CF5E" stroke-width="1.6"/><path d="M8 2v4M16 2v4" stroke="#F0CF5E" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="#12564F" stroke-width="1.6"/><path d="M3 9h18" stroke="#12564F" stroke-width="1.6"/><path d="M8 2v4M16 2v4" stroke="#12564F" stroke-width="1.6" stroke-linecap="round"/></svg>
           Google
         </a>
         <a class="cal-btn" id="cal-outlook" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="#F0CF5E" stroke-width="1.6"/><path d="M7 9l5 4 5-4" stroke="#F0CF5E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="#12564F" stroke-width="1.6"/><path d="M7 9l5 4 5-4" stroke="#12564F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Outlook
         </a>
         <a class="cal-btn" id="cal-office365" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" fill="#F0CF5E"/><rect x="13" y="3" width="8" height="8" fill="none" stroke="#F0CF5E" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" fill="none" stroke="#F0CF5E" stroke-width="1.6"/><rect x="13" y="13" width="8" height="8" fill="none" stroke="#F0CF5E" stroke-width="1.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" fill="#12564F"/><rect x="13" y="3" width="8" height="8" stroke="#12564F" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" stroke="#12564F" stroke-width="1.6"/><rect x="13" y="13" width="8" height="8" stroke="#12564F" stroke-width="1.6"/></svg>
           Office 365
         </a>
         <a class="cal-btn" id="cal-ics" download="velaro-consultation.ics">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke="#F0CF5E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4" stroke="#F0CF5E" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke="#12564F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4" stroke="#12564F" stroke-width="1.8" stroke-linecap="round"/></svg>
           Apple / iCal
         </a>
       </div>
@@ -416,7 +431,7 @@ footer{padding:28px 0 44px; text-align:center; border-top:1px solid var(--border
   </section>
 
   <!-- TESTIMONIALS -->
-  <section class="testi-block wrap-narrow">
+  <section class="wrap-narrow">
     <h3 class="testi-title">Here's What Our Clients Have To Say</h3>
     <div class="testi-grid">
       <img src="assets/small/testimonial-best-decision.jpg" alt="Client message: Best decision we've made this year — more consultations, less stress, no missed calls." loading="lazy">
@@ -666,7 +681,7 @@ window.velaroShowConfirmation = function (booking) {
       calLink: "velaro/consultation",
       config: { layout: "month_view", theme: "light", date: key, slot: iso }
     });
-    Cal.ns.consultation("ui", { styles: { branding: { brandColor: "#111111" } }, hideEventTypeDetails: true, layout: "month_view" });
+    Cal.ns.consultation("ui", { styles: { branding: { brandColor: "#12564F" } }, hideEventTypeDetails: true, layout: "month_view" });
     show("m-step-form");
   }
 
@@ -676,7 +691,7 @@ window.velaroShowConfirmation = function (booking) {
     if (fellBack) return; fellBack = true;
     root.hidden = true; calEl.hidden = false; if (tzLine) tzLine.hidden = false;
     Cal.ns.consultation("inline", { elementOrSelector: "#velaro-cal-embed", calLink: "velaro/consultation", config: { layout: "month_view", theme: "light" } });
-    Cal.ns.consultation("ui", { styles: { branding: { brandColor: "#111111" } }, hideEventTypeDetails: true, showTimezoneWhenEventDetailsHidden: true, layout: "month_view" });
+    Cal.ns.consultation("ui", { styles: { branding: { brandColor: "#12564F" } }, hideEventTypeDetails: true, showTimezoneWhenEventDetailsHidden: true, layout: "month_view" });
   }
 
   $("m-prev").onclick = function () { state.month = new Date(state.month.getFullYear(), state.month.getMonth() - 1, 1); loadMonth(); };
