@@ -49,7 +49,8 @@ h1 em{font-style:normal;color:#d6c2ff}
 .sub{max-width:680px;margin:16px auto 0;font-size:clamp(16px,2vw,20px);color:#c7c5dc;text-wrap:balance}
 
 .vwrap{max-width:760px;margin:26px auto 0;position:relative;z-index:1;transform:translateY(0)}
-.vsl{border-radius:10px;overflow:hidden;background:#000;box-shadow:0 30px 70px -20px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08)}
+.vsl{border-radius:10px;overflow:hidden;background:#000;border:3px solid #9b5cff;
+  box-shadow:0 0 0 1px rgba(155,92,255,.4),0 0 22px var(--purple-glow),0 0 60px rgba(123,47,247,.5),0 30px 70px -20px rgba(0,0,0,.7)}
 .vsl wistia-player{display:block;width:100%}
 wistia-player[media-id='rreo7ssmyj']:not(:defined){background:center / contain no-repeat url('https://fast.wistia.com/embed/medias/rreo7ssmyj/swatch');display:block;filter:blur(5px);padding-top:56.25%}
 /* video straddles the dark band and the white section, like the reference */
@@ -59,6 +60,11 @@ wistia-player[media-id='rreo7ssmyj']:not(:defined){background:center / contain n
 /* ── WHITE SECTION ── */
 .pitch{text-align:center;padding:30px 0 56px}
 .pitch p.desc{max-width:620px;margin:0 auto;font-size:clamp(15.5px,1.8vw,17.5px);color:var(--text);text-wrap:balance}
+.pitch p.qualify{margin:0;font-family:Poppins,sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,26px);color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:6px}
+.qarrow{color:var(--purple);display:block;animation:qbounce 1.4s ease-in-out infinite}
+@keyframes qbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+@media (prefers-reduced-motion:reduce){.qarrow{animation:none}}
+.pitch p.qualify+.cta{margin-top:14px}
 .pitch p.desc b{color:var(--ink);font-weight:700}
 .cta{display:inline-block;margin-top:24px;border:0;cursor:pointer;text-decoration:none;font-family:Poppins,sans-serif;font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:#fff;
   background:linear-gradient(180deg,#8a43ff,var(--purple-2));padding:17px 40px;border-radius:999px;box-shadow:0 12px 28px -10px rgba(123,47,247,.75);transition:transform .12s,box-shadow .12s}
@@ -274,7 +280,7 @@ src="https://www.facebook.com/tr?id=1782087639779673&ev=PageView&noscript=1"
 
   <section class="pitch wrap">
     <!-- 6. One-line justification -->
-    <p class="desc">It's a free 15-minute demo where we run your real call volume and case values, so you'll see <b>exactly how many cases your firm is losing after hours</b> and what it takes to stop it.</p>
+    <p class="qualify">See if you qualify<span class="qarrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5 12l7 7 7-7"/></svg></span></p>
     <!-- 4. CTA = what + how -->
     <a class="cta" id="mainCta" href="https://velaroreach.com/booking" data-book>I'm Ready to Stop Missing Cases</a>
     <p class="scarcity">We only take on <b>one or two firms a month</b>, so we can build each intake system by hand.</p>
