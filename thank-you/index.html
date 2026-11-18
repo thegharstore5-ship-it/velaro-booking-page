@@ -210,13 +210,17 @@ document.getElementById('yr').textContent = new Date().getFullYear();
   if (!b || !b.startTime) b = { startTime: q.get('start') || '', endTime: q.get('end') || '', uid: q.get('uid') || '', videoCallUrl: q.get('meet') || '' };
   var name = q.get('name') || '';
   if (name) document.getElementById('hi').textContent = ', ' + name;
-  if (!b.startTime) return;
-
-  /* Pixel: one Schedule event per booking, even if they refresh */
+  /* Pixel: Schedule fires on every thank-you visit.
+     With a booking: once per booking (refreshes don't double count).
+     Without one (direct visit): once per browser tab session. */
   try {
-    var key = 'velaro_sched_' + (b.uid || b.startTime);
-    if (!localStorage.getItem(key)) { localStorage.setItem(key, '1'); velaroTrack('Schedule', { content_name: 'Free Intake Demo' }, {}, 'Schedule.' + (b.uid || b.startTime)); }
+    var ref = b.uid || b.startTime;
+    var key = ref ? 'velaro_sched_' + ref : 'velaro_sched_direct';
+    var store = ref ? localStorage : sessionStorage;
+    if (!store.getItem(key)) { store.setItem(key, '1'); velaroTrack('Schedule', { content_name: 'Free Intake Demo' }, {}, ref ? 'Schedule.' + ref : undefined); }
   } catch (e) { velaroTrack('Schedule', { content_name: 'Free Intake Demo' }); }
+
+  if (!b.startTime) return;
 
   var start = new Date(b.startTime), end = b.endTime ? new Date(b.endTime) : new Date(start.getTime() + 30 * 60000);
   if (isNaN(start)) return;
