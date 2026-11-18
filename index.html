@@ -619,7 +619,12 @@ function showDone(d){
     const booking = { title: d.title || 'Velaro Free Consultation', startTime: d.startTime || '', endTime: d.endTime || '', videoCallUrl: d.videoCallUrl || '', uid: d.uid || '' };
     try { sessionStorage.setItem('velaro_last_booking', JSON.stringify(booking)); } catch (_) {}
     const q = new URLSearchParams({ start: booking.startTime, end: booking.endTime, uid: booking.uid, name: (lead.name || '').split(' ')[0], meet: booking.videoCallUrl });
-    location.href = THANK_YOU_URL + (THANK_YOU_URL.includes('?') ? '&' : '?') + q;
+    const go = () => { location.href = THANK_YOU_URL + (THANK_YOU_URL.includes('?') ? '&' : '?') + q; };
+    /* Play the booking-confirmed sound, then go (max ~1.8s wait) */
+    const btn = document.getElementById('pk-book'); if (btn) { btn.textContent = '✓ Booked!'; btn.disabled = true; }
+    const snd = document.getElementById('booking-sound');
+    let left = false; const leave = () => { if (!left) { left = true; go(); } };
+    if (snd) { try { snd.currentTime = 0; snd.volume = 1; snd.onended = leave; snd.play().catch(leave); } catch (_) { leave(); } setTimeout(leave, 1800); } else leave();
     return;
   }
   const first = (lead.name || '').split(' ')[0];
@@ -630,6 +635,19 @@ function showDone(d){
   if (d.uid) { document.getElementById('bk-manage-a').href = 'https://cal.com/booking/' + d.uid; document.getElementById('bk-manage').hidden = false; }
   pane(3);
 }
+</script>
+<audio id="booking-sound" src="assets/booking-confirmed.mp3" preload="auto"></audio>
+<script>
+/* Browsers only allow sound after a tap: unlock it silently on the first tap/keypress */
+(function () {
+  var done = false;
+  function unlock() {
+    if (done) return; var a = document.getElementById('booking-sound'); if (!a) return;
+    a.muted = true; a.play().then(function () { a.pause(); a.currentTime = 0; a.muted = false; done = true; }).catch(function () { a.muted = false; });
+  }
+  document.addEventListener('pointerdown', unlock, { capture: true });
+  document.addEventListener('keydown', unlock, { capture: true });
+})();
 </script>
 </body>
 </html>
