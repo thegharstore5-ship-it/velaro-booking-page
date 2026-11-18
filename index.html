@@ -2,14 +2,207 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-<title>Velaro — Book A Free Consultation</title>
-<meta name="description" content="AI intake systems for growing PI law firms. Book a free consultation to see how it works.">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velaro — Every Injury Lead Answered in Under 15 Seconds</title>
+<meta name="description" content="AI intake for personal injury firms. Every call and web inquiry answered in under 15 seconds, 24/7 — qualified and booked on your attorney's calendar.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!--
+  Landing page framework: headline (stop + clear outcome) → sub-headline (clarify) →
+  hero video (proof) → CTA (what + how) → 3 objections → legal. Everything else blank.
+  Razor: if it doesn't raise qualified opt-in %, cut it.
+-->
+<style>
+:root{
+  --navy:#16152f; --navy-2:#1f1d42; --navy-line:#2e2b5c;
+  --purple:#7b2ff7; --purple-2:#6420e0; --purple-glow:rgba(123,47,247,.85); --purple-soft:#f1eaff;
+  --ink:#16152f; --text:#3b3a52; --muted:#6d6b85; --line:#e6e4f0; --paper:#ffffff; --paper-2:#f7f6fb;
+  --white:#fff; --red:#e0483f; --green:#22c55e;
+  /* aliases used by the booking window */
+  --gold:var(--purple); --gold-pale:var(--purple); --dim:var(--muted); --dimmer:#8d8ba3; --card:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
 
+/* ── HERO BAND (dark) ── */
+.hero{background:radial-gradient(1200px 500px at 50% -10%,#2b2860 0%,rgba(43,40,96,0) 60%),linear-gradient(180deg,var(--navy-2),var(--navy));color:var(--white);text-align:center;padding:14px 0 0}
+.tag{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#16152f;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:3px}
+.tag .dot{width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 0 3px rgba(224,72,63,.2);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:6px}
+.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.logo svg{flex:none}
+.logo-word{font-family:Poppins,sans-serif;font-weight:700;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#fff}
+@media (max-width:640px){.topbar{justify-content:space-between;row-gap:10px}.logo{width:100%}}
+
+.callout{margin:26px auto 0;font-family:Poppins,sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#d6c2ff}
+.callout+.hbox{margin-top:12px}
+.hbox{display:inline-block;margin:22px auto 0;max-width:820px;padding:18px 30px;border:3px solid #9b5cff;border-radius:6px;background:rgba(123,47,247,.16);
+  box-shadow:0 0 0 1px rgba(155,92,255,.4),0 0 18px var(--purple-glow),0 0 48px rgba(123,47,247,.45),inset 0 0 22px rgba(123,47,247,.35)}
+h1{font-family:Poppins,sans-serif;font-weight:800;text-transform:uppercase;font-size:clamp(24px,4.2vw,42px);line-height:1.12;letter-spacing:.005em;text-wrap:balance}
+h1 em{font-style:normal;color:#d6c2ff}
+.sub{max-width:680px;margin:16px auto 0;font-size:clamp(16px,2vw,20px);color:#c7c5dc;text-wrap:balance}
+
+.vwrap{max-width:760px;margin:26px auto 0;position:relative;z-index:1;transform:translateY(0)}
+.vsl{border-radius:10px;overflow:hidden;background:#000;box-shadow:0 30px 70px -20px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08)}
+.vsl wistia-player{display:block;width:100%}
+wistia-player[media-id='rreo7ssmyj']:not(:defined){background:center / contain no-repeat url('https://fast.wistia.com/embed/medias/rreo7ssmyj/swatch');display:block;filter:blur(5px);padding-top:56.25%}
+/* video straddles the dark band and the white section, like the reference */
+.hero .spacer{height:120px}
+.after{margin-top:-120px;position:relative}
+
+/* ── WHITE SECTION ── */
+.pitch{text-align:center;padding:30px 0 56px}
+.pitch p.desc{max-width:620px;margin:0 auto;font-size:clamp(15.5px,1.8vw,17.5px);color:var(--text);text-wrap:balance}
+.pitch p.desc b{color:var(--ink);font-weight:700}
+.cta{display:inline-block;margin-top:24px;border:0;cursor:pointer;text-decoration:none;font-family:Poppins,sans-serif;font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:#fff;
+  background:linear-gradient(180deg,#8a43ff,var(--purple-2));padding:17px 40px;border-radius:999px;box-shadow:0 12px 28px -10px rgba(123,47,247,.75);transition:transform .12s,box-shadow .12s}
+.cta:hover{transform:translateY(-1px);box-shadow:0 16px 34px -10px rgba(123,47,247,.85)}
+.cta:active{transform:translateY(1px)}
+.cta small{display:block;font-family:Inter,sans-serif;text-transform:none;letter-spacing:0;font-weight:500;font-size:12.5px;opacity:.85;margin-top:2px}
+.scarcity{margin-top:14px;font-size:13px;color:var(--muted)}
+.scarcity b{color:var(--purple);font-weight:600}
+
+/* Objections, most → least common */
+.objections{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:56px 0}
+h2.sec{font-family:Poppins,sans-serif;font-weight:800;font-size:clamp(22px,3vw,30px);color:var(--ink);text-align:center;margin-bottom:28px;text-wrap:balance}
+.obj{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ob{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 6px 20px -14px rgba(22,21,47,.25)}
+.ob .n{font-family:Poppins,sans-serif;font-size:12px;font-weight:700;color:var(--purple);letter-spacing:.12em}
+.ob h3{font-size:17px;color:var(--ink);margin:8px 0;line-height:1.3}
+.ob p{font-size:14.5px;color:var(--text)}
+
+.voices{padding:56px 0}
+.shots{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:start}
+.shots img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);display:block;background:#f2f2f2}
+.again{text-align:center;margin-top:34px}
+
+footer{background:var(--paper-2);border-top:1px solid var(--line);padding:28px 0 40px;font-size:11.5px;color:#8d8ba3;line-height:1.6}
+footer .links{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--muted);text-decoration:none}
+
+/* mobile sticky CTA (appears after the main button scrolls away) */
+.mbar{display:none}
+@media (max-width:640px){
+  .mbar{display:block;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .25s ease}
+  .mbar.show{transform:none}
+  .mbar .cta{display:block;width:100%;margin:0;text-align:center;padding:15px 18px}
+  footer{padding-bottom:96px}
+}
+
+/* ── BOOKING WINDOW: form first, then the Cal.com calendar ── */
+body.locked{overflow:hidden}
+.bk{position:fixed;inset:0;z-index:100;display:none;align-items:flex-start;justify-content:center;padding:32px 16px;background:rgba(15,14,35,.72);backdrop-filter:blur(6px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.bk.open{display:flex;animation:fade .2s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.bk-panel{position:relative;width:100%;max-width:560px;background:#fff;border-radius:18px;padding:26px;box-shadow:0 40px 100px -20px rgba(0,0,0,.6);border-top:5px solid var(--purple)}
+.bk-panel.wide{max-width:1040px}
+.bk-x{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--muted);font-size:20px;line-height:1;cursor:pointer}
+.bk-x:hover{color:var(--ink);border-color:var(--purple)}
+.bk-steps{display:flex;gap:8px;align-items:center;font-size:12.5px;font-weight:600;color:#9b99b0;margin-bottom:16px;padding-right:44px;flex-wrap:wrap}
+.bk-steps .s{display:flex;align-items:center;gap:7px}
+.bk-steps .s i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:11.5px;border:1px solid #d8d5e6}
+.bk-steps .s.on{color:var(--purple)}
+.bk-steps .s.on i{background:var(--purple);color:#fff;border-color:var(--purple)}
+.bk-steps .s.done i{background:var(--purple-soft);color:var(--purple);border-color:#cdb5ff}
+.bk-steps .ln{flex:0 0 28px;height:1px;background:#d8d5e6}
+.bk h2{font-family:Poppins,sans-serif;font-weight:800;font-size:24px;line-height:1.2;color:var(--ink);margin-bottom:6px}
+.bk .lead{font-size:14.5px;color:var(--muted);margin-bottom:18px}
+.bk .field{margin-bottom:12px}
+.bk label.lbl{display:block;font-size:12.5px;color:var(--text);margin-bottom:6px;font-weight:600}
+.bk input[type=text],.bk input[type=email],.bk input[type=tel]{width:100%;background:#fff;border:1px solid #d8d5e6;color:var(--ink);font:inherit;font-size:16px;padding:13px 14px;border-radius:10px;outline:none}
+.bk textarea{width:100%;background:#fff;border:1px solid #d8d5e6;color:var(--ink);font:inherit;font-size:16px;padding:12px 14px;border-radius:10px;outline:none;resize:vertical}
+.opts.opts3{grid-template-columns:repeat(3,1fr)}
+.bk textarea:focus,.bk input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(123,47,247,.15)}
+.bk input.bad,.bk .opts.bad .opt span{border-color:var(--red)}
+.bk .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt span{display:block;text-align:center;font-size:14px;font-weight:500;padding:11px 6px;border:1px solid #d8d5e6;border-radius:10px;background:#fff;color:var(--text);cursor:pointer}
+.opt input:checked + span{border-color:var(--purple);background:var(--purple-soft);color:var(--purple);font-weight:600}
+.opt input:focus-visible + span{outline:2px solid var(--purple);outline-offset:2px}
+.bk .cta{display:block;width:100%;text-align:center;margin-top:10px}
+.bk .fine{font-size:11px;color:#8d8ba3;margin-top:12px;line-height:1.45}
+.bk .fine a{color:var(--muted)}
+.bk-back{background:none;border:0;color:var(--muted);font:inherit;font-size:13px;cursor:pointer;margin-bottom:10px}
+.bk-back:hover{color:var(--ink)}
+.cal-card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;min-height:560px}
+#bk-cal{width:100%;min-height:560px}
+.bk-done{text-align:center;padding:16px 4px 6px}
+.bk-done .big{width:58px;height:58px;border-radius:50%;background:var(--purple);display:grid;place-items:center;margin:0 auto 16px;box-shadow:0 0 24px rgba(123,47,247,.5)}
+.bk-done .big svg{stroke:#fff}
+.bk-done .when{display:inline-block;margin:14px 0 18px;padding:10px 16px;border-radius:12px;background:var(--purple-soft);border:1px solid #cdb5ff;color:var(--purple);font-weight:600}
+.bk-done a{color:var(--purple)}
+
+/* commitment tick */
+.commit{display:flex;gap:10px;align-items:flex-start;margin:6px 0 4px;padding:12px 14px;border:1px solid #d8d5e6;border-radius:12px;background:var(--paper-2);cursor:pointer;font-size:13.5px;color:var(--text);line-height:1.45}
+.commit input{flex:none;width:18px;height:18px;margin-top:1px;accent-color:var(--purple);cursor:pointer}
+.commit b{color:var(--ink)}
+.commit.bad{border-color:var(--red);background:#fff5f4}
+/* date + time picker */
+.pick{display:grid;grid-template-columns:1.25fr 1fr;gap:22px;border:1px solid var(--line);border-radius:14px;padding:20px}
+.pk-head{display:flex;align-items:center;justify-content:space-between;font-family:Poppins,sans-serif;font-weight:700;color:var(--ink);font-size:16px;margin-bottom:10px}
+.pk-nav{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:20px;line-height:1;color:var(--ink);cursor:pointer}
+.pk-nav:disabled{opacity:.3;cursor:default}
+.pk-dow,.pk-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.pk-dow span{font-size:11.5px;font-weight:600;color:#9b99b0;text-transform:uppercase;padding-bottom:4px}
+.pk-grid button{aspect-ratio:1;border:0;border-radius:10px;background:transparent;font:inherit;font-size:14.5px;color:#b9b7c9;cursor:default}
+.pk-grid button.open{background:var(--purple-soft);color:var(--purple);font-weight:700;cursor:pointer}
+.pk-grid button.open:hover{background:#e3d4ff}
+.pk-grid button.sel{background:var(--purple);color:#fff}
+.pk-grid.loading{opacity:.45}
+.pk-tz{margin-top:12px;font-size:12px;color:var(--muted)}
+.pk-day{font-weight:700;color:var(--ink);margin-bottom:10px}
+.pk-slots{display:grid;gap:8px;max-height:330px;overflow-y:auto;padding-right:2px}
+.pk-slots button{border:1px solid #d8d5e6;background:#fff;border-radius:10px;padding:11px;font:inherit;font-weight:600;font-size:14.5px;color:var(--ink);cursor:pointer}
+.pk-slots button:hover{border-color:var(--purple);color:var(--purple)}
+.pk-slots button.sel{background:var(--purple);border-color:var(--purple);color:#fff}
+.pk-empty{font-size:13.5px;color:var(--muted)}
+.pk-confirm{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:14px;padding:14px 16px;border-radius:14px;background:var(--purple-soft);border:1px solid #cdb5ff}
+.pk-confirm b{display:block;color:var(--ink);font-size:15.5px}
+.pk-sel-l{display:block;font-size:12px;color:var(--muted)}
+.bk .pk-confirm .cta{width:auto;margin:0;padding:14px 26px;flex:none}
+.pk-err{margin-top:12px;font-size:13.5px;color:#b42318;background:#fff5f4;border:1px solid #f5c2bd;padding:10px 12px;border-radius:10px}
+.pk-err a{color:#b42318;font-weight:600}
+.bk-pane{display:none}
+.bk-pane.on{display:block}
+
+@media (max-width:860px){
+  .obj{grid-template-columns:1fr}
+  .shots{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .hbox{padding:14px 16px;margin-top:18px}
+  .hero .spacer{height:70px}
+  .after{margin-top:-70px}
+  .cta{padding:16px 26px;font-size:14px}
+  .bk{padding:0}
+  .bk-steps{font-size:11.5px;gap:6px;flex-wrap:nowrap}
+  .bk-steps .ln{flex:0 0 12px}
+  .bk-steps .s{gap:5px;white-space:nowrap}
+  .bk h2{font-size:21px}
+  .pk-confirm{position:sticky;bottom:0;z-index:2;box-shadow:0 -10px 24px -12px rgba(22,21,47,.25)}
+  .hero{padding-top:12px}
+  .sub{font-size:15.5px}
+  .pitch{padding:24px 0 44px}
+  .bk-panel,.bk-panel.wide{max-width:none;min-height:100%;border-radius:0;padding:20px 16px 28px}
+  .opts{grid-template-columns:1fr 1fr}
+  .opts.opts3{grid-template-columns:1fr}
+  .bk .row{grid-template-columns:1fr}
+  .cal-card,#bk-cal{min-height:520px}
+  .pick{grid-template-columns:1fr;padding:14px}
+  .pk-slots{grid-template-columns:1fr 1fr;max-height:none}
+  .pk-confirm{flex-direction:column;align-items:stretch;text-align:center}
+  .bk .pk-confirm .cta{width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -22,8 +215,8 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1782087639779673');
 // Browser + server (CAPI) tracking. Same event_id on both sides so Meta dedupes them.
-window.velaroTrack = function (name, custom, user) {
-  var id = name + '.' + Date.now() + '.' + Math.random().toString(36).slice(2, 10);
+window.velaroTrack = function (name, custom, user, eid) {
+  var id = eid || (name + '.' + Date.now() + '.' + Math.random().toString(36).slice(2, 10));
   try { fbq('track', name, custom || {}, { eventID: id }); } catch (e) {}
   try {
     var ck = function (n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; };
@@ -42,664 +235,400 @@ velaroTrack('PageView');
 src="https://www.facebook.com/tr?id=1782087639779673&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
-
-<!-- Cal.com embed -->
-<script type="text/javascript">
-  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-  Cal("init", "consultation", { origin: "https://cal.com" });
-  var isMobile = window.matchMedia("(max-width:640px)").matches;
-  // Desktop: full Cal.com calendar inline. Mobile uses the 3-step booker below (date → time → form).
-  if (!isMobile) Cal.ns.consultation("inline", {
-    elementOrSelector: "#velaro-cal-embed",
-    config: { "layout": "month_view", "theme": "light" },
-    calLink: "velaro/consultation",
-  });
-  // Mobile: the Cal iframe can grab focus / resize while loading and drag the page down.
-  // For the first 3s (until the visitor touches or scrolls themselves) pin the page to the top.
-  var loadedAt = Date.now(), userMoved = false;
-  if (isMobile) {
-    try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (_) {}
-    ["touchstart", "wheel", "keydown", "mousedown"].forEach(function (t) {
-      window.addEventListener(t, function () { userMoved = true; }, { passive: true, once: true });
-    });
-    window.addEventListener("scroll", function () {
-      if (!userMoved && Date.now() - loadedAt < 3000 && window.scrollY > 0) window.scrollTo(0, 0);
-    }, { passive: true });
-  }
-  Cal.ns.consultation("ui", { "styles": { "branding": { "brandColor": "#12564F" } }, "hideEventTypeDetails": isMobile, "showTimezoneWhenEventDetailsHidden": true, "layout": "month_view" });
-  // Mobile: date tapped -> scroll the time slots into view; time tapped -> scroll to the booking form.
-  // Cal sends __routeChanged for both, followed by __dimensionChanged. We tell them apart by where the
-  // visitor is looking: if the viewport is already down at the slot list, they tapped a time.
-  var lastH = 0, routeAt = 0;
-  Cal.ns.consultation("on", { action: "__routeChanged", callback: function () { routeAt = Date.now(); } });
-  Cal.ns.consultation("on", {
-    action: "__dimensionChanged",
-    callback: function (e) {
-      var h = (e && e.detail && e.detail.data && e.detail.data.iframeHeight) || 0;
-      var prev = lastH;
-      lastH = h;
-      var el = document.getElementById("velaro-cal-embed");
-      if (!el || !prev || Math.abs(h - prev) < 40) return;
-      if (Date.now() - loadedAt < 3000 || Date.now() - routeAt > 4000) return; // only right after a step change
-      routeAt = 0;
-      var card = el.closest(".cal-card") || el;
-      var cardTop = card.getBoundingClientRect().top + window.scrollY;
-      var embedTop = el.getBoundingClientRect().top + window.scrollY;
-      if (isMobile) return;
-      if (card.getBoundingClientRect().top < 0) {
-        // Desktop: view changed (e.g. form opened) while the top of the card is scrolled off-screen.
-        window.scrollTo({ top: cardTop - 16, behavior: "smooth" });
-      }
-    }
-  });
-  Cal.ns.consultation("on", {
-    action: "bookingSuccessfulV2",
-    callback: function (e) {
-      var data = (e && e.detail && e.detail.data) || {};
-      var att = (data.attendees && data.attendees[0]) || data.booker || {};
-      window.velaroBookingUser = { email: att.email || "", name: att.name || "", phone: att.phoneNumber || "" };
-      window.velaroShowConfirmation({
-        title: data.title || "Velaro Free Consultation",
-        startTime: data.startTime || "",
-        endTime: data.endTime || "",
-        videoCallUrl: data.videoCallUrl || "",
-        uid: data.uid || ""
-      });
-    }
-  });
-</script>
-
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --paper:#FAF6EE;
-  --paper-deep:#F1E9DA;
-  --ink:#1E1B15;
-  --ink-dim:#5C5647;
-  --ink-dimmer:#948C77;
-  --teal:#12564F;
-  --teal-deep:#0B3A35;
-  --teal-tint:rgba(18,86,79,0.07);
-  --teal-tint-strong:rgba(18,86,79,0.13);
-  --terracotta:#B34F2C;
-  --terracotta-deep:#8A3B20;
-  --terracotta-tint:rgba(179,79,44,0.09);
-  --border:rgba(30,27,21,0.14);
-  --border-soft:rgba(30,27,21,0.09);
-  --white:#ffffff;
-}
-html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
-body{
-  background:var(--paper); color:var(--ink);
-  font-family:'Public Sans',-apple-system,sans-serif; line-height:1.65; overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-  background-image:radial-gradient(circle at 1px 1px, rgba(30,27,21,0.05) 1px, transparent 0);
-  background-size:22px 22px;
-}
-a{color:inherit}
-.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
-.wrap-narrow{max-width:680px;margin:0 auto;padding:0 22px}
-h2,h3{font-family:'Fraunces',serif; font-weight:600; line-height:1.18; letter-spacing:-0.01em; color:var(--ink)}
-.hl{font-style:italic; color:var(--teal)}
-[hidden]{display:none!important}
-
-/* ── HEADER ── */
-header{padding:24px 0 20px; text-align:center}
-.logo{display:inline-flex; align-items:center; gap:9px; text-decoration:none}
-.logo-word{font-family:'Fraunces',serif; font-size:20px; font-weight:600; letter-spacing:0.01em; color:var(--ink)}
-
-/* ── HERO HEADLINE ── */
-#hero{padding:26px 0 8px; text-align:center}
-#hero h1{
-  font-family:'Fraunces',serif; font-weight:600; line-height:1.14; letter-spacing:-0.01em; color:var(--ink);
-  font-size:clamp(2.1rem,6vw,3rem); max-width:640px; margin:0 auto 22px;
-}
-#hero h1 .hl{position:relative; display:inline-block; white-space:nowrap; font-style:italic; color:var(--teal)}
-#hero h1 .hl::after{
-  content:''; position:absolute; left:-2%; right:-2%; bottom:-0.06em; height:0.14em;
-  background:var(--terracotta); border-radius:2px; opacity:0.55;
-  transform:scaleX(0); transform-origin:left; animation:drawUnderline 0.9s 0.5s cubic-bezier(.2,.8,.2,1) forwards;
-}
-@keyframes drawUnderline{to{transform:scaleX(1)}}
-.hero-cta-line{
-  color:var(--teal); font-weight:700; font-size:14.5px; margin-bottom:28px;
-  display:flex; align-items:center; justify-content:center; gap:10px;
-  text-transform:uppercase; letter-spacing:0.08em;
-}
-.hero-cta-line .rule{width:28px; height:1px; background:var(--border)}
-@media (prefers-reduced-motion:reduce){ #hero h1 .hl::after{animation:none; transform:scaleX(1)} }
-@media (max-width:640px){
-  #hero{padding:14px 0 4px}
-  #hero h1{font-size:clamp(1.55rem,7vw,2.1rem); margin-bottom:16px}
-  .hero-cta-line{font-size:12px; margin-bottom:18px; gap:8px}
-  .hero-cta-line .rule{width:18px}
-}
-@media (max-width:420px){
-  .hero-cta-line{font-size:11.5px; letter-spacing:0.05em}
-  .hero-cta-line .rule{display:none}
-}
-
-/* ── CALENDAR ── */
-#calendar-section{padding:4px 0 70px}
-.cal-card{
-  background:var(--white); border:1px solid var(--border); border-radius:6px; overflow:hidden; position:relative;
-  box-shadow:0 1px 2px rgba(30,27,21,0.04), 0 14px 34px rgba(30,27,21,0.07);
-}
-.cal-card::before{
-  content:''; position:absolute; top:0; left:0; right:0; height:4px; z-index:1;
-  background:linear-gradient(90deg, var(--teal), var(--terracotta));
-}
-#velaro-cal-embed{width:100%; min-height:760px; overflow:auto; padding-top:4px}
-
-/* ── POST-BOOKING ── */
-#post-booking{padding-bottom:80px}
-.steps-banner{background:var(--teal); color:var(--paper); text-align:center; padding:13px 20px; font-weight:600; font-size:13.5px; letter-spacing:0.03em}
-.steps-banner b{color:#F2D9C4}
-.pb-intro{text-align:center; padding:44px 0 36px}
-.pb-kicker{font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:14px}
-.pb-h2{font-size:clamp(1.7rem,4.2vw,2.3rem); margin-bottom:12px}
-.pb-sub{font-size:15px; color:var(--ink-dim); max-width:460px; margin:0 auto}
-.pb-warning{
-  display:inline-block; margin-top:22px; padding:9px 16px; border-radius:6px;
-  font-size:13px; font-weight:800; color:var(--terracotta-deep); letter-spacing:0.04em; text-transform:uppercase;
-  background:var(--terracotta-tint); border:1px solid rgba(179,79,44,0.25);
-}
-
-.step-block{padding:0 0 52px}
-.step-tag{display:flex; align-items:center; gap:12px; margin-bottom:18px}
-.step-num{
-  width:28px; height:28px; border-radius:50%; background:var(--teal); color:var(--paper);
-  font-family:'Fraunces',serif; font-size:14px; font-weight:600; display:flex; align-items:center; justify-content:center; flex-shrink:0;
-}
-.step-title{font-family:'Fraunces',serif; font-size:19px; font-weight:600}
-.video-frame{border:1px solid var(--border); border-radius:8px; padding:8px; background:var(--white); box-shadow:0 14px 34px rgba(30,27,21,0.06)}
-
-.confirm{text-align:center; margin-bottom:26px}
-.checkmark{width:56px; height:56px; border-radius:50%; background:var(--teal-tint); border:1px solid var(--teal-tint-strong); display:flex; align-items:center; justify-content:center; margin:0 auto 18px}
-.checkmark svg{width:24px; height:24px}
-.confirm-sub{color:var(--ink-dim); font-size:14.5px; max-width:440px; margin:0 auto}
-
-.meet-card{background:var(--white); border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-bottom:28px}
-.meet-row{display:grid; grid-template-columns:110px 1fr; gap:18px; padding:16px 24px; border-bottom:1px solid var(--border-soft)}
-.meet-label{font-size:11.5px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-dimmer); padding-top:3px}
-.meet-value{font-size:14.5px; color:var(--ink); line-height:1.55; white-space:pre-line}
-.meet-value a{color:var(--teal); font-weight:600}
-.cal-add{display:flex; align-items:center; flex-wrap:wrap; gap:10px; padding:18px 24px; background:var(--paper-deep)}
-.cal-add-label{font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--teal); margin-right:4px}
-.cal-btn{
-  display:inline-flex; align-items:center; gap:8px; height:38px; padding:0 14px; border-radius:8px;
-  background:var(--white); border:1px solid var(--border); text-decoration:none;
-  font-size:12.5px; font-weight:700; color:var(--ink); transition:border-color 0.15s, transform 0.15s;
-}
-.cal-btn:hover{border-color:var(--teal); transform:translateY(-1px)}
-.cal-btn svg{width:15px; height:15px; flex-shrink:0}
-
-.next-card{background:var(--white); border:1px solid var(--border-soft); border-left:3px solid var(--terracotta); border-radius:6px; padding:24px 26px; margin-bottom:22px}
-.next-card h3{font-family:'Public Sans',sans-serif; font-size:11.5px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); margin-bottom:14px}
-.next-list{list-style:none; display:flex; flex-direction:column; gap:12px}
-.next-list li{display:flex; align-items:flex-start; gap:12px; font-size:14.5px; color:var(--ink-dim)}
-.next-list li::before{content:'✓'; flex-shrink:0; width:20px; height:20px; border-radius:50%; background:var(--teal-tint); color:var(--teal); font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px}
-.manage-line{text-align:center; font-size:13px; color:var(--ink-dimmer)}
-.manage-line a{color:var(--teal); font-weight:600}
-
-.testi-title{font-size:clamp(1.45rem,3.6vw,1.85rem); text-align:center; margin-bottom:26px}
-.testi-grid{column-count:2; column-gap:16px}
-.testi-grid img{width:100%; display:block; margin:0 0 16px; border-radius:8px; border:1px solid var(--border-soft); break-inside:avoid; background:var(--white)}
-
-footer{padding:30px 0 44px; text-align:center; border-top:1px solid var(--border-soft)}
-.foot-text{font-size:11.5px; color:var(--ink-dimmer); font-weight:600}
-
-@media (max-width:640px){
-  .wrap,.wrap-narrow{padding:0 16px}
-  header{padding:18px 0 14px}
-  #velaro-cal-embed{min-height:640px}
-  .meet-row{grid-template-columns:1fr; gap:4px; padding:14px 18px}
-  .cal-add{padding:16px 18px}
-  .testi-grid{column-count:1}
-}
-
-/* ── TIMEZONE LINE + MOBILE 3-STEP BOOKER ── */
-.tz-line{display:flex; align-items:center; gap:8px; padding:18px 24px 0; color:var(--ink-dim); font-size:13px; line-height:1.4}
-.tz-line svg{width:16px; height:16px; flex:none; color:var(--teal)}
-#m-booker{color:var(--ink); padding:22px 16px 24px}
-.m-kicker{font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:12px}
-.m-tz{display:flex; align-items:center; gap:8px; border:1px solid var(--border); border-radius:6px; padding:0 10px; margin-bottom:18px; color:var(--teal); background:var(--paper)}
-.m-tz svg{width:16px; height:16px; flex:none}
-.m-tz select{flex:1; min-width:0; border:0; background:transparent; font:inherit; font-size:14px; color:var(--ink); padding:11px 0; -webkit-appearance:menulist}
-.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
-.m-cal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px}
-.m-cal-head strong{font-family:'Fraunces',serif; font-size:18px; font-weight:600}
-.m-cal-head button{width:40px; height:40px; border-radius:6px; border:1px solid var(--border); background:var(--white); font-size:22px; line-height:1; color:var(--teal)}
-.m-cal-head button:disabled{opacity:0.3}
-.m-dow,.m-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center}
-.m-dow span{font-size:11px; font-weight:700; text-transform:uppercase; color:var(--ink-dimmer); padding:6px 0}
-.m-day{aspect-ratio:1; border:0; border-radius:6px; background:transparent; font:inherit; font-size:15px; color:#CFC7B6}
-.m-day.open{background:var(--teal-tint-strong); color:var(--teal-deep); font-weight:800}
-.m-day.sel{background:var(--teal); color:var(--paper)}
-.m-note{font-size:13px; color:var(--ink-dimmer); margin-top:12px}
-.m-back{border:0; background:none; font:inherit; font-size:14px; font-weight:700; color:var(--teal); padding:4px 0; margin-bottom:12px}
-.m-title{font-family:'Fraunces',serif; font-size:20px; font-weight:600; line-height:1.3}
-#m-step-time .m-note{margin:4px 0 16px}
-.m-times{display:flex; flex-direction:column; gap:10px}
-.m-time{height:52px; border:1.5px solid var(--teal); border-radius:6px; background:var(--white); font:inherit; font-size:16px; font-weight:700; color:var(--teal)}
-.m-time:active{background:var(--teal); color:var(--paper)}
-#m-step-form .m-title{margin-bottom:8px}
-#m-form{margin:0 -16px; min-height:560px}
-@media (max-width:640px){ .tz-line{font-size:11.5px; padding:14px 14px 0} }
-</style>
+<script src="https://fast.wistia.com/player.js" async></script>
+<script src="https://fast.wistia.com/embed/rreo7ssmyj.js" async type="module"></script>
 </head>
 <body>
 
-<header>
-  <span class="logo">
-    <svg width="22" height="24" viewBox="0 0 56 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M1 5 L15 5 L30 54 L25.5 54 Z" fill="#12564F"/>
-      <path d="M55 5 L46 5 L30 54 L34.5 54 Z" fill="#12564F"/>
-      <rect x="0" y="3" width="17" height="3" fill="#12564F"/>
-      <rect x="0" y="3" width="3" height="9" fill="#12564F"/>
-      <rect x="39" y="3" width="17" height="3" fill="#12564F"/>
-      <rect x="53" y="3" width="3" height="9" fill="#12564F"/>
-      <circle cx="21" cy="33" r="2.8" stroke="#12564F" stroke-width="1.2" fill="#FAF6EE"/>
-      <line x1="21" y1="33" x2="30" y2="54" stroke="#12564F" stroke-width="0.9"/>
-    </svg>
-    <span class="logo-word">Velaro</span>
-  </span>
+<header class="hero">
+  <div class="topbar wrap">
+    <a class="logo" href="#" aria-label="Velaro">
+      <svg width="24" height="26" viewBox="0 0 56 62" fill="none" aria-hidden="true">
+        <path d="M1 5 L15 5 L30 54 L25.5 54 Z" fill="#fff"/>
+        <path d="M55 5 L46 5 L30 54 L34.5 54 Z" fill="#fff"/>
+        <rect x="0" y="3" width="17" height="3" fill="#fff"/><rect x="0" y="3" width="3" height="9" fill="#fff"/>
+        <rect x="39" y="3" width="17" height="3" fill="#fff"/><rect x="53" y="3" width="3" height="9" fill="#fff"/>
+        <circle cx="21" cy="33" r="2.8" stroke="#b9b3ff" stroke-width="1.2" fill="#1f1d42"/>
+        <line x1="21" y1="33" x2="30" y2="54" stroke="#b9b3ff" stroke-width="0.9"/>
+      </svg>
+      <span class="logo-word">Velaro</span>
+    </a>
+    <span class="tag"><span class="dot"></span>Now booking · 1–2 PI firms this month</span>
+  </div>
+  <div class="wrap">
+    <!-- 1. Headline: stop + clear outcome -->
+    <p class="callout">For personal injury firms</p>
+    <div class="hbox"><h1>Every injury lead answered in <em>under 15 seconds.</em> Even at 2&nbsp;AM.</h1></div>
+    <!-- 2. Sub-headline: clarifies the promise -->
+    <p class="sub">AI intake for PI firms. Every call and web form answered 24/7, qualified, and booked on your attorney's calendar.</p>
+  </div>
+  <div class="spacer"></div>
 </header>
 
-<!-- ══════════ LANDING VIEW — headline + calendar ══════════ -->
-<div id="landing-view">
-  <section id="hero">
-    <div class="wrap">
-      <h1>Implement Our AI Intake System And Watch Your Missed After-Hours Calls Turn Into <span class="hl">Qualified Bookings</span> On Your Calendar</h1>
-      <div class="hero-cta-line"><span class="rule"></span> Pick A Time Below To Book Your Free Call <span class="rule"></span></div>
-    </div>
-  </section>
-
-  <section id="calendar-section">
-    <div class="wrap">
-      <div class="cal-card">
-        <p class="tz-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span id="tz-text">Your timezone is detected automatically — tap it below to change.</span></p>
-        <div id="velaro-cal-embed"></div>
-        <div id="m-booker" hidden>
-          <section id="m-step-date">
-            <p class="m-kicker">Pick A Date</p>
-            <label class="m-tz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span class="sr">Timezone</span><select id="m-tz" aria-label="Timezone"></select></label>
-            <div class="m-cal-head"><button type="button" id="m-prev" aria-label="Previous month">‹</button><strong id="m-month"></strong><button type="button" id="m-next" aria-label="Next month">›</button></div>
-            <div class="m-dow"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
-            <div id="m-grid" class="m-grid"></div>
-            <p id="m-grid-note" class="m-note"></p>
-          </section>
-          <section id="m-step-time" hidden>
-            <button type="button" class="m-back" id="m-back-date">‹ Change date</button>
-            <p class="m-kicker">Pick A Time</p>
-            <h3 id="m-day-title" class="m-title"></h3>
-            <p id="m-tz-note" class="m-note"></p>
-            <div id="m-times" class="m-times"></div>
-          </section>
-          <section id="m-step-form" hidden>
-            <button type="button" class="m-back" id="m-back-time">‹ Change time</button>
-            <p class="m-kicker">Your Details</p>
-            <p id="m-summary" class="m-title"></p>
-            <div id="m-form"></div>
-          </section>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- ══════════ POST-BOOKING VIEW — replaces landing view once booked ══════════ -->
-<div id="post-booking" hidden>
-  <div class="steps-banner">You're Booked — <b>Just A Couple Quick Things Below</b></div>
-
-  <div class="pb-intro wrap-narrow">
-    <div class="pb-kicker">Few More Steps</div>
-    <h2 class="pb-h2">Let's Get You <span class="hl">Ready For The Call</span></h2>
-    <p class="pb-sub">Takes less than a minute — watch the quick video, then add the call to your calendar.</p>
-    <div class="pb-warning">Important: your call is not confirmed yet</div>
+<main class="after">
+  <!-- 3. Hero video = proof -->
+  <div class="wrap">
+    <div class="vwrap"><div class="vsl"><wistia-player media-id="rreo7ssmyj" aspect="1.7777777777777777" player-color="7B2FF7"></wistia-player></div></div>
   </div>
 
-  <!-- STEP 1 — VIDEO -->
-  <section class="step-block wrap-narrow">
-    <div class="step-tag">
-      <span class="step-num">1</span>
-      <span class="step-title">Watch This Short Video</span>
-    </div>
-    <div class="video-frame">
-      <div style="position:relative;aspect-ratio:16/9;border-radius:6px;overflow:hidden;">
-        <iframe
-          loading="lazy" title="Gumlet video player"
-          src="https://play.gumlet.io/embed/6a91ce977daed480307fa1d3?background=false&autoplay=false&loop=false&disable_player_controls=false"
-          style="border:none; position:absolute; top:0; left:0; height:100%; width:100%;"
-          referrerpolicy="origin"
-          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;clipboard-write;">
-        </iframe>
+  <section class="pitch wrap">
+    <!-- 6. One-line justification -->
+    <p class="desc">It's a free 15-minute demo where we run your real call volume and case values, so you'll see <b>exactly how many cases your firm is losing after hours</b> and what it takes to stop it.</p>
+    <!-- 4. CTA = what + how -->
+    <a class="cta" id="mainCta" href="https://velaroreach.com/booking" data-book>I'm Ready to Stop Missing Cases</a>
+    <p class="scarcity">We only take on <b>one or two firms a month</b>, so we can build each intake system by hand.</p>
+  </section>
+
+  <!-- 7. Three biggest objections, most → least common -->
+  <section class="objections">
+    <div class="wrap">
+      <h2 class="sec">“But we already…”</h2>
+      <div class="obj">
+        <div class="ob"><div class="n">01</div><h3>“…have a receptionist.”</h3><p>Good. Keep them. Velaro covers what they physically can't: the 11 PM call, the 3 AM web form, five calls at once. Your team spends their time on warm, pre-qualified cases.</p></div>
+        <div class="ob"><div class="n">02</div><h3>“…tried a bot. Clients hated it.”</h3><p>This isn't a generic chatbot. It's a custom voice and SMS intake built for PI: your questions, your case types, your calendar. One client's staff couldn't tell it was AI.</p></div>
+        <div class="ob"><div class="n">03</div><h3>“…can't justify the cost.”</h3><p>Most firms lose several cases a week to slow response. Recover a few of those and the system pays for itself, usually within the first month or two.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- STEP 2 — ADD TO CALENDAR -->
-  <section class="step-block wrap-narrow">
-    <div class="step-tag">
-      <span class="step-num">2</span>
-      <span class="step-title">Add Your Consultation To Your Calendar</span>
-    </div>
+</main>
 
-    <div class="confirm">
-      <div class="checkmark">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#12564F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <p class="confirm-sub">Your free consultation with Velaro is booked. Add it to your calendar below so you don't miss it.</p>
-    </div>
+<div class="mbar" id="mbar" aria-hidden="true"><a class="cta" href="https://velaroreach.com/booking" data-book tabindex="-1">Book My Free Demo</a></div>
 
-    <div class="meet-card">
-      <div class="meet-row"><div class="meet-label">What</div><div class="meet-value" id="meet-what">—</div></div>
-      <div class="meet-row"><div class="meet-label">When</div><div class="meet-value" id="meet-when">—</div></div>
-      <div class="meet-row"><div class="meet-label">Who</div><div class="meet-value">You &amp; the Velaro team</div></div>
-      <div class="meet-row" id="meet-where-row" hidden><div class="meet-label">Where</div><div class="meet-value" id="meet-where">—</div></div>
-      <div class="cal-add">
-        <span class="cal-add-label">Add to calendar</span>
-        <a class="cal-btn" id="cal-google" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="#12564F" stroke-width="1.6"/><path d="M3 9h18" stroke="#12564F" stroke-width="1.6"/><path d="M8 2v4M16 2v4" stroke="#12564F" stroke-width="1.6" stroke-linecap="round"/></svg>
-          Google
-        </a>
-        <a class="cal-btn" id="cal-outlook" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="#12564F" stroke-width="1.6"/><path d="M7 9l5 4 5-4" stroke="#12564F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Outlook
-        </a>
-        <a class="cal-btn" id="cal-office365" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" fill="#12564F"/><rect x="13" y="3" width="8" height="8" stroke="#12564F" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" stroke="#12564F" stroke-width="1.6"/><rect x="13" y="13" width="8" height="8" stroke="#12564F" stroke-width="1.6"/></svg>
-          Office 365
-        </a>
-        <a class="cal-btn" id="cal-ics" download="velaro-consultation.ics">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke="#12564F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4" stroke="#12564F" stroke-width="1.8" stroke-linecap="round"/></svg>
-          Apple / iCal
-        </a>
-      </div>
-    </div>
-
-    <div class="next-card">
-      <h3>What Happens Next</h3>
-      <ul class="next-list">
-        <li>Check your email for the calendar invite and call link</li>
-        <li>We'll walk through your firm's current intake process and where cases are slipping through</li>
-        <li>You'll see a live demo of the AI intake system in action</li>
-      </ul>
-    </div>
-
-    <p class="manage-line" id="manage-line" hidden>Need to make a change? <a id="manage-link" href="#" target="_blank" rel="noopener">Manage this booking on Cal.com</a></p>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="wrap-narrow">
-    <h3 class="testi-title">Here's What Our Clients Have To Say</h3>
-    <div class="testi-grid">
-      <img src="assets/small/testimonial-best-decision.jpg" alt="Client message: Best decision we've made this year — more consultations, less stress, no missed calls." loading="lazy">
-      <img src="assets/small/testimonial-game-changer.jpg" alt="Client message: This literally solved that problem — every lead gets answered now, seriously a game changer." loading="lazy">
-      <img src="assets/small/testimonial-court.jpg" alt="Client message: I'm usually in court, missing calls was killing us, now every caller gets taken care of." loading="lazy">
-      <img src="assets/small/testimonial-whatsapp-weekend.jpg" alt="Client message: Zero missed leads all weekend, usually we'd miss at least 15, best investment we've made." loading="lazy">
-      <img src="assets/small/testimonial-wilson-imsg.jpg" alt="Client message: This thing is insane, the AI answered at 11:47 PM and booked a consultation before I woke up." loading="lazy">
-    </div>
-  </section>
-</div>
-
+<!-- 9. Legal -->
 <footer>
   <div class="wrap">
-    <p class="foot-text">© 2026 Velaro. AI intake systems for personal injury law firms.</p>
+    <div class="links"><a href="https://velaroreach.com/privacy">Privacy Policy</a><a href="https://velaroreach.com/terms">Terms</a><a href="mailto:hello@velaroreach.com">Contact</a></div>
+    <p>© <span id="yr"></span> Velaro. All rights reserved. Velaro is a technology and marketing services provider, not a law firm, and does not provide legal advice. Results shown are from individual clients and are not a guarantee of future results; outcomes vary by firm, market, and lead volume. The call shown is a demonstration. Velaro is not affiliated with Meta, Google, or any bar association.</p>
   </div>
 </footer>
+<!-- ══ BOOKING WINDOW ══ -->
+<div class="bk" id="bk" role="dialog" aria-modal="true" aria-labelledby="bk-title">
+  <div class="bk-panel" id="bk-panel">
+    <button class="bk-x" type="button" id="bk-x" aria-label="Close">×</button>
+    <div class="bk-steps" aria-hidden="true">
+      <span class="s on" data-s="1"><i>1</i>Your details</span><span class="ln"></span>
+      <span class="s" data-s="2"><i>2</i>Pick a time</span><span class="ln"></span>
+      <span class="s" data-s="3"><i>3</i>Booked</span>
+    </div>
 
+    <!-- Step 1: form -->
+    <form class="bk-pane on" id="bk-form" data-pane="1" novalidate>
+      <h2 id="bk-title">Book your free intake demo</h2>
+      <p class="lead">A few quick questions so we can prepare a custom intake audit for your firm before the call.</p>
+      <div class="row">
+        <div class="field"><label class="lbl" for="b-name">Full name *</label><input type="text" id="b-name" name="name" autocomplete="name" required></div>
+        <div class="field"><label class="lbl" for="b-phone">Phone number *</label><input type="tel" id="b-phone" name="phone" autocomplete="tel" placeholder="(555) 123-4567" required></div>
+      </div>
+      <div class="row">
+        <div class="field"><label class="lbl" for="b-email">Email address *</label><input type="email" id="b-email" name="email" autocomplete="email" placeholder="you@yourfirm.com" required></div>
+        <div class="field"><label class="lbl" for="b-firm">Firm name *</label><input type="text" id="b-firm" name="firm" autocomplete="organization" placeholder="Your firm's name" required></div>
+      </div>
+      <div class="field"><label class="lbl" for="b-city">City *</label><input type="text" id="b-city" name="city" autocomplete="address-level2" placeholder="e.g. Houston, TX" required></div>
+      <div class="field">
+        <label class="lbl">How many attorneys at your firm? *</label>
+        <div class="opts" data-group="attorneys">
+          <label class="opt"><input type="radio" name="attorneys" value="1-2"><span>1–2</span></label>
+          <label class="opt"><input type="radio" name="attorneys" value="3-7"><span>3–7</span></label>
+          <label class="opt"><input type="radio" name="attorneys" value="8-15"><span>8–15</span></label>
+          <label class="opt"><input type="radio" name="attorneys" value="16+"><span>16+</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="lbl">Do you need multilingual call handling? *</label>
+        <div class="opts opts3" data-group="multilingual">
+          <label class="opt"><input type="radio" name="multilingual" value="English only"><span>English only</span></label>
+          <label class="opt"><input type="radio" name="multilingual" value="English + Spanish"><span>English + Spanish</span></label>
+          <label class="opt"><input type="radio" name="multilingual" value="Other (please specify below)"><span>Other</span></label>
+        </div>
+      </div>
+      <div class="field" id="b-other-wrap" hidden><label class="lbl" for="b-other">Which language(s)?</label><input type="text" id="b-other" name="other_lang" placeholder="e.g. Vietnamese, Mandarin"></div>
+      <div class="field"><label class="lbl" for="b-challenge">Biggest challenge with after-hours calls</label><textarea id="b-challenge" name="challenge" rows="3" maxlength="1000" placeholder="Tell us briefly what's not working now"></textarea></div>
+      <label class="commit" id="b-commit-wrap">
+        <input type="checkbox" id="b-commit" name="commit" value="yes">
+        <span><b>I'll show up on time.</b> Velaro blocks this slot just for my firm and builds a custom intake demo before the call. If I can't make it, I won't book.</span>
+      </label>
+      <button type="submit" class="cta">Next: Pick a Time →</button>
+      <p class="fine">By continuing, you agree to be contacted by Velaro by phone, SMS and email about your inquiry, including by automated means. Consent isn't a condition of purchase. Msg &amp; data rates may apply. Reply STOP to opt out. See our <a href="https://velaroreach.com/privacy">Privacy Policy</a>.</p>
+    </form>
+
+    <!-- Step 2: pick a time. Slots come live from Cal.com; booking is created directly, so there's no second form. -->
+    <div class="bk-pane" data-pane="2">
+      <button class="bk-back" type="button" id="bk-back">← Edit details</button>
+      <div class="pick" id="pick">
+        <div class="pk-cal">
+          <div class="pk-head">
+            <button type="button" class="pk-nav" id="pk-prev" aria-label="Previous month">‹</button>
+            <span id="pk-month"></span>
+            <button type="button" class="pk-nav" id="pk-next" aria-label="Next month">›</button>
+          </div>
+          <div class="pk-dow"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+          <div class="pk-grid" id="pk-grid"></div>
+          <p class="pk-tz">Times shown in <b id="pk-tz"></b></p>
+        </div>
+        <div class="pk-times">
+          <p class="pk-day" id="pk-day">Pick a day</p>
+          <div class="pk-slots" id="pk-slots"><p class="pk-empty">Available times will show here.</p></div>
+        </div>
+      </div>
+      <div class="pk-confirm" id="pk-confirm" hidden>
+        <div><span class="pk-sel-l">Your demo</span><b id="pk-sel"></b><span class="pk-sel-l">15 min · Zoom</span></div>
+        <button type="button" class="cta" id="pk-book">Confirm Booking</button>
+      </div>
+      <p class="pk-err" id="pk-err" hidden></p>
+      <div class="cal-card" id="bk-cal-wrap" hidden><div id="bk-cal"></div></div>
+    </div>
+
+    <!-- Step 3: confirmation -->
+    <div class="bk-pane" data-pane="3">
+      <div class="bk-done">
+        <div class="big"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1a1405" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h2>You're booked<span id="bk-fn"></span>.</h2>
+        <div class="when" id="bk-when"></div>
+        <p class="lead">The invite and video link are on their way to your inbox. Bring a rough idea of your weekly call volume and average case value, and we'll run your numbers live.</p>
+        <p class="lead" id="bk-manage" hidden><a id="bk-manage-a" href="#" target="_blank" rel="noopener">Need to reschedule? Manage your booking</a></p>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
-window.velaroShowConfirmation = function (booking) {
-  if (!booking || !booking.startTime) return;
+document.getElementById('yr').textContent = new Date().getFullYear();
 
-  var start = new Date(booking.startTime);
-  var end = booking.endTime ? new Date(booking.endTime) : null;
-  var title = booking.title || "Velaro Free Consultation";
-  var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+/* ── CONFIG ──
+   WEBHOOK_URL: optional GHL / n8n webhook. Captures the form even if they never pick a time. */
+const WEBHOOK_URL = '';
+/* THANK_YOU_URL: where people land after booking (booking.velaroreach.com/thank-you). */
+const THANK_YOU_URL = '/thank-you/';
 
-  var dateStr = start.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-  var timeStr = start.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-  if (end) timeStr += " – " + end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-  if (tz) timeStr += " (" + tz + ")";
+/* Cal.com: slots + bookings via the public API (no login needed for a public event).
+   The Cal.com embed loads only as a fallback if the API booking fails. */
+const CAL_USER = 'velaro', CAL_EVENT = 'consultation';
+const CAL_API = 'https://api.cal.com/v2';
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+let calReady = false;
+function calInit(){
+  if (calReady) return; calReady = true;
+  Cal("init", "consultation", { origin: "https://cal.com" });
+  Cal.ns.consultation("ui", { styles: { branding: { brandColor: "#7B2FF7" } }, hideEventTypeDetails: window.matchMedia("(max-width:640px)").matches, layout: "month_view" });
+  Cal.ns.consultation("on", { action: "bookingSuccessfulV2", callback: e => showDone((e && e.detail && e.detail.data) || {}) });
+}
 
-  document.getElementById("meet-what").textContent = title;
-  document.getElementById("meet-when").textContent = dateStr + "\n" + timeStr;
+const bk = document.getElementById('bk'), panel = document.getElementById('bk-panel'), form = document.getElementById('bk-form');
+let lead = {};
 
-  if (booking.videoCallUrl) {
-    document.getElementById("meet-where-row").hidden = false;
-    var whereEl = document.getElementById("meet-where");
-    whereEl.innerHTML = "";
-    var link = document.createElement("a");
-    link.href = booking.videoCallUrl;
-    link.target = "_blank";
-    link.rel = "noopener";
-    link.textContent = "Join Video Call";
-    whereEl.appendChild(link);
-  }
+function pane(n){
+  bk.querySelectorAll('.bk-pane').forEach(p => p.classList.toggle('on', +p.dataset.pane === n));
+  bk.querySelectorAll('.bk-steps .s').forEach(s => { const k = +s.dataset.s; s.classList.toggle('on', k === n); s.classList.toggle('done', k < n); });
+  panel.classList.toggle('wide', n === 2);
+  bk.scrollTop = 0;
+}
+function openBk(){
+  bk.classList.add('open'); document.body.classList.add('locked'); pane(1);
+  if (window.innerWidth > 640) setTimeout(() => document.getElementById('b-name').focus(), 50);
+}
+function closeBk(){ bk.classList.remove('open'); document.body.classList.remove('locked'); }
 
-  function toUTCStamp(d) { return d.toISOString().replace(/[-:]|\.\d{3}/g, ""); }
-
-  if (end) {
-    var gStart = toUTCStamp(start), gEnd = toUTCStamp(end);
-    var details = encodeURIComponent("Free consultation with Velaro." + (booking.videoCallUrl ? "\nJoin: " + booking.videoCallUrl : ""));
-    var loc = encodeURIComponent(booking.videoCallUrl || "");
-    var encTitle = encodeURIComponent(title);
-    var isoStart = start.toISOString(), isoEnd = end.toISOString();
-
-    document.getElementById("cal-google").href =
-      "https://www.google.com/calendar/render?action=TEMPLATE&text=" + encTitle +
-      "&dates=" + gStart + "/" + gEnd + "&details=" + details + "&location=" + loc;
-
-    document.getElementById("cal-outlook").href =
-      "https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=" + encTitle +
-      "&startdt=" + encodeURIComponent(isoStart) + "&enddt=" + encodeURIComponent(isoEnd) +
-      "&body=" + details + "&location=" + loc;
-
-    document.getElementById("cal-office365").href =
-      "https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=" + encTitle +
-      "&startdt=" + encodeURIComponent(isoStart) + "&enddt=" + encodeURIComponent(isoEnd) +
-      "&body=" + details + "&location=" + loc;
-
-    var icsLines = [
-      "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Velaro//Booking//EN", "BEGIN:VEVENT",
-      "UID:" + (booking.uid || Date.now()) + "@velaroreach.com",
-      "DTSTAMP:" + toUTCStamp(new Date()),
-      "DTSTART:" + gStart,
-      "DTEND:" + gEnd,
-      "SUMMARY:" + title,
-      "DESCRIPTION:Free consultation with Velaro." + (booking.videoCallUrl ? " Join: " + booking.videoCallUrl : ""),
-      booking.videoCallUrl ? "LOCATION:" + booking.videoCallUrl : "",
-      "END:VEVENT", "END:VCALENDAR"
-    ].filter(Boolean).join("\r\n");
-
-    var blob = new Blob([icsLines], { type: "text/calendar;charset=utf-8" });
-    document.getElementById("cal-ics").href = URL.createObjectURL(blob);
-  }
-
-  if (booking.uid) {
-    document.getElementById("manage-line").hidden = false;
-    document.getElementById("manage-link").href = "https://cal.com/booking/" + booking.uid;
-  }
-
-  document.getElementById("landing-view").hidden = true;
-  document.getElementById("post-booking").hidden = false;
-
-  // Reset any zoom the browser applied while the visitor was typing into
-  // Cal.com's booking form (iOS/Android auto-zoom on small input fields).
-  var vp = document.querySelector('meta[name="viewport"]');
-  if (vp) {
-    var original = vp.getAttribute("content");
-    vp.setAttribute("content", original + ", maximum-scale=1.0");
-    setTimeout(function () { vp.setAttribute("content", original); }, 400);
-  }
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
-
-  if (typeof window.velaroTrack === "function") {
-    window.velaroTrack("Schedule", { content_name: "Free Consultation Booking" }, window.velaroBookingUser || {});
-  }
-
-  var sound = document.getElementById("booking-sound");
-  if (sound) {
-    sound.currentTime = 0;
-    sound.play().catch(function () {});
-  }
-};
-</script>
-
-<audio id="booking-sound" src="assets/booking-confirmed.mp3" preload="auto"></audio>
-
-<script>
-(function () {
-  var unlocked = false;
-  function unlockAudio() {
-    if (unlocked) return;
-    var a = document.getElementById("booking-sound");
-    if (!a) return;
-    var v = a.volume;
-    a.volume = 0;
-    a.play().then(function () {
-      a.pause();
-      a.currentTime = 0;
-      a.volume = v;
-      unlocked = true;
-    }).catch(function () { a.volume = v; });
-  }
-  document.addEventListener("pointerdown", unlockAudio, { once: true, capture: true });
-  document.addEventListener("keydown", unlockAudio, { once: true, capture: true });
+/* show the sticky mobile button once the main CTA is off-screen */
+(function(){
+  const main = document.getElementById('mainCta'), bar = document.getElementById('mbar');
+  if (!('IntersectionObserver' in window) || !main) return;
+  new IntersectionObserver(([e]) => {
+    const below = e.boundingClientRect.top < 0;
+    const show = !e.isIntersecting && below;
+    bar.classList.toggle('show', show); bar.setAttribute('aria-hidden', String(!show));
+    bar.querySelector('a').tabIndex = show ? 0 : -1;
+  }).observe(main);
 })();
-</script>
+document.querySelectorAll('[data-book]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openBk(); }));
+document.getElementById('bk-x').addEventListener('click', closeBk);
+bk.addEventListener('click', e => { if (e.target === bk) closeBk(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && bk.classList.contains('open')) closeBk(); });
+document.getElementById('bk-back').addEventListener('click', () => pane(1));
 
-<script>
-// ── Mobile 3-step booker: 1 date → 2 time → 3 Cal.com form (slot pre-selected) ──
-(function () {
-  if (!window.matchMedia("(max-width:640px)").matches) return;
-  var root = document.getElementById("m-booker");
-  var calEl = document.getElementById("velaro-cal-embed");
-  var tzLine = document.querySelector(".tz-line");
-  root.hidden = false; calEl.hidden = true; if (tzLine) tzLine.hidden = true;
+function valid(){
+  let ok = true;
+  form.querySelectorAll('input[required]').forEach(i => {
+    let v = i.value.trim().length > 1;
+    if (i.type === 'email') v = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(i.value.trim());
+    if (i.type === 'tel') v = i.value.replace(/\D/g, '').length >= 10;
+    i.classList.toggle('bad', !v); if (!v) ok = false;
+  });
+  form.querySelectorAll('[data-group]').forEach(g => {
+    const v = !!g.querySelector('input:checked'); g.classList.toggle('bad', !v); if (!v) ok = false;
+  });
+  const c = document.getElementById('b-commit').checked;
+  document.getElementById('b-commit-wrap').classList.toggle('bad', !c); if (!c) ok = false;
+  return ok;
+}
+form.addEventListener('input', e => e.target.classList.remove('bad'));
+form.addEventListener('change', e => {
+  const g = e.target.closest('[data-group]'); if (g) g.classList.remove('bad');
+  if (e.target.id === 'b-commit') document.getElementById('b-commit-wrap').classList.remove('bad');
+  if (e.target.name === 'multilingual') document.getElementById('b-other-wrap').hidden = !e.target.value.startsWith('Other');
+});
 
-  var API = "https://api.cal.com/v2/slots?username=velaro&eventTypeSlug=consultation";
-  var detected = "America/New_York";
-  try { detected = Intl.DateTimeFormat().resolvedOptions().timeZone || detected; } catch (e) {}
-  var state = { tz: detected, month: null, date: null, slot: null, slots: {}, cache: {} };
-  var today = new Date(); today.setHours(0, 0, 0, 0);
-  state.month = new Date(today.getFullYear(), today.getMonth(), 1);
-  var MAX_MONTHS_AHEAD = 3;
+/* US numbers → +1XXXXXXXXXX so Cal.com's phone field accepts them */
+function e164(raw){
+  const t = raw.trim(), d = t.replace(/\D/g, '');
+  if (t.startsWith('+')) return '+' + d;
+  if (d.length === 10) return '+1' + d;
+  if (d.length === 11 && d[0] === '1') return '+' + d;
+  return '+' + d;
+}
 
-  var $ = function (id) { return document.getElementById(id); };
-  var pad = function (n) { return (n < 10 ? "0" : "") + n; };
-  var ymd = function (d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); };
+/* Cal.com booking-field IDs (must match the event's questions in Cal.com) */
+function bookingFields(){
+  const f = {
+    attendeePhoneNumber: e164(lead.phone),
+    "FIrm-Name": lead.firm,
+    "city": lead.city,
+    "How-many-attorneys-at-your-firm": lead.attorneys,
+    "Do-you-need-multilingual-call-handling": lead.multilingual,
+    "We-block-this-time-just-for-you-and-prepare-a-custom-intake-audit-for-your-firm-before-the-call--If-you-can-t-make-it--please-don-t-book": true
+  };
+  if (lead.other_lang) f["If--Other---please-specify-the-language-s"] = lead.other_lang;
+  if (lead.challenge) f["Biggest-challenge-with-after-hours-calls"] = lead.challenge;
+  return f;
+}
 
-  // Timezone picker: detected zone first, then US zones, then everything else.
-  function tzLabel(z) {
-    try {
-      var p = new Intl.DateTimeFormat("en-US", { timeZone: z, timeZoneName: "short" }).formatToParts(new Date());
-      var ab = (p.find(function (x) { return x.type === "timeZoneName"; }) || {}).value || "";
-      return z.replace(/_/g, " ").replace(/\//g, " / ") + (ab ? " (" + ab + ")" : "");
-    } catch (e) { return z; }
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  if (!valid()) { const b = form.querySelector('.bad'); if (b) b.scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
+  lead = Object.fromEntries(new FormData(form));
+  lead.source = 'velaro-landing'; lead.page = location.href;
+  if (WEBHOOK_URL) fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead), keepalive: true }).catch(() => {});
+  if (!window._leadSent) { window._leadSent = true; velaroTrack('Lead', { content_name: 'Intake Demo Form', attorneys: lead.attorneys }, { name: lead.name, email: lead.email, phone: lead.phone }); }
+  pane(2);
+  if (!pk.loaded) { pk.loaded = true; loadMonth(); }
+});
+
+/* ── Date + time picker ── */
+const TZ = Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Chicago';
+const pk = { month: new Date(new Date().getFullYear(), new Date().getMonth(), 1), slots: {}, cache: {}, day: null, start: null, loaded: false };
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2, '0');
+const ymd = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+$('pk-tz').textContent = TZ.replace(/_/g, ' ');
+
+function loadMonth(){
+  const m = pk.month, today = new Date(); today.setHours(0,0,0,0);
+  const start = m < today ? today : m, end = new Date(m.getFullYear(), m.getMonth() + 1, 0);
+  $('pk-month').textContent = m.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  $('pk-prev').disabled = m.getFullYear() === today.getFullYear() && m.getMonth() === today.getMonth();
+  const key = ymd(m);
+  renderGrid(pk.cache[key] || {}, !pk.cache[key]);
+  if (pk.cache[key]) return;
+  fetch(`${CAL_API}/slots?username=${CAL_USER}&eventTypeSlug=${CAL_EVENT}&start=${ymd(start)}&end=${ymd(end)}&timeZone=${encodeURIComponent(TZ)}`, { headers: { 'cal-api-version': '2024-09-04' } })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(j => {
+      pk.cache[key] = (j && j.data) || {};
+      if (ymd(pk.month) !== key) return;
+      renderGrid(pk.cache[key], false);
+      const first = Object.keys(pk.cache[key]).sort()[0];
+      if (first && !pk.day) pickDay(first);
+      if (!first) $('pk-slots').innerHTML = '<p class="pk-empty">No open times this month. Try the next one →</p>';
+    })
+    .catch(() => fallback('We couldn\'t load live times.'));
+}
+function renderGrid(slots, loading){
+  pk.slots = slots;
+  const g = $('pk-grid'); g.innerHTML = ''; g.classList.toggle('loading', !!loading);
+  const m = pk.month, lead0 = m.getDay(), days = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
+  for (let i = 0; i < lead0; i++) g.appendChild(document.createElement('span'));
+  for (let d = 1; d <= days; d++) {
+    const k = ymd(new Date(m.getFullYear(), m.getMonth(), d)), b = document.createElement('button');
+    b.type = 'button'; b.textContent = d; b.dataset.k = k;
+    if ((slots[k] || []).length) { b.classList.add('open'); b.onclick = () => pickDay(k); } else b.disabled = true;
+    if (k === pk.day) b.classList.add('sel');
+    g.appendChild(b);
   }
-  var US = ["America/New_York", "America/Chicago", "America/Denver", "America/Phoenix", "America/Los_Angeles", "America/Anchorage", "Pacific/Honolulu"];
-  var all = [];
-  try { all = Intl.supportedValuesOf("timeZone"); } catch (e) {}
-  var sel = $("m-tz"), seen = {};
-  function addOpt(z, group) { if (seen[z]) return; seen[z] = 1; var o = document.createElement("option"); o.value = z; o.textContent = tzLabel(z); group.appendChild(o); }
-  var g1 = document.createElement("optgroup"); g1.label = "Detected"; addOpt(detected, g1); sel.appendChild(g1);
-  var g2 = document.createElement("optgroup"); g2.label = "United States"; US.forEach(function (z) { addOpt(z, g2); }); sel.appendChild(g2);
-  if (all.length) { var g3 = document.createElement("optgroup"); g3.label = "All timezones"; all.forEach(function (z) { addOpt(z, g3); }); sel.appendChild(g3); }
-  sel.value = detected;
-  sel.addEventListener("change", function () { state.tz = sel.value; state.cache = {}; state.date = null; loadMonth(); });
+}
+const fmtTime = iso => new Date(iso).toLocaleTimeString('en-US', { timeZone: TZ, hour: 'numeric', minute: '2-digit' });
+const fmtDay = k => { const [y, mo, d] = k.split('-'); return new Date(+y, +mo - 1, +d).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); };
+function pickDay(k){
+  pk.day = k; pk.start = null; $('pk-confirm').hidden = true; $('pk-err').hidden = true;
+  $('pk-grid').querySelectorAll('button').forEach(b => b.classList.toggle('sel', b.dataset.k === k));
+  $('pk-day').textContent = fmtDay(k);
+  const box = $('pk-slots'); box.innerHTML = '';
+  (pk.slots[k] || []).forEach(s => {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = fmtTime(s.start);
+    b.onclick = () => {
+      pk.start = s.start; box.querySelectorAll('button').forEach(x => x.classList.toggle('sel', x === b));
+      $('pk-sel').textContent = `${fmtDay(k)} · ${fmtTime(s.start)}`;
+      $('pk-confirm').hidden = false; $('pk-err').hidden = true;
+      if (window.innerWidth <= 640) $('pk-confirm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+    box.appendChild(b);
+  });
+  if (window.innerWidth <= 640) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+$('pk-prev').onclick = () => { pk.month = new Date(pk.month.getFullYear(), pk.month.getMonth() - 1, 1); pk.day = null; loadMonth(); };
+$('pk-next').onclick = () => { pk.month = new Date(pk.month.getFullYear(), pk.month.getMonth() + 1, 1); pk.day = null; loadMonth(); };
 
-  function show(step) {
-    ["m-step-date", "m-step-time", "m-step-form"].forEach(function (id) { $(id).hidden = id !== step; });
-    var card = root.closest(".cal-card") || root;
-    var top = card.getBoundingClientRect().top + window.scrollY - 12;
-    if (step !== "m-step-date" || window.scrollY > top) window.scrollTo({ top: top, behavior: "smooth" });
-  }
-
-  function loadMonth() {
-    var m = state.month, key = state.tz + "|" + ymd(m);
-    var start = m < today ? today : m;
-    var end = new Date(m.getFullYear(), m.getMonth() + 1, 0);
-    renderGrid(null);
-    if (state.cache[key]) { state.slots = state.cache[key]; renderGrid(state.slots); return; }
-    fetch(API + "&start=" + ymd(start) + "&end=" + ymd(end) + "&timeZone=" + encodeURIComponent(state.tz), { headers: { "cal-api-version": "2024-09-04" } })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(function (j) { state.cache[key] = (j && j.data) || {}; if (key === state.tz + "|" + ymd(state.month)) { state.slots = state.cache[key]; renderGrid(state.slots); } })
-      .catch(fallback);
-  }
-
-  function renderGrid(slots) {
-    var m = state.month;
-    $("m-month").textContent = m.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-    var thisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    $("m-prev").disabled = m <= thisMonth;
-    $("m-next").disabled = (m.getFullYear() - thisMonth.getFullYear()) * 12 + m.getMonth() - thisMonth.getMonth() >= MAX_MONTHS_AHEAD;
-    var grid = $("m-grid"); grid.innerHTML = "";
-    var first = new Date(m.getFullYear(), m.getMonth(), 1).getDay();
-    var days = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
-    for (var i = 0; i < first; i++) grid.appendChild(document.createElement("span"));
-    var any = false;
-    for (var d = 1; d <= days; d++) {
-      var dt = new Date(m.getFullYear(), m.getMonth(), d), k = ymd(dt);
-      var b = document.createElement("button"); b.type = "button"; b.textContent = d; b.className = "m-day";
-      var open = slots && slots[k] && slots[k].length;
-      if (open) { any = true; b.classList.add("open"); b.setAttribute("aria-label", dt.toDateString() + ", available"); b.onclick = (function (key) { return function () { pickDate(key); }; })(k); }
-      else b.disabled = true;
-      if (k === state.date) b.classList.add("sel");
-      grid.appendChild(b);
+/* Confirm → create the booking directly in Cal.com (no second form) */
+$('pk-book').onclick = async () => {
+  if (!pk.start) return;
+  const btn = $('pk-book'); btn.disabled = true; btn.textContent = 'Booking…'; $('pk-err').hidden = true;
+  try {
+    const r = await fetch(`${CAL_API}/bookings`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'cal-api-version': '2024-08-13' },
+      body: JSON.stringify({
+        start: new Date(pk.start).toISOString(),
+        username: CAL_USER, eventTypeSlug: CAL_EVENT,
+        attendee: { name: lead.name.trim(), email: lead.email.trim(), timeZone: TZ, phoneNumber: e164(lead.phone), language: 'en' },
+        bookingFieldsResponses: bookingFields(),
+        metadata: { source: 'velaro-landing' }
+      })
+    });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok && j.status === 'success') {
+      const d = Array.isArray(j.data) ? j.data[0] : j.data;
+      showDone({ startTime: d.start, endTime: d.end, uid: d.uid, title: d.title, videoCallUrl: d.meetingUrl || (/^https?:/.test(d.location || '') ? d.location : '') });
+    } else if (r.status >= 500 || !r.status) {
+      fallback('Live booking hiccup.');
+    } else {
+      const msg = (j.error && j.error.message) || 'That time was just taken.';
+      $('pk-err').innerHTML = `${msg.replace(/</g, '&lt;')} Please pick another time, or <a href="#" id="pk-fb">book on Cal.com instead</a>.`;
+      $('pk-err').hidden = false;
+      $('pk-fb').onclick = ev => { ev.preventDefault(); fallback(''); };
+      delete pk.cache[ymd(pk.month)]; pk.day = null; loadMonth();
     }
-    $("m-grid-note").textContent = !slots ? "Loading available days…" : (any ? "Bold days have open times." : "No open times this month — try next month.");
+  } catch (_) { fallback('Live booking hiccup.'); }
+  btn.disabled = false; btn.textContent = 'Confirm Booking';
+};
+
+/* Fallback: the regular Cal.com calendar, pre-filled with everything they typed */
+function fallback(why){
+  calInit();
+  $('pick').hidden = true; $('pk-confirm').hidden = true;
+  $('pk-err').textContent = why ? why + ' Pick your time below instead. Your details are already filled in.' : 'Your details are already filled in below.';
+  $('pk-err').hidden = false;
+  const host = $('bk-cal'); host.innerHTML = '';
+  const el = document.createElement('div'); el.id = 'bk-cal-' + Date.now(); el.style.width = '100%'; host.appendChild(el);
+  $('bk-cal-wrap').hidden = false;
+  Cal.ns.consultation('inline', { elementOrSelector: '#' + el.id, calLink: CAL_USER + '/' + CAL_EVENT,
+    config: Object.assign({ layout: 'month_view', theme: 'light', name: lead.name, email: lead.email }, bookingFields()) });
+}
+
+function showDone(d){
+  /* Send them to the thank-you page. Booking goes in sessionStorage (what the page reads)
+     and in the URL as a backup in case the thank-you page lives on another domain. */
+  if (THANK_YOU_URL) {
+    const booking = { title: d.title || 'Velaro Free Consultation', startTime: d.startTime || '', endTime: d.endTime || '', videoCallUrl: d.videoCallUrl || '', uid: d.uid || '' };
+    try { sessionStorage.setItem('velaro_last_booking', JSON.stringify(booking)); } catch (_) {}
+    const q = new URLSearchParams({ start: booking.startTime, end: booking.endTime, uid: booking.uid, name: (lead.name || '').split(' ')[0], meet: booking.videoCallUrl });
+    location.href = THANK_YOU_URL + (THANK_YOU_URL.includes('?') ? '&' : '?') + q;
+    return;
   }
-
-  function fmtTime(iso) { return new Date(iso).toLocaleTimeString("en-US", { timeZone: state.tz, hour: "numeric", minute: "2-digit" }); }
-  function fmtDay(key) { var p = key.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }); }
-
-  function pickDate(key) {
-    state.date = key;
-    $("m-day-title").textContent = fmtDay(key);
-    $("m-tz-note").textContent = "Times in " + tzLabel(state.tz);
-    var list = $("m-times"); list.innerHTML = "";
-    (state.slots[key] || []).forEach(function (s) {
-      var b = document.createElement("button"); b.type = "button"; b.className = "m-time"; b.textContent = fmtTime(s.start);
-      b.onclick = function () { pickSlot(key, s.start); };
-      list.appendChild(b);
-    });
-    show("m-step-time");
-  }
-
-  var formN = 0;
-  function pickSlot(key, start) {
-    var iso = new Date(start).toISOString();
-    state.slot = iso;
-    $("m-summary").textContent = fmtDay(key) + " · " + fmtTime(start);
-    var wrap = $("m-form"); wrap.innerHTML = "";
-    var holder = document.createElement("div"); holder.id = "m-cal-" + (++formN); wrap.appendChild(holder);
-    Cal.ns.consultation("inline", {
-      elementOrSelector: "#" + holder.id,
-      calLink: "velaro/consultation",
-      config: { layout: "month_view", theme: "light", date: key, slot: iso }
-    });
-    Cal.ns.consultation("ui", { styles: { branding: { brandColor: "#12564F" } }, hideEventTypeDetails: true, layout: "month_view" });
-    show("m-step-form");
-  }
-
-  // If Cal's API is unreachable, fall back to the regular Cal.com calendar.
-  var fellBack = false;
-  function fallback() {
-    if (fellBack) return; fellBack = true;
-    root.hidden = true; calEl.hidden = false; if (tzLine) tzLine.hidden = false;
-    Cal.ns.consultation("inline", { elementOrSelector: "#velaro-cal-embed", calLink: "velaro/consultation", config: { layout: "month_view", theme: "light" } });
-    Cal.ns.consultation("ui", { styles: { branding: { brandColor: "#12564F" } }, hideEventTypeDetails: true, showTimezoneWhenEventDetailsHidden: true, layout: "month_view" });
-  }
-
-  $("m-prev").onclick = function () { state.month = new Date(state.month.getFullYear(), state.month.getMonth() - 1, 1); loadMonth(); };
-  $("m-next").onclick = function () { state.month = new Date(state.month.getFullYear(), state.month.getMonth() + 1, 1); loadMonth(); };
-  $("m-back-date").onclick = function () { renderGrid(state.slots); show("m-step-date"); };
-  $("m-back-time").onclick = function () { $("m-form").innerHTML = ""; show("m-step-time"); };
-  loadMonth();
-})();
+  const first = (lead.name || '').split(' ')[0];
+  document.getElementById('bk-fn').textContent = first ? ', ' + first : '';
+  let when = '';
+  if (d.startTime) { try { when = new Date(d.startTime).toLocaleString('en-US', { timeZone: TZ, weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }); } catch (_) {} }
+  const w = document.getElementById('bk-when'); w.textContent = when; w.hidden = !when;
+  if (d.uid) { document.getElementById('bk-manage-a').href = 'https://cal.com/booking/' + d.uid; document.getElementById('bk-manage').hidden = false; }
+  pane(3);
+}
 </script>
 </body>
 </html>

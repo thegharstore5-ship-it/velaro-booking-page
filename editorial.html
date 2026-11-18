@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>Velaro — Book A Free Consultation</title>
+<meta name="description" content="AI intake systems for growing PI law firms. Book a free consultation to see how it works.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1782087639779673');
+// Browser + server (CAPI) tracking. Same event_id on both sides so Meta dedupes them.
+window.velaroTrack = function (name, custom, user) {
+  var id = name + '.' + Date.now() + '.' + Math.random().toString(36).slice(2, 10);
+  try { fbq('track', name, custom || {}, { eventID: id }); } catch (e) {}
+  try {
+    var ck = function (n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; };
+    var fbc = ck('_fbc'), q = new URLSearchParams(location.search).get('fbclid');
+    if (!fbc && q) fbc = 'fb.1.' + Date.now() + '.' + q;
+    fetch('/api/capi', {
+      method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ event_name: name, event_id: id, event_source_url: location.href,
+        fbp: ck('_fbp'), fbc: fbc, custom: custom || {}, user: user || {} })
+    });
+  } catch (e) {}
+};
+velaroTrack('PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1782087639779673&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<!-- Cal.com embed -->
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  Cal("init", "consultation", { origin: "https://cal.com" });
+  var isMobile = window.matchMedia("(max-width:640px)").matches;
+  // Desktop: full Cal.com calendar inline. Mobile uses the 3-step booker below (date → time → form).
+  if (!isMobile) Cal.ns.consultation("inline", {
+    elementOrSelector: "#velaro-cal-embed",
+    config: { "layout": "month_view", "theme": "light" },
+    calLink: "velaro/consultation",
+  });
+  // Mobile: the Cal iframe can grab focus / resize while loading and drag the page down.
+  // For the first 3s (until the visitor touches or scrolls themselves) pin the page to the top.
+  var loadedAt = Date.now(), userMoved = false;
+  if (isMobile) {
+    try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (_) {}
+    ["touchstart", "wheel", "keydown", "mousedown"].forEach(function (t) {
+      window.addEventListener(t, function () { userMoved = true; }, { passive: true, once: true });
+    });
+    window.addEventListener("scroll", function () {
+      if (!userMoved && Date.now() - loadedAt < 3000 && window.scrollY > 0) window.scrollTo(0, 0);
+    }, { passive: true });
+  }
+  Cal.ns.consultation("ui", { "styles": { "branding": { "brandColor": "#12564F" } }, "hideEventTypeDetails": isMobile, "showTimezoneWhenEventDetailsHidden": true, "layout": "month_view" });
+  // Mobile: date tapped -> scroll the time slots into view; time tapped -> scroll to the booking form.
+  // Cal sends __routeChanged for both, followed by __dimensionChanged. We tell them apart by where the
+  // visitor is looking: if the viewport is already down at the slot list, they tapped a time.
+  var lastH = 0, routeAt = 0;
+  Cal.ns.consultation("on", { action: "__routeChanged", callback: function () { routeAt = Date.now(); } });
+  Cal.ns.consultation("on", {
+    action: "__dimensionChanged",
+    callback: function (e) {
+      var h = (e && e.detail && e.detail.data && e.detail.data.iframeHeight) || 0;
+      var prev = lastH;
+      lastH = h;
+      var el = document.getElementById("velaro-cal-embed");
+      if (!el || !prev || Math.abs(h - prev) < 40) return;
+      if (Date.now() - loadedAt < 3000 || Date.now() - routeAt > 4000) return; // only right after a step change
+      routeAt = 0;
+      var card = el.closest(".cal-card") || el;
+      var cardTop = card.getBoundingClientRect().top + window.scrollY;
+      var embedTop = el.getBoundingClientRect().top + window.scrollY;
+      if (isMobile) return;
+      if (card.getBoundingClientRect().top < 0) {
+        // Desktop: view changed (e.g. form opened) while the top of the card is scrolled off-screen.
+        window.scrollTo({ top: cardTop - 16, behavior: "smooth" });
+      }
+    }
+  });
+  Cal.ns.consultation("on", {
+    action: "bookingSuccessfulV2",
+    callback: function (e) {
+      var data = (e && e.detail && e.detail.data) || {};
+      var att = (data.attendees && data.attendees[0]) || data.booker || {};
+      window.velaroBookingUser = { email: att.email || "", name: att.name || "", phone: att.phoneNumber || "" };
+      window.velaroShowConfirmation({
+        title: data.title || "Velaro Free Consultation",
+        startTime: data.startTime || "",
+        endTime: data.endTime || "",
+        videoCallUrl: data.videoCallUrl || "",
+        uid: data.uid || ""
+      });
+    }
+  });
+</script>
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --paper:#FAF6EE;
+  --paper-deep:#F1E9DA;
+  --ink:#1E1B15;
+  --ink-dim:#5C5647;
+  --ink-dimmer:#948C77;
+  --teal:#12564F;
+  --teal-deep:#0B3A35;
+  --teal-tint:rgba(18,86,79,0.07);
+  --teal-tint-strong:rgba(18,86,79,0.13);
+  --terracotta:#B34F2C;
+  --terracotta-deep:#8A3B20;
+  --terracotta-tint:rgba(179,79,44,0.09);
+  --border:rgba(30,27,21,0.14);
+  --border-soft:rgba(30,27,21,0.09);
+  --white:#ffffff;
+}
+html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:'Public Sans',-apple-system,sans-serif; line-height:1.65; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 1px 1px, rgba(30,27,21,0.05) 1px, transparent 0);
+  background-size:22px 22px;
+}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.wrap-narrow{max-width:680px;margin:0 auto;padding:0 22px}
+h2,h3{font-family:'Fraunces',serif; font-weight:600; line-height:1.18; letter-spacing:-0.01em; color:var(--ink)}
+.hl{font-style:italic; color:var(--teal)}
+[hidden]{display:none!important}
+
+/* ── HEADER ── */
+header{padding:24px 0 20px; text-align:center}
+.logo{display:inline-flex; align-items:center; gap:9px; text-decoration:none}
+.logo-word{font-family:'Fraunces',serif; font-size:20px; font-weight:600; letter-spacing:0.01em; color:var(--ink)}
+
+/* ── HERO HEADLINE ── */
+#hero{padding:26px 0 8px; text-align:center}
+#hero h1{
+  font-family:'Fraunces',serif; font-weight:600; line-height:1.14; letter-spacing:-0.01em; color:var(--ink);
+  font-size:clamp(2.1rem,6vw,3rem); max-width:640px; margin:0 auto 22px;
+}
+#hero h1 .hl{position:relative; display:inline-block; white-space:nowrap; font-style:italic; color:var(--teal)}
+#hero h1 .hl::after{
+  content:''; position:absolute; left:-2%; right:-2%; bottom:-0.06em; height:0.14em;
+  background:var(--terracotta); border-radius:2px; opacity:0.55;
+  transform:scaleX(0); transform-origin:left; animation:drawUnderline 0.9s 0.5s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes drawUnderline{to{transform:scaleX(1)}}
+.hero-cta-line{
+  color:var(--teal); font-weight:700; font-size:14.5px; margin-bottom:28px;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  text-transform:uppercase; letter-spacing:0.08em;
+}
+.hero-cta-line .rule{width:28px; height:1px; background:var(--border)}
+@media (prefers-reduced-motion:reduce){ #hero h1 .hl::after{animation:none; transform:scaleX(1)} }
+@media (max-width:640px){
+  #hero{padding:14px 0 4px}
+  #hero h1{font-size:clamp(1.55rem,7vw,2.1rem); margin-bottom:16px}
+  .hero-cta-line{font-size:12px; margin-bottom:18px; gap:8px}
+  .hero-cta-line .rule{width:18px}
+}
+@media (max-width:420px){
+  .hero-cta-line{font-size:11.5px; letter-spacing:0.05em}
+  .hero-cta-line .rule{display:none}
+}
+
+/* ── CALENDAR ── */
+#calendar-section{padding:4px 0 70px}
+.cal-card{
+  background:var(--white); border:1px solid var(--border); border-radius:6px; overflow:hidden; position:relative;
+  box-shadow:0 1px 2px rgba(30,27,21,0.04), 0 14px 34px rgba(30,27,21,0.07);
+}
+.cal-card::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:4px; z-index:1;
+  background:linear-gradient(90deg, var(--teal), var(--terracotta));
+}
+#velaro-cal-embed{width:100%; min-height:760px; overflow:auto; padding-top:4px}
+
+/* ── POST-BOOKING ── */
+#post-booking{padding-bottom:80px}
+.steps-banner{background:var(--teal); color:var(--paper); text-align:center; padding:13px 20px; font-weight:600; font-size:13.5px; letter-spacing:0.03em}
+.steps-banner b{color:#F2D9C4}
+.pb-intro{text-align:center; padding:44px 0 36px}
+.pb-kicker{font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:14px}
+.pb-h2{font-size:clamp(1.7rem,4.2vw,2.3rem); margin-bottom:12px}
+.pb-sub{font-size:15px; color:var(--ink-dim); max-width:460px; margin:0 auto}
+.pb-warning{
+  display:inline-block; margin-top:22px; padding:9px 16px; border-radius:6px;
+  font-size:13px; font-weight:800; color:var(--terracotta-deep); letter-spacing:0.04em; text-transform:uppercase;
+  background:var(--terracotta-tint); border:1px solid rgba(179,79,44,0.25);
+}
+
+.step-block{padding:0 0 52px}
+.step-tag{display:flex; align-items:center; gap:12px; margin-bottom:18px}
+.step-num{
+  width:28px; height:28px; border-radius:50%; background:var(--teal); color:var(--paper);
+  font-family:'Fraunces',serif; font-size:14px; font-weight:600; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.step-title{font-family:'Fraunces',serif; font-size:19px; font-weight:600}
+.video-frame{border:1px solid var(--border); border-radius:8px; padding:8px; background:var(--white); box-shadow:0 14px 34px rgba(30,27,21,0.06)}
+
+.confirm{text-align:center; margin-bottom:26px}
+.checkmark{width:56px; height:56px; border-radius:50%; background:var(--teal-tint); border:1px solid var(--teal-tint-strong); display:flex; align-items:center; justify-content:center; margin:0 auto 18px}
+.checkmark svg{width:24px; height:24px}
+.confirm-sub{color:var(--ink-dim); font-size:14.5px; max-width:440px; margin:0 auto}
+
+.meet-card{background:var(--white); border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-bottom:28px}
+.meet-row{display:grid; grid-template-columns:110px 1fr; gap:18px; padding:16px 24px; border-bottom:1px solid var(--border-soft)}
+.meet-label{font-size:11.5px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-dimmer); padding-top:3px}
+.meet-value{font-size:14.5px; color:var(--ink); line-height:1.55; white-space:pre-line}
+.meet-value a{color:var(--teal); font-weight:600}
+.cal-add{display:flex; align-items:center; flex-wrap:wrap; gap:10px; padding:18px 24px; background:var(--paper-deep)}
+.cal-add-label{font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--teal); margin-right:4px}
+.cal-btn{
+  display:inline-flex; align-items:center; gap:8px; height:38px; padding:0 14px; border-radius:8px;
+  background:var(--white); border:1px solid var(--border); text-decoration:none;
+  font-size:12.5px; font-weight:700; color:var(--ink); transition:border-color 0.15s, transform 0.15s;
+}
+.cal-btn:hover{border-color:var(--teal); transform:translateY(-1px)}
+.cal-btn svg{width:15px; height:15px; flex-shrink:0}
+
+.next-card{background:var(--white); border:1px solid var(--border-soft); border-left:3px solid var(--terracotta); border-radius:6px; padding:24px 26px; margin-bottom:22px}
+.next-card h3{font-family:'Public Sans',sans-serif; font-size:11.5px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); margin-bottom:14px}
+.next-list{list-style:none; display:flex; flex-direction:column; gap:12px}
+.next-list li{display:flex; align-items:flex-start; gap:12px; font-size:14.5px; color:var(--ink-dim)}
+.next-list li::before{content:'✓'; flex-shrink:0; width:20px; height:20px; border-radius:50%; background:var(--teal-tint); color:var(--teal); font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px}
+.manage-line{text-align:center; font-size:13px; color:var(--ink-dimmer)}
+.manage-line a{color:var(--teal); font-weight:600}
+
+.testi-title{font-size:clamp(1.45rem,3.6vw,1.85rem); text-align:center; margin-bottom:26px}
+.testi-grid{column-count:2; column-gap:16px}
+.testi-grid img{width:100%; display:block; margin:0 0 16px; border-radius:8px; border:1px solid var(--border-soft); break-inside:avoid; background:var(--white)}
+
+footer{padding:30px 0 44px; text-align:center; border-top:1px solid var(--border-soft)}
+.foot-text{font-size:11.5px; color:var(--ink-dimmer); font-weight:600}
+
+@media (max-width:640px){
+  .wrap,.wrap-narrow{padding:0 16px}
+  header{padding:18px 0 14px}
+  #velaro-cal-embed{min-height:640px}
+  .meet-row{grid-template-columns:1fr; gap:4px; padding:14px 18px}
+  .cal-add{padding:16px 18px}
+  .testi-grid{column-count:1}
+}
+
+/* ── TIMEZONE LINE + MOBILE 3-STEP BOOKER ── */
+.tz-line{display:flex; align-items:center; gap:8px; padding:18px 24px 0; color:var(--ink-dim); font-size:13px; line-height:1.4}
+.tz-line svg{width:16px; height:16px; flex:none; color:var(--teal)}
+#m-booker{color:var(--ink); padding:22px 16px 24px}
+.m-kicker{font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); margin-bottom:12px}
+.m-tz{display:flex; align-items:center; gap:8px; border:1px solid var(--border); border-radius:6px; padding:0 10px; margin-bottom:18px; color:var(--teal); background:var(--paper)}
+.m-tz svg{width:16px; height:16px; flex:none}
+.m-tz select{flex:1; min-width:0; border:0; background:transparent; font:inherit; font-size:14px; color:var(--ink); padding:11px 0; -webkit-appearance:menulist}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+.m-cal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px}
+.m-cal-head strong{font-family:'Fraunces',serif; font-size:18px; font-weight:600}
+.m-cal-head button{width:40px; height:40px; border-radius:6px; border:1px solid var(--border); background:var(--white); font-size:22px; line-height:1; color:var(--teal)}
+.m-cal-head button:disabled{opacity:0.3}
+.m-dow,.m-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center}
+.m-dow span{font-size:11px; font-weight:700; text-transform:uppercase; color:var(--ink-dimmer); padding:6px 0}
+.m-day{aspect-ratio:1; border:0; border-radius:6px; background:transparent; font:inherit; font-size:15px; color:#CFC7B6}
+.m-day.open{background:var(--teal-tint-strong); color:var(--teal-deep); font-weight:800}
+.m-day.sel{background:var(--teal); color:var(--paper)}
+.m-note{font-size:13px; color:var(--ink-dimmer); margin-top:12px}
+.m-back{border:0; background:none; font:inherit; font-size:14px; font-weight:700; color:var(--teal); padding:4px 0; margin-bottom:12px}
+.m-title{font-family:'Fraunces',serif; font-size:20px; font-weight:600; line-height:1.3}
+#m-step-time .m-note{margin:4px 0 16px}
+.m-times{display:flex; flex-direction:column; gap:10px}
+.m-time{height:52px; border:1.5px solid var(--teal); border-radius:6px; background:var(--white); font:inherit; font-size:16px; font-weight:700; color:var(--teal)}
+.m-time:active{background:var(--teal); color:var(--paper)}
+#m-step-form .m-title{margin-bottom:8px}
+#m-form{margin:0 -16px; min-height:560px}
+@media (max-width:640px){ .tz-line{font-size:11.5px; padding:14px 14px 0} }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo">
+    <svg width="22" height="24" viewBox="0 0 56 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 5 L15 5 L30 54 L25.5 54 Z" fill="#12564F"/>
+      <path d="M55 5 L46 5 L30 54 L34.5 54 Z" fill="#12564F"/>
+      <rect x="0" y="3" width="17" height="3" fill="#12564F"/>
+      <rect x="0" y="3" width="3" height="9" fill="#12564F"/>
+      <rect x="39" y="3" width="17" height="3" fill="#12564F"/>
+      <rect x="53" y="3" width="3" height="9" fill="#12564F"/>
+      <circle cx="21" cy="33" r="2.8" stroke="#12564F" stroke-width="1.2" fill="#FAF6EE"/>
+      <line x1="21" y1="33" x2="30" y2="54" stroke="#12564F" stroke-width="0.9"/>
+    </svg>
+    <span class="logo-word">Velaro</span>
+  </span>
+</header>
+
+<!-- ══════════ LANDING VIEW — headline + calendar ══════════ -->
+<div id="landing-view">
+  <section id="hero">
+    <div class="wrap">
+      <h1>Implement Our AI Intake System And Watch Your Missed After-Hours Calls Turn Into <span class="hl">Qualified Bookings</span> On Your Calendar</h1>
+      <div class="hero-cta-line"><span class="rule"></span> Pick A Time Below To Book Your Free Call <span class="rule"></span></div>
+    </div>
+  </section>
+
+  <section id="calendar-section">
+    <div class="wrap">
+      <div class="cal-card">
+        <p class="tz-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span id="tz-text">Your timezone is detected automatically — tap it below to change.</span></p>
+        <div id="velaro-cal-embed"></div>
+        <div id="m-booker" hidden>
+          <section id="m-step-date">
+            <p class="m-kicker">Pick A Date</p>
+            <label class="m-tz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span class="sr">Timezone</span><select id="m-tz" aria-label="Timezone"></select></label>
+            <div class="m-cal-head"><button type="button" id="m-prev" aria-label="Previous month">‹</button><strong id="m-month"></strong><button type="button" id="m-next" aria-label="Next month">›</button></div>
+            <div class="m-dow"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+            <div id="m-grid" class="m-grid"></div>
+            <p id="m-grid-note" class="m-note"></p>
+          </section>
+          <section id="m-step-time" hidden>
+            <button type="button" class="m-back" id="m-back-date">‹ Change date</button>
+            <p class="m-kicker">Pick A Time</p>
+            <h3 id="m-day-title" class="m-title"></h3>
+            <p id="m-tz-note" class="m-note"></p>
+            <div id="m-times" class="m-times"></div>
+          </section>
+          <section id="m-step-form" hidden>
+            <button type="button" class="m-back" id="m-back-time">‹ Change time</button>
+            <p class="m-kicker">Your Details</p>
+            <p id="m-summary" class="m-title"></p>
+            <div id="m-form"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════ POST-BOOKING VIEW — replaces landing view once booked ══════════ -->
+<div id="post-booking" hidden>
+  <div class="steps-banner">You're Booked — <b>Just A Couple Quick Things Below</b></div>
+
+  <div class="pb-intro wrap-narrow">
+    <div class="pb-kicker">Few More Steps</div>
+    <h2 class="pb-h2">Let's Get You <span class="hl">Ready For The Call</span></h2>
+    <p class="pb-sub">Takes less than a minute — watch the quick video, then add the call to your calendar.</p>
+    <div class="pb-warning">Important: your call is not confirmed yet</div>
+  </div>
+
+  <!-- STEP 1 — VIDEO -->
+  <section class="step-block wrap-narrow">
+    <div class="step-tag">
+      <span class="step-num">1</span>
+      <span class="step-title">Watch This Short Video</span>
+    </div>
+    <div class="video-frame">
+      <div style="position:relative;aspect-ratio:16/9;border-radius:6px;overflow:hidden;">
+        <iframe
+          loading="lazy" title="Gumlet video player"
+          src="https://play.gumlet.io/embed/6a91ce977daed480307fa1d3?background=false&autoplay=false&loop=false&disable_player_controls=false"
+          style="border:none; position:absolute; top:0; left:0; height:100%; width:100%;"
+          referrerpolicy="origin"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;clipboard-write;">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 2 — ADD TO CALENDAR -->
+  <section class="step-block wrap-narrow">
+    <div class="step-tag">
+      <span class="step-num">2</span>
+      <span class="step-title">Add Your Consultation To Your Calendar</span>
+    </div>
+
+    <div class="confirm">
+      <div class="checkmark">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#12564F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <p class="confirm-sub">Your free consultation with Velaro is booked. Add it to your calendar below so you don't miss it.</p>
+    </div>
+
+    <div class="meet-card">
+      <div class="meet-row"><div class="meet-label">What</div><div class="meet-value" id="meet-what">—</div></div>
+      <div class="meet-row"><div class="meet-label">When</div><div class="meet-value" id="meet-when">—</div></div>
+      <div class="meet-row"><div class="meet-label">Who</div><div class="meet-value">You &amp; the Velaro team</div></div>
+      <div class="meet-row" id="meet-where-row" hidden><div class="meet-label">Where</div><div class="meet-value" id="meet-where">—</div></div>
+      <div class="cal-add">
+        <span class="cal-add-label">Add to calendar</span>
+        <a class="cal-btn" id="cal-google" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="#12564F" stroke-width="1.6"/><path d="M3 9h18" stroke="#12564F" stroke-width="1.6"/><path d="M8 2v4M16 2v4" stroke="#12564F" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Google
+        </a>
+        <a class="cal-btn" id="cal-outlook" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="#12564F" stroke-width="1.6"/><path d="M7 9l5 4 5-4" stroke="#12564F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Outlook
+        </a>
+        <a class="cal-btn" id="cal-office365" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" fill="#12564F"/><rect x="13" y="3" width="8" height="8" stroke="#12564F" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" stroke="#12564F" stroke-width="1.6"/><rect x="13" y="13" width="8" height="8" stroke="#12564F" stroke-width="1.6"/></svg>
+          Office 365
+        </a>
+        <a class="cal-btn" id="cal-ics" download="velaro-consultation.ics">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke="#12564F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4" stroke="#12564F" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Apple / iCal
+        </a>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <h3>What Happens Next</h3>
+      <ul class="next-list">
+        <li>Check your email for the calendar invite and call link</li>
+        <li>We'll walk through your firm's current intake process and where cases are slipping through</li>
+        <li>You'll see a live demo of the AI intake system in action</li>
+      </ul>
+    </div>
+
+    <p class="manage-line" id="manage-line" hidden>Need to make a change? <a id="manage-link" href="#" target="_blank" rel="noopener">Manage this booking on Cal.com</a></p>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="wrap-narrow">
+    <h3 class="testi-title">Here's What Our Clients Have To Say</h3>
+    <div class="testi-grid">
+      <img src="assets/small/testimonial-best-decision.jpg" alt="Client message: Best decision we've made this year — more consultations, less stress, no missed calls." loading="lazy">
+      <img src="assets/small/testimonial-game-changer.jpg" alt="Client message: This literally solved that problem — every lead gets answered now, seriously a game changer." loading="lazy">
+      <img src="assets/small/testimonial-court.jpg" alt="Client message: I'm usually in court, missing calls was killing us, now every caller gets taken care of." loading="lazy">
+      <img src="assets/small/testimonial-whatsapp-weekend.jpg" alt="Client message: Zero missed leads all weekend, usually we'd miss at least 15, best investment we've made." loading="lazy">
+      <img src="assets/small/testimonial-wilson-imsg.jpg" alt="Client message: This thing is insane, the AI answered at 11:47 PM and booked a consultation before I woke up." loading="lazy">
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p class="foot-text">© 2026 Velaro. AI intake systems for personal injury law firms.</p>
+  </div>
+</footer>
+
+<script>
+window.velaroShowConfirmation = function (booking) {
+  if (!booking || !booking.startTime) return;
+
+  var start = new Date(booking.startTime);
+  var end = booking.endTime ? new Date(booking.endTime) : null;
+  var title = booking.title || "Velaro Free Consultation";
+  var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+
+  var dateStr = start.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  var timeStr = start.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  if (end) timeStr += " – " + end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  if (tz) timeStr += " (" + tz + ")";
+
+  document.getElementById("meet-what").textContent = title;
+  document.getElementById("meet-when").textContent = dateStr + "\n" + timeStr;
+
+  if (booking.videoCallUrl) {
+    document.getElementById("meet-where-row").hidden = false;
+    var whereEl = document.getElementById("meet-where");
+    whereEl.innerHTML = "";
+    var link = document.createElement("a");
+    link.href = booking.videoCallUrl;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.textContent = "Join Video Call";
+    whereEl.appendChild(link);
+  }
+
+  function toUTCStamp(d) { return d.toISOString().replace(/[-:]|\.\d{3}/g, ""); }
+
+  if (end) {
+    var gStart = toUTCStamp(start), gEnd = toUTCStamp(end);
+    var details = encodeURIComponent("Free consultation with Velaro." + (booking.videoCallUrl ? "\nJoin: " + booking.videoCallUrl : ""));
+    var loc = encodeURIComponent(booking.videoCallUrl || "");
+    var encTitle = encodeURIComponent(title);
+    var isoStart = start.toISOString(), isoEnd = end.toISOString();
+
+    document.getElementById("cal-google").href =
+      "https://www.google.com/calendar/render?action=TEMPLATE&text=" + encTitle +
+      "&dates=" + gStart + "/" + gEnd + "&details=" + details + "&location=" + loc;
+
+    document.getElementById("cal-outlook").href =
+      "https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=" + encTitle +
+      "&startdt=" + encodeURIComponent(isoStart) + "&enddt=" + encodeURIComponent(isoEnd) +
+      "&body=" + details + "&location=" + loc;
+
+    document.getElementById("cal-office365").href =
+      "https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=" + encTitle +
+      "&startdt=" + encodeURIComponent(isoStart) + "&enddt=" + encodeURIComponent(isoEnd) +
+      "&body=" + details + "&location=" + loc;
+
+    var icsLines = [
+      "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Velaro//Booking//EN", "BEGIN:VEVENT",
+      "UID:" + (booking.uid || Date.now()) + "@velaroreach.com",
+      "DTSTAMP:" + toUTCStamp(new Date()),
+      "DTSTART:" + gStart,
+      "DTEND:" + gEnd,
+      "SUMMARY:" + title,
+      "DESCRIPTION:Free consultation with Velaro." + (booking.videoCallUrl ? " Join: " + booking.videoCallUrl : ""),
+      booking.videoCallUrl ? "LOCATION:" + booking.videoCallUrl : "",
+      "END:VEVENT", "END:VCALENDAR"
+    ].filter(Boolean).join("\r\n");
+
+    var blob = new Blob([icsLines], { type: "text/calendar;charset=utf-8" });
+    document.getElementById("cal-ics").href = URL.createObjectURL(blob);
+  }
+
+  if (booking.uid) {
+    document.getElementById("manage-line").hidden = false;
+    document.getElementById("manage-link").href = "https://cal.com/booking/" + booking.uid;
+  }
+
+  document.getElementById("landing-view").hidden = true;
+  document.getElementById("post-booking").hidden = false;
+
+  // Reset any zoom the browser applied while the visitor was typing into
+  // Cal.com's booking form (iOS/Android auto-zoom on small input fields).
+  var vp = document.querySelector('meta[name="viewport"]');
+  if (vp) {
+    var original = vp.getAttribute("content");
+    vp.setAttribute("content", original + ", maximum-scale=1.0");
+    setTimeout(function () { vp.setAttribute("content", original); }, 400);
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  if (typeof window.velaroTrack === "function") {
+    window.velaroTrack("Schedule", { content_name: "Free Consultation Booking" }, window.velaroBookingUser || {});
+  }
+
+  var sound = document.getElementById("booking-sound");
+  if (sound) {
+    sound.currentTime = 0;
+    sound.play().catch(function () {});
+  }
+};
+</script>
+
+<audio id="booking-sound" src="assets/booking-confirmed.mp3" preload="auto"></audio>
+
+<script>
+(function () {
+  var unlocked = false;
+  function unlockAudio() {
+    if (unlocked) return;
+    var a = document.getElementById("booking-sound");
+    if (!a) return;
+    var v = a.volume;
+    a.volume = 0;
+    a.play().then(function () {
+      a.pause();
+      a.currentTime = 0;
+      a.volume = v;
+      unlocked = true;
+    }).catch(function () { a.volume = v; });
+  }
+  document.addEventListener("pointerdown", unlockAudio, { once: true, capture: true });
+  document.addEventListener("keydown", unlockAudio, { once: true, capture: true });
+})();
+</script>
+
+<script>
+// ── Mobile 3-step booker: 1 date → 2 time → 3 Cal.com form (slot pre-selected) ──
+(function () {
+  if (!window.matchMedia("(max-width:640px)").matches) return;
+  var root = document.getElementById("m-booker");
+  var calEl = document.getElementById("velaro-cal-embed");
+  var tzLine = document.querySelector(".tz-line");
+  root.hidden = false; calEl.hidden = true; if (tzLine) tzLine.hidden = true;
+
+  var API = "https://api.cal.com/v2/slots?username=velaro&eventTypeSlug=consultation";
+  var detected = "America/New_York";
+  try { detected = Intl.DateTimeFormat().resolvedOptions().timeZone || detected; } catch (e) {}
+  var state = { tz: detected, month: null, date: null, slot: null, slots: {}, cache: {} };
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  state.month = new Date(today.getFullYear(), today.getMonth(), 1);
+  var MAX_MONTHS_AHEAD = 3;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+  var ymd = function (d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); };
+
+  // Timezone picker: detected zone first, then US zones, then everything else.
+  function tzLabel(z) {
+    try {
+      var p = new Intl.DateTimeFormat("en-US", { timeZone: z, timeZoneName: "short" }).formatToParts(new Date());
+      var ab = (p.find(function (x) { return x.type === "timeZoneName"; }) || {}).value || "";
+      return z.replace(/_/g, " ").replace(/\//g, " / ") + (ab ? " (" + ab + ")" : "");
+    } catch (e) { return z; }
+  }
+  var US = ["America/New_York", "America/Chicago", "America/Denver", "America/Phoenix", "America/Los_Angeles", "America/Anchorage", "Pacific/Honolulu"];
+  var all = [];
+  try { all = Intl.supportedValuesOf("timeZone"); } catch (e) {}
+  var sel = $("m-tz"), seen = {};
+  function addOpt(z, group) { if (seen[z]) return; seen[z] = 1; var o = document.createElement("option"); o.value = z; o.textContent = tzLabel(z); group.appendChild(o); }
+  var g1 = document.createElement("optgroup"); g1.label = "Detected"; addOpt(detected, g1); sel.appendChild(g1);
+  var g2 = document.createElement("optgroup"); g2.label = "United States"; US.forEach(function (z) { addOpt(z, g2); }); sel.appendChild(g2);
+  if (all.length) { var g3 = document.createElement("optgroup"); g3.label = "All timezones"; all.forEach(function (z) { addOpt(z, g3); }); sel.appendChild(g3); }
+  sel.value = detected;
+  sel.addEventListener("change", function () { state.tz = sel.value; state.cache = {}; state.date = null; loadMonth(); });
+
+  function show(step) {
+    ["m-step-date", "m-step-time", "m-step-form"].forEach(function (id) { $(id).hidden = id !== step; });
+    var card = root.closest(".cal-card") || root;
+    var top = card.getBoundingClientRect().top + window.scrollY - 12;
+    if (step !== "m-step-date" || window.scrollY > top) window.scrollTo({ top: top, behavior: "smooth" });
+  }
+
+  function loadMonth() {
+    var m = state.month, key = state.tz + "|" + ymd(m);
+    var start = m < today ? today : m;
+    var end = new Date(m.getFullYear(), m.getMonth() + 1, 0);
+    renderGrid(null);
+    if (state.cache[key]) { state.slots = state.cache[key]; renderGrid(state.slots); return; }
+    fetch(API + "&start=" + ymd(start) + "&end=" + ymd(end) + "&timeZone=" + encodeURIComponent(state.tz), { headers: { "cal-api-version": "2024-09-04" } })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (j) { state.cache[key] = (j && j.data) || {}; if (key === state.tz + "|" + ymd(state.month)) { state.slots = state.cache[key]; renderGrid(state.slots); } })
+      .catch(fallback);
+  }
+
+  function renderGrid(slots) {
+    var m = state.month;
+    $("m-month").textContent = m.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    var thisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    $("m-prev").disabled = m <= thisMonth;
+    $("m-next").disabled = (m.getFullYear() - thisMonth.getFullYear()) * 12 + m.getMonth() - thisMonth.getMonth() >= MAX_MONTHS_AHEAD;
+    var grid = $("m-grid"); grid.innerHTML = "";
+    var first = new Date(m.getFullYear(), m.getMonth(), 1).getDay();
+    var days = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
+    for (var i = 0; i < first; i++) grid.appendChild(document.createElement("span"));
+    var any = false;
+    for (var d = 1; d <= days; d++) {
+      var dt = new Date(m.getFullYear(), m.getMonth(), d), k = ymd(dt);
+      var b = document.createElement("button"); b.type = "button"; b.textContent = d; b.className = "m-day";
+      var open = slots && slots[k] && slots[k].length;
+      if (open) { any = true; b.classList.add("open"); b.setAttribute("aria-label", dt.toDateString() + ", available"); b.onclick = (function (key) { return function () { pickDate(key); }; })(k); }
+      else b.disabled = true;
+      if (k === state.date) b.classList.add("sel");
+      grid.appendChild(b);
+    }
+    $("m-grid-note").textContent = !slots ? "Loading available days…" : (any ? "Bold days have open times." : "No open times this month — try next month.");
+  }
+
+  function fmtTime(iso) { return new Date(iso).toLocaleTimeString("en-US", { timeZone: state.tz, hour: "numeric", minute: "2-digit" }); }
+  function fmtDay(key) { var p = key.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }); }
+
+  function pickDate(key) {
+    state.date = key;
+    $("m-day-title").textContent = fmtDay(key);
+    $("m-tz-note").textContent = "Times in " + tzLabel(state.tz);
+    var list = $("m-times"); list.innerHTML = "";
+    (state.slots[key] || []).forEach(function (s) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "m-time"; b.textContent = fmtTime(s.start);
+      b.onclick = function () { pickSlot(key, s.start); };
+      list.appendChild(b);
+    });
+    show("m-step-time");
+  }
+
+  var formN = 0;
+  function pickSlot(key, start) {
+    var iso = new Date(start).toISOString();
+    state.slot = iso;
+    $("m-summary").textContent = fmtDay(key) + " · " + fmtTime(start);
+    var wrap = $("m-form"); wrap.innerHTML = "";
+    var holder = document.createElement("div"); holder.id = "m-cal-" + (++formN); wrap.appendChild(holder);
+    Cal.ns.consultation("inline", {
+      elementOrSelector: "#" + holder.id,
+      calLink: "velaro/consultation",
+      config: { layout: "month_view", theme: "light", date: key, slot: iso }
+    });
+    Cal.ns.consultation("ui", { styles: { branding: { brandColor: "#12564F" } }, hideEventTypeDetails: true, layout: "month_view" });
+    show("m-step-form");
+  }
+
+  // If Cal's API is unreachable, fall back to the regular Cal.com calendar.
+  var fellBack = false;
+  function fallback() {
+    if (fellBack) return; fellBack = true;
+    root.hidden = true; calEl.hidden = false; if (tzLine) tzLine.hidden = false;
+    Cal.ns.consultation("inline", { elementOrSelector: "#velaro-cal-embed", calLink: "velaro/consultation", config: { layout: "month_view", theme: "light" } });
+    Cal.ns.consultation("ui", { styles: { branding: { brandColor: "#12564F" } }, hideEventTypeDetails: true, showTimezoneWhenEventDetailsHidden: true, layout: "month_view" });
+  }
+
+  $("m-prev").onclick = function () { state.month = new Date(state.month.getFullYear(), state.month.getMonth() - 1, 1); loadMonth(); };
+  $("m-next").onclick = function () { state.month = new Date(state.month.getFullYear(), state.month.getMonth() + 1, 1); loadMonth(); };
+  $("m-back-date").onclick = function () { renderGrid(state.slots); show("m-step-date"); };
+  $("m-back-time").onclick = function () { $("m-form").innerHTML = ""; show("m-step-time"); };
+  loadMonth();
+})();
+</script>
+</body>
+</html>
