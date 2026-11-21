@@ -213,12 +213,14 @@ document.getElementById('yr').textContent = new Date().getFullYear();
   /* Pixel: Schedule fires on every thank-you visit.
      With a booking: once per booking (refreshes don't double count).
      Without one (direct visit): once per browser tab session. */
+  var who = {};
+  try { who = JSON.parse(sessionStorage.getItem('velaro_lead_user') || '{}') || {}; } catch (e) {}
   try {
     var ref = b.uid || b.startTime;
     var key = ref ? 'velaro_sched_' + ref : 'velaro_sched_direct';
     var store = ref ? localStorage : sessionStorage;
-    if (!store.getItem(key)) { store.setItem(key, '1'); velaroTrack('Schedule', { content_name: 'Free Intake Demo' }, {}, ref ? 'Schedule.' + ref : undefined); }
-  } catch (e) { velaroTrack('Schedule', { content_name: 'Free Intake Demo' }); }
+    if (!store.getItem(key)) { store.setItem(key, '1'); velaroTrack('Schedule', { content_name: 'Free Intake Demo' }, who, ref ? 'Schedule.' + ref : undefined); }
+  } catch (e) { velaroTrack('Schedule', { content_name: 'Free Intake Demo' }, who); }
 
   if (!b.startTime) return;
 

@@ -633,6 +633,8 @@ function showDone(d){
   if (THANK_YOU_URL) {
     const booking = { title: d.title || 'Velaro Free Consultation', startTime: d.startTime || '', endTime: d.endTime || '', videoCallUrl: d.videoCallUrl || '', uid: d.uid || '' };
     try { sessionStorage.setItem('velaro_last_booking', JSON.stringify(booking)); } catch (_) {}
+    /* Contact details for the thank-you page's Schedule event, so Meta can match the booking to the ad click */
+    try { sessionStorage.setItem('velaro_lead_user', JSON.stringify({ name: lead.name || '', email: lead.email || '', phone: lead.phone || '' })); } catch (_) {}
     const q = new URLSearchParams({ start: booking.startTime, end: booking.endTime, uid: booking.uid, name: (lead.name || '').split(' ')[0], meet: booking.videoCallUrl });
     const go = () => { location.href = THANK_YOU_URL + (THANK_YOU_URL.includes('?') ? '&' : '?') + q; };
     /* Play the booking-confirmed sound, then go (max ~1.8s wait) */
